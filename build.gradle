@@ -1,0 +1,51 @@
+plugins {
+    id 'application'
+    id("org.openjfx.javafxplugin") version '0.1.0'
+    id 'java'
+    id 'jacoco'
+}
+
+version '0.0.1'
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+application {
+    mainClass = 'fr.ensicaen.genielogiciel.project.Main'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets.main {
+    java.srcDir file('src/main/java')
+}
+
+javafx {
+    version = "16"
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
+dependencies {
+    testImplementation("org.junit.jupiter:junit-jupiter:5.+")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.mockito:mockito-core:5.+")
+}
+
+test {
+    useJUnitPlatform()
+    jvmArgs(['-XX:+EnableDynamicAgentLoading', '-Xshare:off'])
+}
+
+jacoco {
+    toolVersion = "0.8.13"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}
