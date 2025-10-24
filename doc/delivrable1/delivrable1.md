@@ -7,7 +7,7 @@
 
 ## Diagramme des cas d'utilisation
 
-![Diagramme_cas_utilisations](./diagramme_cas_utilisations.png "Cas d'utilisation")
+![Diagramme_cas_utilisations](./cas_utilisation.jpg "Cas d'utilisation")
 
 Le diagramme de cas d'utilisation ci-contre montre uniquement les interactions possibles entre le joueur et l'application.
 
