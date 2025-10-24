@@ -14,7 +14,15 @@ Le diagramme de cas d'utilisation ci-contre montre uniquement les interactions p
 ## Diagramme de classes métier
 
 
+![diagramme_classe_metier](./diag_classes_metier.jpg "Diagramme des classes métiers")
+
 ## Maquettes des futurs écrans
+
+![playing_game](./playing_game.png "Ecran de la partie en cours")
+
+![config_game](./config_game.png "Ecran de la configuration des régattes")
+
+![finish_game](./finish_game.png "Ecran de la fin de partie ")
 
 
 ## Analyse des risques projet
