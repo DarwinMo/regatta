@@ -14,7 +14,7 @@ Le diagramme de cas d'utilisation ci-contre montre uniquement les interactions p
 ## Diagramme de classes métier
 
 
-![diagramme_classe_metier](./diag_classes_metier.jpg "Diagramme des classes métiers")
+![diagramme_classe_metier](./diagramme_classe_metier.png "Diagramme des classes métiers")
 
 ## Maquettes des futurs écrans
 
