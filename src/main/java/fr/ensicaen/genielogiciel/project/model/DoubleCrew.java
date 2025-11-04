@@ -1,4 +1,4 @@
-package model;
+package fr.ensicaen.genielogiciel.project.model;
 
 /**
  * 2 équipiers : meilleur rendement au près, moins bon au portant.

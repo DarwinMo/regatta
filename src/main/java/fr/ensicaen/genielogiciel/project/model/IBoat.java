@@ -1,4 +1,4 @@
-package model;
+package fr.ensicaen.genielogiciel.project.model;
 
 /**
  * Represents a generic sailboat in the regatta simulation.
@@ -6,25 +6,20 @@ package model;
  */
 public interface IBoat {
 
-
     void trim();
 
     void accelerate();
 
-
     void applyWind();
 
-
     void rotate(int deltaAngle);
-
 
     void move();
 
     double getX();
-    void setX(double x);
-
     double getY();
-    void setY(double y);
+    double getDx();
+    double getDy();
 
     int getAngle();
     void setAngle(int angle);

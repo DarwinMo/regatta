@@ -1,4 +1,4 @@
-package model;
+package fr.ensicaen.genielogiciel.project.model;
 
 /**
  * Interface pour les modifications de performance dues à l'équipage.

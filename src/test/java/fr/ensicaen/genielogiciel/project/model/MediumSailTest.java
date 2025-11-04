@@ -1,7 +1,5 @@
 package fr.ensicaen.genielogiciel.project.model;
 
-import model.IDecoratorSail;
-import model.MediumSail;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 

@@ -1,4 +1,4 @@
-package model;
+package fr.ensicaen.genielogiciel.project.model;
 
 /**
  * 1 équipier : configuration de base (aucune modification de la polaire).

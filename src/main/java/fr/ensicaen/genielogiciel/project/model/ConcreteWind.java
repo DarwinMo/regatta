@@ -1,8 +1,6 @@
-package model;
+package fr.ensicaen.genielogiciel.project.model;
 
-import java.util.Random;
-
-public class ConcreteWind implements IWind{
+public class ConcreteWind implements IWind {
 
     private final double _windSpeed;
     private final double _windDirection;

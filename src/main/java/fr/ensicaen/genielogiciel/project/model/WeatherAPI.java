@@ -1,4 +1,4 @@
-package model;
+package fr.ensicaen.genielogiciel.project.model;
 
 import java.util.Random;
 
