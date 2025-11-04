@@ -1,6 +1,6 @@
-package model;
+package fr.ensicaen.genielogiciel.project.model;
 
-public class MediumSail implements IDecoratorSail{
+public class MediumSail implements IDecoratorSail {
     @Override
     public double adjustSpeed(double baseSpeed, double windAngle) {
         double adjstedSpeed = baseSpeed;

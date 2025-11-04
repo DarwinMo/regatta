@@ -1,4 +1,4 @@
-package model;
+package fr.ensicaen.genielogiciel.project.model;
 
 public class Figaro implements IBoat {
 
@@ -15,11 +15,14 @@ public class Figaro implements IBoat {
 
     @Override public double getX() { return x; }
 
-    @Override public void setX(double x) { this.x = x; }
-
     @Override public double getY() { return y; }
 
-    @Override public void setY(double y) { this.y = y; }
+    @Override
+    public double getDx() { return dx ;}
+
+    @Override
+    public double getDy() { return dy; }
+
     @Override public int getAngle() { return angle; }
     @Override public void setAngle(int angle) { this.angle = angle; }
     @Override public double getSpeed() { return speed; }
@@ -72,7 +75,9 @@ public class Figaro implements IBoat {
     }
 
     @Override
-    public void move() {
+    public void move( ) {
+        dx = Math.sin(angle * Math.PI / 180);
+        dy = -Math.cos(angle * Math.PI / 180);
         x += dx;
         y += dy;
     }

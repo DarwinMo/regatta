@@ -1,8 +1,5 @@
 package fr.ensicaen.genielogiciel.project.model;
 
-import model.CrewModifier;
-import model.DoubleCrew;
-
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
