@@ -22,11 +22,16 @@ sourceSets.main {
 }
 
 javafx {
-    version = "16"
+    version = "21" // ✅ mise à jour
     modules = ['javafx.controls', 'javafx.fxml']
 }
 
 dependencies {
+    // ✅ JavaFX dépendances natives pour Mac ARM
+    implementation 'org.openjfx:javafx-controls:21:mac-aarch64'
+    implementation 'org.openjfx:javafx-fxml:21:mac-aarch64'
+
+    // ✅ tests
     testImplementation("org.junit.jupiter:junit-jupiter:5.+")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     testImplementation("org.mockito:mockito-core:5.+")
