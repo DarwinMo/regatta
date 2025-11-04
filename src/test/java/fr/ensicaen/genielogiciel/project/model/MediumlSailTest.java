@@ -5,7 +5,7 @@ import model.MediumSail;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-    public class SmallSailTest {
+    public class MediumSailTest {
 
         @Test
         public void testAdjustSpeedCloseHauled() {
