@@ -3,7 +3,7 @@ package fr.ensicaen.genielogiciel.project.model;
 /**
  * 2 équipiers : meilleur rendement au près, moins bon au portant.
  */
-public final class DoubleCrew implements CrewModifier {
+public final class DoubleCrew implements IDecoratorEquipment {
 
     @Override
     public double adjustAngle(double angleDeg) {

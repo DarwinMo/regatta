@@ -4,7 +4,7 @@ package fr.ensicaen.genielogiciel.project.model;
  * Interface pour les modifications de performance dues à l'équipage.
  * Permet d’ajuster l’angle et la vitesse obtenus via la polaire.
  */
-public interface CrewModifier {
+public interface IDecoratorEquipment {
 
     /**
      * Ajuste l'angle avant d'interroger la polaire.

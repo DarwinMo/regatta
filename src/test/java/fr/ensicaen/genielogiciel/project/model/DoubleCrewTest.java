@@ -9,7 +9,7 @@ class DoubleCrewTest {
 
     @Test
     void adjustAngle_betterUpwind_onlyWhenLessThan90() {
-        CrewModifier c = new DoubleCrew();
+        IDecoratorEquipment c = new DoubleCrew();
 
         // < 90° : l'angle est légèrement réduit (meilleure remontée au vent)
         assertTrue(c.adjustAngle(45.0) < 45.0);
@@ -24,7 +24,7 @@ class DoubleCrewTest {
 
     @Test
     void adjustSpeed_improvesUpwind_andReducesDownwind() {
-        CrewModifier c = new DoubleCrew();
+        IDecoratorEquipment c = new DoubleCrew();
 
         // Au près (<90°) : +10%
         double baseUp = 6.0;

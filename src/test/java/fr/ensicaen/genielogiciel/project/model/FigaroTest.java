@@ -10,74 +10,72 @@ public class FigaroTest {
 
     @BeforeEach
     void setUp() {
-        boat = new Figaro();
-        boat.setWindAngle(0);
-        boat.setWindSpeed(15);
-        boat.setCrewNumber(1);
-        boat.setSailSize(0);
+        boat = new Figaro(new MediumSail(), new SingleCrew());
+        boat.set_windAngle(0);
+        boat.set_windSpeed(15);
     }
 
     @Test
     void testInitialPosition() {
-        assertEquals(580, boat.getX());
-        assertEquals(480, boat.getY());
-        assertEquals(0, boat.getAngle());
-        assertEquals(0, boat.getSpeed());
+        assertEquals(580, boat.get_x());
+        assertEquals(480, boat.get_y());
+        assertEquals(0, boat.get_angle());
+        assertEquals(0, boat.get_speed());
     }
 
     @Test
     void testRotate() {
         boat.rotate(10);
-        assertEquals(10, boat.getAngle());
+        assertEquals(10, boat.get_angle());
         boat.rotate(-20);
-        assertEquals(350, boat.getAngle());
+        assertEquals(350, boat.get_angle());
     }
 
     @Test
     void testTrimAdjustsAngle() {
-        boat.setAngle(30);
-        boat.setWindAngle(0);
+        boat.set_angle(30);
+        boat.set_windAngle(0);
         boat.trim();
-        assertTrue(boat.getAngle() < 30, "Trim should rotate toward wind direction");
+        assertTrue(boat.get_angle() < 30, "Trim should rotate toward wind direction");
     }
 
     @Test
     void testAccelerateIncreasesSpeed() {
         boat.accelerate();
-        assertTrue(boat.getSpeed() > 0, "Speed should increase after acceleration");
+        assertTrue(boat.get_speed() > 0, "Speed should increase after acceleration");
     }
 
     @Test
     void testApplyWindChangesPosition() {
-        boat.setSpeed(2);
-        double oldX = boat.getX();
-        double oldY = boat.getY();
+        boat.set_speed(2);
+        double oldX = boat.get_x();
+        double oldY = boat.get_y();
         boat.applyWind();
-        assertTrue(boat.getX() != oldX || boat.getY() != oldY, "Position should change with wind application");
+        assertTrue(boat.get_x() != oldX || boat.get_y() != oldY, "Position should change with wind application");
     }
 
     @Test
     void testCrewInfluence() {
-        boat.setCrewNumber(2);
+        boat.set_crew(new SingleCrew());
         boat.accelerate();
-        double speedTwoCrew = boat.getSpeed();
+        double speedTwoCrew = boat.get_speed();
 
-        boat.setCrewNumber(1);
+        boat.set_crew(new DoubleCrew());
         boat.accelerate();
-        double speedOneCrew = boat.getSpeed();
+        double speedOneCrew = boat.get_speed();
 
         assertNotEquals(speedOneCrew, speedTwoCrew, "Crew number should influence speed");
     }
 
     @Test
     void testSailSizeInfluence() {
-        boat.setSailSize(1);
+        boat.set_sail(new MediumSail());
         boat.accelerate();
-        double speedLargeSail = boat.getSpeed();
+        double speedLargeSail = boat.get_speed();
 
-        boat.setSailSize(0);
+        boat.set_sail(new LargeSail());
         boat.accelerate();
-        double speedNormalSail = boat.getSpeed();
+        double speedNormalSail = boat.get_speed();
 
         assertNotEquals(speedNormalSail, speedLargeSail, "Sail size should influence speed");
     }
