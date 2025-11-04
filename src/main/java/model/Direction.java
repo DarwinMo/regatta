@@ -1,6 +1,6 @@
 package fr.ensicaen.genielogiciel.project.model;
 
-public class BoatModel {
+public class Direction {
     private double _angle;
     private double _x;
     private double _y;

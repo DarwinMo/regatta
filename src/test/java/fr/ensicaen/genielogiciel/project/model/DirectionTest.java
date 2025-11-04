@@ -5,13 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BoatModelTest {
+class DirectionTest {
 
-    private BoatModel boat;
+    private Direction boat;
 
     @BeforeEach
     void setUp() {
-        boat = new BoatModel();
+        boat = new Direction();
     }
 
     @Test
