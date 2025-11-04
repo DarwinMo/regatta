@@ -1,18 +1,24 @@
 package model;
 
+import java.util.Random;
+
 public class ConcreteWind implements IWind{
 
-    private double windSpeed;
-    private double windDirection;
+    private final double _windSpeed;
+    private final double _windDirection;
 
+    ConcreteWind(IWeather _weatherAPI){
+        _windSpeed = _weatherAPI.getWindSpeed();
+        _windDirection = _weatherAPI.getWindDirection();
+    }
 
     @Override
     public double getWindSpeed() {
-        return 0;
+        return _windSpeed;
     }
 
     @Override
     public double getWindDirection() {
-        return 0;
+        return _windDirection;
     }
 }
