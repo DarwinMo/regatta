@@ -7,7 +7,7 @@ public class Direction {
     private double _dx;
     private double _dy;
 
-    public void BoatModel() {
+    public  Direction() {
         _angle = 0.0;
         _x = 0.0;
         _y = 0.0;
