@@ -57,7 +57,7 @@ public final class GamePresenter {
     }
 
     private void initGame() {
-        _boatModel = new Figaro(new MediumSail(),new SingleCrew());
+        _boatModel = new FigaroFactory(new MediumSail(),new SingleCrew()).createFigaro();
     }
 
     private void runGameLoop() {

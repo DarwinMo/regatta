@@ -1,7 +1,10 @@
 package fr.ensicaen.genielogiciel.project.model;
 
 public interface ICoast {
-    boolean isInCollision(double x, double y);
+    double getStartX();
+    double getStartY();
+    double getEndX();
+    double getEndY();
 
-
+    boolean isCollision(IBoat boat);
 }

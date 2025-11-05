@@ -1,6 +1,6 @@
 package fr.ensicaen.genielogiciel.project.model;
 
-public class Figaro implements IBoat {
+public class FigaroBoat implements IBoat{
 
     private double _x = 580;
     private double _y = 480;
@@ -14,7 +14,7 @@ public class Figaro implements IBoat {
     private IDecoratorEquipment _crew;
 
 
-    public Figaro(IDecoratorSail sail, IDecoratorEquipment crew){
+    public FigaroBoat(IDecoratorSail sail, IDecoratorEquipment crew) {
         _sail = sail;
         _crew = crew;
     }
@@ -99,7 +99,6 @@ public class Figaro implements IBoat {
 
     @Override
     public void applyWind() {
-        // Apply wind effect to movement based on current angle and speed
         _dx = Math.sin(Math.toRadians(_angle)) * _speed;
         _dy = -Math.cos(Math.toRadians(_angle)) * _speed;
         _x += _dx;
@@ -107,7 +106,7 @@ public class Figaro implements IBoat {
     }
 
     @Override
-    public void move( ) {
+    public void move() {
         _dx = Math.sin(_angle * Math.PI / 180);
         _dy = -Math.cos(_angle * Math.PI / 180);
         _x += _dx;
