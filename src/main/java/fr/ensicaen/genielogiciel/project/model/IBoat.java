@@ -16,25 +16,25 @@ public interface IBoat {
 
     void move();
 
-    double getX();
-    double getY();
-    double getDx();
-    double getDy();
+    double get_x();
+    double get_y();
+    double get_dx();
+    double get_dy();
 
-    int getAngle();
-    void setAngle(int angle);
+    int get_angle();
+    void set_angle(int angle);
 
-    double getSpeed();
-    void setSpeed(double speed);
-
-
-    void setWindAngle(double windAngle);
+    double get_speed();
+    void set_speed(double speed);
 
 
-    void setWindSpeed(double windSpeed);
+    void set_windAngle(double windAngle);
 
 
-    void setCrewNumber(int crewNumber);
+    void set_windSpeed(double windSpeed);
 
-    void setSailSize(int sailSize);
+
+    void set_crew(IDecoratorEquipment crew);
+
+    void set_sail(IDecoratorSail sail);
 }

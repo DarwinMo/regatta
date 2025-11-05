@@ -3,7 +3,7 @@ package fr.ensicaen.genielogiciel.project.model;
 /**
  * 1 équipier : configuration de base (aucune modification de la polaire).
  */
-public final class SingleCrew implements CrewModifier {
+public final class SingleCrew implements IDecoratorEquipment {
 
     @Override
     public double adjustAngle(double angleDeg) {

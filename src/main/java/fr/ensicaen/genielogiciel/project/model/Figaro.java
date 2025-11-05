@@ -2,88 +2,120 @@ package fr.ensicaen.genielogiciel.project.model;
 
 public class Figaro implements IBoat {
 
-    private double x = 580;
-    private double y = 480;
-    private double dx = 0;
-    private double dy = 0;
-    private int angle = 0;
-    private double speed = 0;
-    private double windAngle = 0;
-    private double windSpeed = 0;
-    private int crewNumber = 1;
-    private int sailSize = 0;
+    private double _x = 580;
+    private double _y = 480;
+    private double _dx = 0;
+    private double _dy = 0;
+    private int _angle = 0;
+    private double _speed = 0;
+    private double _windAngle = 0;
+    private double _windSpeed = 0;
+    private IDecoratorSail _sail;
+    private IDecoratorEquipment _crew;
 
-    @Override public double getX() { return x; }
 
-    @Override public double getY() { return y; }
+    public Figaro(IDecoratorSail sail, IDecoratorEquipment crew){
+        _sail = sail;
+        _crew = crew;
+    }
 
     @Override
-    public double getDx() { return dx ;}
+    public double get_x() { return _x; }
 
     @Override
-    public double getDy() { return dy; }
+    public double get_y() { return _y; }
 
-    @Override public int getAngle() { return angle; }
-    @Override public void setAngle(int angle) { this.angle = angle; }
-    @Override public double getSpeed() { return speed; }
-    @Override public void setSpeed(double speed) { this.speed = speed; }
-    @Override public void setWindAngle(double windAngle) { this.windAngle = windAngle; }
-    @Override public void setWindSpeed(double windSpeed) { this.windSpeed = windSpeed; }
-    @Override public void setCrewNumber(int crewNumber) { this.crewNumber = crewNumber; }
-    @Override public void setSailSize(int sailSize) { this.sailSize = sailSize; }
     @Override
+    public double get_dx() { return _dx;}
 
+    @Override
+    public double get_dy() { return _dy; }
 
+    @Override
+    public int get_angle() { return _angle; }
+
+    @Override
+    public void set_angle(int _angle) { this._angle = _angle; }
+
+    @Override
+    public double get_speed() { return _speed; }
+
+    @Override
+    public void set_speed(double _speed) { this._speed = _speed; }
+
+    @Override
+    public void set_windAngle(double _windAngle) { this._windAngle = _windAngle; }
+
+    @Override
+    public void set_windSpeed(double _windSpeed) { this._windSpeed = _windSpeed; }
+
+    @Override
+    public void set_crew(IDecoratorEquipment crew) { _crew = crew;}
+
+    @Override
+    public void set_sail(IDecoratorSail sail) { _sail = sail;}
+
+    @Override
     public void trim() {
         // Adjust the boat heading slightly to align better with the wind
-        int diff = (int) (windAngle - angle);
+        int diff = (int) (_windAngle - _angle);
         if (Math.abs(diff) > 5) rotate((diff > 0) ? 2 : -2);
     }
 
     @Override
     public void accelerate() {
         // Compute base speed based on wind intensity
-        double baseSpeed = windSpeed * 0.1;
+        double baseSpeed = _windSpeed * 0.1;
 
         // Calculate the relative angle between wind direction and boat heading
-        double relativeAngle = Math.abs((angle - windAngle + 360) % 360);
+        double relativeAngle = Math.abs((_angle - _windAngle + 360) % 360);
         if (relativeAngle > 180) relativeAngle = 360 - relativeAngle;
 
         // Adjust angle depending on sail and crew characteristics
         double adjustedAngle = relativeAngle;
-        if (sailSize == 1) {
-            if (relativeAngle < 90) adjustedAngle += 4;  // large sail: worse upwind
-            else baseSpeed *= 1.1;                       // better downwind
+        double adjustedSpeed = baseSpeed;
+        if (_sail!=null) {
+            adjustedAngle = _sail.adjustAngle(adjustedAngle);
+            adjustedSpeed = _sail.adjustSpeed(adjustedSpeed, adjustedAngle);
         }
-        if (crewNumber == 2) {
-            if (relativeAngle < 90) baseSpeed *= 1.1;    // more crew: better upwind
-            else baseSpeed *= 0.9;                       // slower downwind
+        if (_crew!=null) {
+            adjustedAngle = _crew.adjustAngle(adjustedAngle);
+            adjustedSpeed = _crew.adjustSpeed(adjustedSpeed, adjustedAngle);
         }
 
         // Compute speed using a simplified polar curve model
         double polarFactor = Math.max(0.3, Math.cos(Math.toRadians(adjustedAngle)));
-        speed = baseSpeed * (1.5 + polarFactor);
+        _speed = baseSpeed * (1.5 + polarFactor);
+
+        // à enlever par la suite
+        System.out.printf(
+                "[DEBUG] Angle=%.1f° (adjusted=%.1f°) | BaseSpeed=%.2f | FinalSpeed=%.2f",
+                relativeAngle,
+                adjustedAngle,
+                baseSpeed,
+                _speed
+        );
     }
 
     @Override
     public void applyWind() {
         // Apply wind effect to movement based on current angle and speed
-        dx = Math.sin(Math.toRadians(angle)) * speed;
-        dy = -Math.cos(Math.toRadians(angle)) * speed;
-        x += dx;
-        y += dy;
+        _dx = Math.sin(Math.toRadians(_angle)) * _speed;
+        _dy = -Math.cos(Math.toRadians(_angle)) * _speed;
+        _x += _dx;
+        _y += _dy;
     }
 
     @Override
     public void move( ) {
-        dx = Math.sin(angle * Math.PI / 180);
-        dy = -Math.cos(angle * Math.PI / 180);
-        x += dx;
-        y += dy;
+        _dx = Math.sin(_angle * Math.PI / 180);
+        _dy = -Math.cos(_angle * Math.PI / 180);
+        _x += _dx;
+        _y += _dy;
     }
 
     @Override
     public void rotate(int deltaAngle) {
-        angle = (360 + angle + deltaAngle) % 360;
+        _angle = (360 + _angle + deltaAngle) % 360;
     }
 }
