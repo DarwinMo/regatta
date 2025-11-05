@@ -22,7 +22,19 @@ class ConcreteCoastTest {
         @Override public double get_speed() { return 0; }
         @Override public void set_speed(double speed) {}
         @Override public void set_windAngle(double windAngle) {}
+
+        @Override
+        public double get_windAngle() {
+            return 0;
+        }
+
         @Override public void set_windSpeed(double windSpeed) {}
+
+        @Override
+        public double get_windSpeed() {
+            return 0;
+        }
+
         @Override public void set_crew(IDecoratorEquipment crew) {}
         @Override public void set_sail(IDecoratorSail sail) {}
         @Override public void trim() {}
