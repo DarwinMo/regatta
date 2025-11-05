@@ -8,19 +8,24 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
-
+import java.util.Random;
 import java.io.IOException;
 
 public final class GameView implements IGameView {
     private static Stage _stage;
     private GamePresenter _gamePresenter;
     private Ellipse _boat;
+    private Circle _buoy1;
+    private Circle _buoy2;
+    private Circle _buoy3;
     @FXML
     private AnchorPane _base;
 
@@ -34,10 +39,26 @@ public final class GameView implements IGameView {
 
     public Ellipse drawBoat( double x, double y, double rx, double ry ) {
         Ellipse boat = new Ellipse(x, y, rx, ry);
-        boat.setFill(Color.BLACK);
+        boat.setFill(Color.YELLOW);
+        boat.setStroke(Color.RED);
+        DropShadow shadow = new DropShadow();
+        shadow.setOffsetX(3);
+        shadow.setOffsetY(3);
+        shadow.setSpread(0.6);
+        shadow.setColor(Color.rgb(50, 50, 50, 0.6));
+        boat.setEffect(shadow);
         _base.getChildren().add(boat);
         return boat;
     }
+    public Circle drawBuoy(double x,double y,double radius){
+        Circle buoy = new Circle(x,y,radius);
+        buoy.setFill(Color.TRANSPARENT);
+        buoy.setStroke(Color.RED);
+        buoy.setStrokeWidth(6);
+        _base.getChildren().add(buoy);
+        return buoy;
+    }
+
 
     public void move( Ellipse boat, double dx, double dy ) {
         boat.setLayoutX(boat.getLayoutX() + dx);
@@ -56,6 +77,20 @@ public final class GameView implements IGameView {
     public void addBoat( double x, double y ) {
         _boat = drawBoat(x, y, 6, 16);
     }
+
+
+    public void addBuoys() {
+        double radius = 13;
+
+        _buoy1 = drawBuoy(200, 100, radius);
+        _buoy2 = drawBuoy(2*_base.getWidth() - 100, 500, radius);
+        _buoy3 = drawBuoy(_base.getWidth() / 2, _base.getHeight() - 120, radius);
+
+    }
+
+
+
+
 
     private void handleKeyPressed( KeyCode code ) {
         if (code == KeyCode.SPACE) {
@@ -85,6 +120,7 @@ public final class GameView implements IGameView {
                 final KeyCode code = event.getCode();
                 view.handleKeyPressed(code);
             });
+            view.addBuoys();
             return view;
         }
     }
