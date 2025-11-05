@@ -57,7 +57,7 @@ public final class GamePresenter {
     }
 
     private void initGame() {
-        _boatModel = new Figaro(new LargeSail(),new SingleCrew());
+        _boatModel = new Figaro(new MediumSail(),new SingleCrew());
     }
 
     private void runGameLoop() {
@@ -72,6 +72,7 @@ public final class GamePresenter {
     private void update() {
         _boatModel.set_windSpeed(_windSpeed);
         _boatModel.set_windAngle(_windDirection);
+        System.out.println("\nWind speed="+_windSpeed+" | wind direction="+_windDirection);
         _boatModel.accelerate();
         _boatModel.applyWind();
     }
