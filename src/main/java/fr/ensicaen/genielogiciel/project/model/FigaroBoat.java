@@ -25,10 +25,10 @@ public class FigaroBoat implements IBoat{
         System.out.println("Test resource = " + (test == null ? "NOT FOUND" : "OK"));
 
         try {
-            PolarTable polarTable = new PolarTable("/fr/ensicaen/genielogiciel/project/model/polaire-figaro.pol");
+            _polarTable = new PolarTable("/fr/ensicaen/genielogiciel/project/model/polaire-figaro.pol");
         } catch (IOException e) {
             System.err.println("[WARNING] Impossible de charger la table polaire : " + e.getMessage());
-            _polarTable = new PolarTable(null);
+            _polarTable = null;
         }
     }
 
@@ -60,7 +60,13 @@ public class FigaroBoat implements IBoat{
     public void set_windAngle(double _windAngle) { this._windAngle = _windAngle; }
 
     @Override
+    public double get_windAngle() { return _windAngle ;}
+
+    @Override
     public void set_windSpeed(double _windSpeed) { this._windSpeed = _windSpeed; }
+
+    @Override
+    public double get_windSpeed() { return _windSpeed;}
 
     @Override
     public void set_crew(IDecoratorEquipment crew) { _crew = crew;}
@@ -76,6 +82,11 @@ public class FigaroBoat implements IBoat{
 
     @Override
     public void accelerate() {
+        if (_polarTable == null) {
+            System.err.println("[ERROR] PolarTable non chargée !");
+            return;
+        }
+
         double relativeAngle = Math.abs((_angle - _windAngle + 360) % 360);
         if (relativeAngle > 180){
             relativeAngle = 360 - relativeAngle;

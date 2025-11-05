@@ -25,50 +25,67 @@ public class PolarTable {
 
             String line;
             int i = 0;
-            while ((line = br.readLine()) != null && i < _angles.length) {
-                line = line.trim();
-                if (line.isEmpty() || line.startsWith("#")) continue; // ignore les commentaires
+        while ((line = br.readLine()) != null && i < _angles.length) {
+            line = line.trim();
+            if (line.isEmpty() || line.startsWith("#")) continue; // ignore commentaires
 
-                String[] tokens = line.split("\\s+");
-                if (tokens.length != _windSpeeds.length) {
-                    throw new IOException("Nombre de colonnes incorrect dans le fichier .pol à la ligne " + (i + 1));
-                }
-                for (int j = 0; j < _windSpeeds.length; j++) {
-                    _values[i][j] = Double.parseDouble(tokens[j]);
-                }
-                i++;
+            String[] tokens = line.split("\\s+");
+
+            if (tokens[0].equals("4")) continue;
+
+            if (tokens.length != _windSpeeds.length + 1) {
+                throw new IOException("Nombre de colonnes incorrect dans le fichier .pol à la ligne " + (i + 1));
             }
-            if (i != _angles.length) {
+
+            for (int j = 0; j < _windSpeeds.length; j++) {
+                _values[i][j] = Double.parseDouble(tokens[j + 1]);
+            }
+            i++;
+        }
+
+        if (i != _angles.length) {
                 throw new IOException("Nombre de lignes incorrect dans le fichier .pol : attendu " + _angles.length + ", trouvé " + i);
 
         }
     }
 
-    public double getSpeed(double angle, double windSpeed) {
-        angle = Math.max(_angles[0], Math.min(_angles[_angles.length - 1], angle));
+    public double getSpeed(double boatAngle, double windSpeed) {
+        boatAngle = boatAngle % 360;
+
+        if (boatAngle > 180) {
+            boatAngle = 360 - boatAngle;
+        }
+
         windSpeed = Math.max(_windSpeeds[0], Math.min(_windSpeeds[_windSpeeds.length - 1], windSpeed));
 
-        int i1 = 0;
-        while (i1 < _angles.length - 1 && _angles[i1 + 1] < angle) i1++;
-        int i2 = Math.min(i1 + 1, _angles.length - 1);
+        int lowerAngleIndex = 0;
+        while (lowerAngleIndex < _angles.length - 1 && _angles[lowerAngleIndex + 1] < boatAngle) {
+            lowerAngleIndex++;
+        }
+        int upperAngleIndex = Math.min(lowerAngleIndex + 1, _angles.length - 1);
+        double lowerAngle = _angles[lowerAngleIndex];
+        double upperAngle = _angles[upperAngleIndex];
 
-        double a1 = _angles[i1], a2 = _angles[i2];
+        int lowerWindIndex = 0;
+        while (lowerWindIndex < _windSpeeds.length - 1 && _windSpeeds[lowerWindIndex + 1] < windSpeed) {
+            lowerWindIndex++;
+        }
+        int upperWindIndex = Math.min(lowerWindIndex + 1, _windSpeeds.length - 1);
+        double lowerWind = _windSpeeds[lowerWindIndex];
+        double upperWind = _windSpeeds[upperWindIndex];
 
-        int j1 = 0;
-        while (j1 < _windSpeeds.length - 1 && _windSpeeds[j1 + 1] < windSpeed) j1++;
-        int j2 = Math.min(j1 + 1, _windSpeeds.length - 1);
+        double speedLL = _values[lowerAngleIndex][lowerWindIndex];
+        double speedLU = _values[lowerAngleIndex][upperWindIndex];
+        double speedUL = _values[upperAngleIndex][lowerWindIndex];
+        double speedUU = _values[upperAngleIndex][upperWindIndex];
 
-        double s11 = _values[i1][j1];
-        double s12 = _values[i1][j2];
-        double s21 = _values[i2][j1];
-        double s22 = _values[i2][j2];
+        double angleFactor = (upperAngle == lowerAngle) ? 0 : (boatAngle - lowerAngle) / (upperAngle - lowerAngle);
+        double windFactor = (upperWind == lowerWind) ? 0 : (windSpeed - lowerWind) / (upperWind - lowerWind);
 
-        double fA = (a2 == a1) ? 0 : (angle - a1) / (a2 - a1);
-        double fS = (_windSpeeds[j2] == _windSpeeds[j1]) ? 0 : (windSpeed - _windSpeeds[j1]) / (_windSpeeds[j2] - _windSpeeds[j1]);
+        double speedLower = speedLL + windFactor * (speedLU - speedLL);
+        double speedUpper = speedUL + windFactor * (speedUU - speedUL);
 
-        double s1 = s11 + fS * (s12 - s11);
-        double s2 = s21 + fS * (s22 - s21);
-
-        return s1 + fA * (s2 - s1);
+        return speedLower + angleFactor * (speedUpper - speedLower);
     }
+
 }

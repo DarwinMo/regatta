@@ -69,7 +69,6 @@ public final class GameView implements IGameView {
 
     public static final class GameViewFactory {
         private GameViewFactory() {
-            // Factory class as Utility class where the constructor is private
         }
 
         public static GameView createView() throws IOException {

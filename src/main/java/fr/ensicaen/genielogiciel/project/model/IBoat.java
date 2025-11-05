@@ -29,9 +29,10 @@ public interface IBoat {
 
 
     void set_windAngle(double windAngle);
-
+    double get_windAngle();
 
     void set_windSpeed(double windSpeed);
+    double get_windSpeed();
 
 
     void set_crew(IDecoratorEquipment crew);
