@@ -6,11 +6,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class FigaroTest {
 
-    private FigaroFactory boat;
+    private IBoat boat;
 
     @BeforeEach
     void setUp() {
-        boat = new FigaroFactory(new MediumSail(), new SingleCrew());
+        boat = new FigaroFactory(new MediumSail(), new SingleCrew()).createFigaro();
         boat.set_windAngle(0);
         boat.set_windSpeed(15);
     }

@@ -106,7 +106,7 @@ public class FigaroBoat implements IBoat{
     }
 
     @Override
-    public void move( ) {
+    public void move() {
         _dx = Math.sin(_angle * Math.PI / 180);
         _dy = -Math.cos(_angle * Math.PI / 180);
         _x += _dx;
