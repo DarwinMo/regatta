@@ -58,11 +58,11 @@ public class FigaroTest {
     void testCrewInfluence() {
         boat.set_crew(new SingleCrew());
         boat.accelerate();
-        double speedTwoCrew = boat.get_speed();
+        double speedOneCrew = boat.get_speed();
 
         boat.set_crew(new DoubleCrew());
         boat.accelerate();
-        double speedOneCrew = boat.get_speed();
+        double speedTwoCrew = boat.get_speed();
 
         assertNotEquals(speedOneCrew, speedTwoCrew, "Crew number should influence speed");
     }

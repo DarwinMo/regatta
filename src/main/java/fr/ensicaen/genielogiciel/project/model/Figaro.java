@@ -85,7 +85,7 @@ public class Figaro implements IBoat {
 
         // Compute speed using a simplified polar curve model
         double polarFactor = Math.max(0.3, Math.cos(Math.toRadians(adjustedAngle)));
-        _speed = baseSpeed * (1.5 + polarFactor);
+        _speed = adjustedSpeed * (1.5 + polarFactor);
 
         // à enlever par la suite
         System.out.printf(
