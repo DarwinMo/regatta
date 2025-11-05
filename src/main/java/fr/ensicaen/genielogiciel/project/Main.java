@@ -6,6 +6,8 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 
 import java.util.ResourceBundle;
+import java.util.Locale;
+import java.util.MissingResourceException;
 
 public final class Main extends Application {
 
@@ -13,9 +15,32 @@ public final class Main extends Application {
         launch(args);
     }
 
+    private static volatile ResourceBundle BUNDLE;
+
     public static ResourceBundle getMessageBundle() {
-        return ResourceBundle.getBundle("fr.ensicaen.genielogiciel.project.MessageBundle");
-    }
+        ResourceBundle local = BUNDLE;
+        if (local == null) {
+            synchronized (Main.class) {
+                local = BUNDLE;
+                if (local == null) {
+                    try {
+                        BUNDLE = local = ResourceBundle.getBundle(
+                            "fr.ensicaen.genielogiciel.project.MessageBundle",
+                            Locale.getDefault()
+                        );
+                    } catch (MissingResourceException e) {
+                        // Fallback si la locale système ne correspond pas à un bundle présent
+                        BUNDLE = local = ResourceBundle.getBundle(
+                            "fr.ensicaen.genielogiciel.project.MessageBundle",
+                            Locale.US
+                        );
+                    }
+                }
+            }
+        }
+    return local;
+}
+
 
     @Override
     public void start( final Stage primaryStage ) throws Exception {
