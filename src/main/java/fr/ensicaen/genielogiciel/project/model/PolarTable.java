@@ -1,33 +1,46 @@
 package fr.ensicaen.genielogiciel.project.model;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class PolarTable {
     private final double[][] _values;
     private final int[] _angles = {0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180};
     private final int[] _windSpeeds = {4,6,8,10,12,14,16,18,20,22,24,26,28,30};
 
-    public PolarTable(String fileName) throws IOException {
+    public PolarTable(String resourcePath) throws IOException {
         _values = new double[_angles.length][_windSpeeds.length];
-        BufferedReader br = new BufferedReader(new FileReader(fileName));
-        String line;
-        int i =0;
-        while ((line = br.readLine()) != null && i < _angles.length){
-            String[] tokens = line.trim().split("\\s+");
-            if (tokens.length != _windSpeeds.length){
-                br.close();
-                throw new IOException("Nombre de colonnes incorrect dans le fichier .pol à la ligne" + (i + 1));
-            }
-            for (int j = 0; j < _windSpeeds.length; j++) {
-                _values[i][j] = Double.parseDouble(tokens[j]);
-            }
-            i++;
+
+        InputStream input = getClass().getResourceAsStream(resourcePath);
+        if (input == null) {
+            throw new IOException("Fichier polaire introuvable dans le classpath : " + resourcePath);
         }
-        br.close();
-        if (i != _angles.length) {
-            throw new IOException("Nombre de lignes incorrect dans le fichier .pol : attendu " + _angles.length + " lignes, trouvé " + i);
+        InputStream is = getClass().getResourceAsStream(resourcePath);
+        if (is == null) {
+            throw new IOException("Fichier " + resourcePath + " introuvable dans le classpath !");
+        }
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
+            String line;
+            int i = 0;
+            while ((line = br.readLine()) != null && i < _angles.length) {
+                line = line.trim();
+                if (line.isEmpty() || line.startsWith("#")) continue; // ignore les commentaires
+
+                String[] tokens = line.split("\\s+");
+                if (tokens.length != _windSpeeds.length) {
+                    throw new IOException("Nombre de colonnes incorrect dans le fichier .pol à la ligne " + (i + 1));
+                }
+                for (int j = 0; j < _windSpeeds.length; j++) {
+                    _values[i][j] = Double.parseDouble(tokens[j]);
+                }
+                i++;
+            }
+            if (i != _angles.length) {
+                throw new IOException("Nombre de lignes incorrect dans le fichier .pol : attendu " + _angles.length + ", trouvé " + i);
+
         }
     }
 

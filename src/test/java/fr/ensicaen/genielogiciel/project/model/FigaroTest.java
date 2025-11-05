@@ -2,6 +2,9 @@ package fr.ensicaen.genielogiciel.project.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FigaroTest {
@@ -9,7 +12,7 @@ public class FigaroTest {
     private IBoat boat;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         boat = new FigaroFactory(new MediumSail(), new SingleCrew()).createFigaro();
         boat.set_windAngle(0);
         boat.set_windSpeed(15);
