@@ -40,14 +40,9 @@ test:
   script:
     - ./gradlew -Pci -i --console=plain test jacocoTestReport
     - cat build/jacocoHtml/index.html | grep -o 'Total[^%]*%' | sed 's/<.*>/ /; s/Total/Coverage Total:/'
-  only:
-    - master
-    - production
+
   rules:
     - if: $CI_COMMIT_BRANCH == "master" || $CI_PIPELINE_SOURCE == "merge_request_event"
-
----
-## Code Style Verification Stage (Spotless)
 
 code_style_check:
   stage: style
@@ -55,15 +50,7 @@ code_style_check:
     - gitlab-runner-ensicaen
   script:
     - echo "Starting code style verification with Spotless..."
-    # The 'spotlessCheck' task ensures that the Java code adheres to the style defined
-    # in 'coding-style.xml' (configured in build.gradle).
-    # This task will fail the pipeline if any formatting violations are found.
     - ./gradlew -Pci --console=plain spotlessCheck
-  # Run the style check on main branches and on merge requests for early feedback/block.
-  only:
-    - master
-    - production
-    - merge_requests
 
   rules:
     - if: $CI_COMMIT_BRANCH == "master" || $CI_PIPELINE_SOURCE == "merge_request_event"
