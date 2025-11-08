@@ -6,12 +6,12 @@ package fr.ensicaen.genielogiciel.project.model;
 public final class SingleCrew implements IDecoratorEquipment {
 
     @Override
-    public double adjustAngle(double angleDeg) {
+    public double adjustAngle( double angleDeg ) {
         return angleDeg; // neutre
     }
 
     @Override
-    public double adjustSpeed(double speed, double angleDeg) {
+    public double adjustSpeed( double speed, double angleDeg ) {
         return speed; // neutre
     }
 

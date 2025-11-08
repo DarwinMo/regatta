@@ -1,13 +1,13 @@
 package fr.ensicaen.genielogiciel.project;
 
+import java.util.Locale;
+import java.util.MissingResourceException;
+import java.util.ResourceBundle;
+
 import fr.ensicaen.genielogiciel.project.presenter.LoginPresenter;
 import fr.ensicaen.genielogiciel.project.view.LoginView;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
-import java.util.ResourceBundle;
-import java.util.Locale;
-import java.util.MissingResourceException;
 
 public final class Main extends Application {
 
@@ -25,21 +25,19 @@ public final class Main extends Application {
                 if (local == null) {
                     try {
                         BUNDLE = local = ResourceBundle.getBundle(
-                            "fr.ensicaen.genielogiciel.project.MessageBundle",
-                            Locale.getDefault()
+                                "fr.ensicaen.genielogiciel.project.MessageBundle", Locale.getDefault()
                         );
                     } catch (MissingResourceException e) {
                         // Fallback si la locale système ne correspond pas à un bundle présent
                         BUNDLE = local = ResourceBundle.getBundle(
-                            "fr.ensicaen.genielogiciel.project.MessageBundle",
-                            Locale.US
+                                "fr.ensicaen.genielogiciel.project.MessageBundle", Locale.US
                         );
                     }
                 }
             }
         }
-    return local;
-}
+        return local;
+    }
 
 
     @Override

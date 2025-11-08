@@ -10,14 +10,14 @@ class CrewModifierContractTest {
     @Test
     void singleCrew_preservesBounds() {
         IDecoratorEquipment c = new SingleCrew();
-        assertTrue(c.adjustAngle(0.0)   >= 0.0 - EPS);
+        assertTrue(c.adjustAngle(0.0) >= 0.0 - EPS);
         assertTrue(c.adjustAngle(180.0) <= 180.0 + EPS);
     }
 
     @Test
     void doubleCrew_preservesBounds() {
         IDecoratorEquipment c = new DoubleCrew();
-        assertTrue(c.adjustAngle(0.0)   >= 0.0 - EPS);
+        assertTrue(c.adjustAngle(0.0) >= 0.0 - EPS);
         assertTrue(c.adjustAngle(180.0) <= 180.0 + EPS);
     }
 }

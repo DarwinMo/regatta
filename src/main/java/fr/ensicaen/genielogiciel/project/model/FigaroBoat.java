@@ -1,6 +1,6 @@
 package fr.ensicaen.genielogiciel.project.model;
 
-public class FigaroBoat implements IBoat{
+public class FigaroBoat implements IBoat {
 
     private double _x = 580;
     private double _y = 480;
@@ -14,46 +14,70 @@ public class FigaroBoat implements IBoat{
     private IDecoratorEquipment _crew;
 
 
-    public FigaroBoat(IDecoratorSail sail, IDecoratorEquipment crew) {
+    public FigaroBoat( IDecoratorSail sail, IDecoratorEquipment crew ) {
         _sail = sail;
         _crew = crew;
     }
 
     @Override
-    public double get_x() { return _x; }
+    public double get_x() {
+        return _x;
+    }
 
     @Override
-    public double get_y() { return _y; }
+    public double get_y() {
+        return _y;
+    }
 
     @Override
-    public double get_dx() { return _dx;}
+    public double get_dx() {
+        return _dx;
+    }
 
     @Override
-    public double get_dy() { return _dy; }
+    public double get_dy() {
+        return _dy;
+    }
 
     @Override
-    public int get_angle() { return _angle; }
+    public int get_angle() {
+        return _angle;
+    }
 
     @Override
-    public void set_angle(int _angle) { this._angle = _angle; }
+    public void set_angle( int _angle ) {
+        this._angle = _angle;
+    }
 
     @Override
-    public double get_speed() { return _speed; }
+    public double get_speed() {
+        return _speed;
+    }
 
     @Override
-    public void set_speed(double _speed) { this._speed = _speed; }
+    public void set_speed( double _speed ) {
+        this._speed = _speed;
+    }
 
     @Override
-    public void set_windAngle(double _windAngle) { this._windAngle = _windAngle; }
+    public void set_windAngle( double _windAngle ) {
+        this._windAngle = _windAngle;
+    }
 
     @Override
-    public void set_windSpeed(double _windSpeed) { this._windSpeed = _windSpeed; }
+    public void set_windSpeed( double _windSpeed ) {
+        this._windSpeed = _windSpeed;
+    }
 
     @Override
-    public void set_crew(IDecoratorEquipment crew) { _crew = crew;}
+    public void set_crew( IDecoratorEquipment crew ) {
+        _crew = crew;
+    }
 
     @Override
-    public void set_sail(IDecoratorSail sail) { _sail = sail;}
+    public void set_sail( IDecoratorSail sail ) {
+        _sail = sail;
+    }
 
     @Override
     public void trim() {
@@ -74,11 +98,11 @@ public class FigaroBoat implements IBoat{
         // Adjust angle depending on sail and crew characteristics
         double adjustedAngle = relativeAngle;
         double adjustedSpeed = baseSpeed;
-        if (_sail!=null) {
+        if (_sail != null) {
             adjustedAngle = _sail.adjustAngle(adjustedAngle);
             adjustedSpeed = _sail.adjustSpeed(adjustedSpeed, adjustedAngle);
         }
-        if (_crew!=null) {
+        if (_crew != null) {
             adjustedAngle = _crew.adjustAngle(adjustedAngle);
             adjustedSpeed = _crew.adjustSpeed(adjustedSpeed, adjustedAngle);
         }
@@ -89,11 +113,7 @@ public class FigaroBoat implements IBoat{
 
         // à enlever par la suite
         System.out.printf(
-                "[DEBUG] Angle=%.1f° (adjusted=%.1f°) | BaseSpeed=%.2f | FinalSpeed=%.2f",
-                relativeAngle,
-                adjustedAngle,
-                baseSpeed,
-                _speed
+                "[DEBUG] Angle=%.1f° (adjusted=%.1f°) | BaseSpeed=%.2f | FinalSpeed=%.2f", relativeAngle, adjustedAngle, baseSpeed, _speed
         );
     }
 
@@ -114,7 +134,7 @@ public class FigaroBoat implements IBoat{
     }
 
     @Override
-    public void rotate(int deltaAngle) {
+    public void rotate( int deltaAngle ) {
         _angle = (360 + _angle + deltaAngle) % 360;
     }
 }

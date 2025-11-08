@@ -3,6 +3,7 @@ plugins {
     id("org.openjfx.javafxplugin") version '0.1.0'
     id 'java'
     id 'jacoco'
+    id("com.diffplug.spotless") version "7.2.1"
 }
 
 version '0.0.1'
@@ -54,3 +55,17 @@ jacocoTestReport {
         html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
 }
+
+spotless {
+    java {
+        eclipse().configFile('coding-style.xml')
+    }
+}
+
+task installLocalGitHook(type: Copy){
+    from new File(rootProject.rootDir, 'scripts/pre-commit')
+    into { new File(rootProject.rootDir, '.git/hooks')}
+    fileMode 0775
+}
+
+build.dependsOn installLocalGitHook

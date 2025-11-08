@@ -6,17 +6,17 @@ import java.io.IOException;
 
 public class PolarTable {
     private final double[][] _values;
-    private final int[] _angles = {0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180};
-    private final int[] _windSpeeds = {4,6,8,10,12,14,16,18,20,22,24,26,28,30};
+    private final int[] _angles = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180};
+    private final int[] _windSpeeds = {4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30};
 
-    public PolarTable(String fileName) throws IOException {
+    public PolarTable( String fileName ) throws IOException {
         _values = new double[_angles.length][_windSpeeds.length];
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         String line;
-        int i =0;
-        while ((line = br.readLine()) != null && i < _angles.length){
+        int i = 0;
+        while ((line = br.readLine()) != null && i < _angles.length) {
             String[] tokens = line.trim().split("\\s+");
-            if (tokens.length != _windSpeeds.length){
+            if (tokens.length != _windSpeeds.length) {
                 br.close();
                 throw new IOException("Nombre de colonnes incorrect dans le fichier .pol à la ligne" + (i + 1));
             }
@@ -31,7 +31,7 @@ public class PolarTable {
         }
     }
 
-    public double getSpeed(double angle, double windSpeed) {
+    public double getSpeed( double angle, double windSpeed ) {
         angle = Math.max(_angles[0], Math.min(_angles[_angles.length - 1], angle));
         windSpeed = Math.max(_windSpeeds[0], Math.min(_windSpeeds[_windSpeeds.length - 1], windSpeed));
 

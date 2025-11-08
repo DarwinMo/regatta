@@ -7,13 +7,13 @@ public class Direction {
     private double _dx;
     private double _dy;
 
-    public  Direction() {
+    public Direction() {
         _angle = 0.0;
         _x = 0.0;
         _y = 0.0;
     }
 
-    public void rotate(double rotationAngle) {
+    public void rotate( double rotationAngle ) {
         _angle += rotationAngle;
         normalizeAngle();
     }
@@ -34,9 +34,23 @@ public class Direction {
         _y += _dy;
     }
 
-    public double getAngle() { return _angle;}
-    public double getX() { return _x;}
-    public double getY() { return _y;}
-    public double getDx() { return _dx;}
-    public double getDy() { return _dy;}
+    public double getAngle() {
+        return _angle;
+    }
+
+    public double getX() {
+        return _x;
+    }
+
+    public double getY() {
+        return _y;
+    }
+
+    public double getDx() {
+        return _dx;
+    }
+
+    public double getDy() {
+        return _dy;
+    }
 }

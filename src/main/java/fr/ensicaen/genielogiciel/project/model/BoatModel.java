@@ -31,7 +31,7 @@ public final class BoatModel {
         return _dy;
     }
 
-    public void move( ) {
+    public void move() {
         _dx = Math.sin(_anglePositive * Math.PI / 180);
         _dy = -Math.cos(_anglePositive * Math.PI / 180);
         _x += _dx;
