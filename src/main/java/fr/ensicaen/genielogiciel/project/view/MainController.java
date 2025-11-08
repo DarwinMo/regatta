@@ -7,7 +7,8 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class MainController {
 
-    @FXML private Canvas gameCanvas;
+    @FXML
+    private Canvas gameCanvas;
 
     @FXML
     public void initialize() {

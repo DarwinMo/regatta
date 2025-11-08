@@ -6,7 +6,7 @@ package fr.ensicaen.genielogiciel.project.model;
 public final class DoubleCrew implements IDecoratorEquipment {
 
     @Override
-    public double adjustAngle(double angleDeg) {
+    public double adjustAngle( double angleDeg ) {
         // Optionnel : on peut réduire un peu l’angle pour simuler une meilleure remontée au vent
         if (angleDeg < 90) {
             return Math.max(0, angleDeg - 3); // remonte un peu plus au vent
@@ -15,7 +15,7 @@ public final class DoubleCrew implements IDecoratorEquipment {
     }
 
     @Override
-    public double adjustSpeed(double speed, double angleDeg) {
+    public double adjustSpeed( double speed, double angleDeg ) {
         if (angleDeg < 90) {
             return speed * 1.10; // +10% au près
         } else {

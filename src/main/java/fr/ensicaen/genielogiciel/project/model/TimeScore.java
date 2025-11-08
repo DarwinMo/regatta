@@ -35,6 +35,7 @@ public class TimeScore {
 
     /**
      * Retourne le temps total en millisecondes
+     * 
      * @return le temps total en ms, ou 0 si le chronomètre n'a pas été arrêté
      */
     public long getTotalTime() {
@@ -43,18 +44,20 @@ public class TimeScore {
 
     /**
      * Retourne le temps total formaté en minutes:secondes:millisecondes
+     * 
      * @return le temps formaté
      */
     public String getFormattedTime() {
         long minutes = (totalTime / 60000) % 60;
         long seconds = (totalTime / 1000) % 60;
         long milliseconds = totalTime % 1000;
-        
+
         return String.format("%02d:%02d:%03d", minutes, seconds, milliseconds);
     }
 
     /**
      * Vérifie si le chronomètre est en cours d'exécution
+     * 
      * @return true si le chronomètre est en cours d'exécution
      */
     public boolean isRunning() {

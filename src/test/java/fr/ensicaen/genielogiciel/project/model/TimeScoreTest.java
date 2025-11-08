@@ -66,10 +66,10 @@ class TimeScoreTest {
 
     @ParameterizedTest
     @MethodSource("timeValues")
-    void should_return_correct_formatted_time_when_get_formatted_time(long totalTime, String expectedFormat) {
+    void should_return_correct_formatted_time_when_get_formatted_time( long totalTime, String expectedFormat ) {
         // Given
         TimeScore timer = new TimeScore();
-        
+
         // Using reflection to set private totalTime for testing
         try {
             Field field = TimeScore.class.getDeclaredField("totalTime");
@@ -88,13 +88,7 @@ class TimeScoreTest {
 
     public static Stream<Arguments> timeValues() {
         return Stream.of(
-                Arguments.of(0L, "00:00:000"),
-                Arguments.of(500L, "00:00:500"),
-                Arguments.of(1000L, "00:01:000"),
-                Arguments.of(1500L, "00:01:500"),
-                Arguments.of(60000L, "01:00:000"),
-                Arguments.of(61500L, "01:01:500"),
-                Arguments.of(125000L, "02:05:000")
+                Arguments.of(0L, "00:00:000"), Arguments.of(500L, "00:00:500"), Arguments.of(1000L, "00:01:000"), Arguments.of(1500L, "00:01:500"), Arguments.of(60000L, "01:00:000"), Arguments.of(61500L, "01:01:500"), Arguments.of(125000L, "02:05:000")
         );
     }
 
@@ -103,14 +97,14 @@ class TimeScoreTest {
         // Given
         TimeScore timer = new TimeScore();
         timer.start();
-        
+
         try {
             Thread.sleep(10);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
         timer.finish();
-        
+
         long timeBeforeReset = timer.getTotalTime();
 
         // When
@@ -137,13 +131,13 @@ class TimeScoreTest {
         // Second session
         timer.start();
         assertTrue(timer.isRunning());
-        
+
         try {
             Thread.sleep(20);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
-        
+
         timer.finish();
         long secondTime = timer.getTotalTime();
 
