@@ -10,7 +10,7 @@ public class PolarTable {
     private final int[] _angles = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180};
     private final int[] _windSpeeds = {4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30};
 
-    public PolarTable(String resourcePath) throws IOException {
+    public PolarTable( String resourcePath ) throws IOException {
         _values = new double[_angles.length][_windSpeeds.length];
 
         InputStream input = getClass().getResourceAsStream(resourcePath);
@@ -23,8 +23,8 @@ public class PolarTable {
         }
         BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
-            String line;
-            int i = 0;
+        String line;
+        int i = 0;
         while ((line = br.readLine()) != null && i < _angles.length) {
             line = line.trim();
             if (line.isEmpty() || line.startsWith("#")) continue; // ignore commentaires
@@ -44,12 +44,12 @@ public class PolarTable {
         }
 
         if (i != _angles.length) {
-                throw new IOException("Nombre de lignes incorrect dans le fichier .pol : attendu " + _angles.length + ", trouvé " + i);
+            throw new IOException("Nombre de lignes incorrect dans le fichier .pol : attendu " + _angles.length + ", trouvé " + i);
 
         }
     }
 
-    public double getSpeed(double boatAngle, double windSpeed) {
+    public double getSpeed( double boatAngle, double windSpeed ) {
         boatAngle = boatAngle % 360;
 
         if (boatAngle > 180) {

@@ -13,35 +13,89 @@ class ConcreteCoastTest {
             this.y = y;
         }
 
-        @Override public double get_x() { return x; }
-        @Override public double get_y() { return y; }
-        @Override public double get_dx() { return 0; }
-        @Override public double get_dy() { return 0; }
-        @Override public int get_angle() { return 0; }
-        @Override public void set_angle(int angle) {}
-        @Override public double get_speed() { return 0; }
-        @Override public void set_speed(double speed) {}
-        @Override public void set_windAngle(double windAngle) {}
+        @Override
+        public double get_x() {
+            return x;
+        }
+
+        @Override
+        public double get_y() {
+            return y;
+        }
+
+        @Override
+        public double get_dx() {
+            return 0;
+        }
+
+        @Override
+        public double get_dy() {
+            return 0;
+        }
+
+        @Override
+        public int get_angle() {
+            return 0;
+        }
+
+        @Override
+        public void set_angle( int angle ) {
+        }
+
+        @Override
+        public double get_speed() {
+            return 0;
+        }
+
+        @Override
+        public void set_speed( double speed ) {
+        }
+
+        @Override
+        public void set_windAngle( double windAngle ) {
+        }
 
         @Override
         public double get_windAngle() {
             return 0;
         }
 
-        @Override public void set_windSpeed(double windSpeed) {}
+        @Override
+        public void set_windSpeed( double windSpeed ) {
+        }
 
         @Override
         public double get_windSpeed() {
             return 0;
         }
 
-        @Override public void set_crew(IDecoratorEquipment crew) {}
-        @Override public void set_sail(IDecoratorSail sail) {}
-        @Override public void trim() {}
-        @Override public void accelerate() {}
-        @Override public void applyWind() {}
-        @Override public void move() {}
-        @Override public void rotate(int deltaAngle) {}
+        @Override
+        public void set_crew( IDecoratorEquipment crew ) {
+        }
+
+        @Override
+        public void set_sail( IDecoratorSail sail ) {
+        }
+
+        @Override
+        public void trim() {
+        }
+
+        @Override
+        public void accelerate() {
+        }
+
+        @Override
+        public void applyWind() {
+        }
+
+        @Override
+        public void move() {
+        }
+
+        @Override
+        public void rotate( int deltaAngle ) {
+        }
     }
 
     @Test

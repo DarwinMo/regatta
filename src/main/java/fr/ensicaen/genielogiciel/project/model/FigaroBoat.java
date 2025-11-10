@@ -3,7 +3,7 @@ package fr.ensicaen.genielogiciel.project.model;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class FigaroBoat implements IBoat{
+public class FigaroBoat implements IBoat {
 
     private double _x = 580;
     private double _y = 480;
@@ -18,7 +18,7 @@ public class FigaroBoat implements IBoat{
     private PolarTable _polarTable;
 
 
-    public FigaroBoat(IDecoratorSail sail, IDecoratorEquipment crew) throws IOException {
+    public FigaroBoat( IDecoratorSail sail, IDecoratorEquipment crew ) throws IOException {
         _sail = sail;
         _crew = crew;
         InputStream test = getClass().getResourceAsStream("/fr/ensicaen/genielogiciel/project/model/polaire-figaro.pol");
@@ -78,16 +78,24 @@ public class FigaroBoat implements IBoat{
     }
 
     @Override
-    public double get_windAngle() { return _windAngle ;}
+    public double get_windAngle() {
+        return _windAngle;
+    }
 
     @Override
-    public void set_windSpeed(double _windSpeed) { this._windSpeed = _windSpeed; }
+    public void set_windSpeed( double _windSpeed ) {
+        this._windSpeed = _windSpeed;
+    }
 
     @Override
-    public double get_windSpeed() { return _windSpeed;}
+    public double get_windSpeed() {
+        return _windSpeed;
+    }
 
     @Override
-    public void set_crew(IDecoratorEquipment crew) { _crew = crew;}
+    public void set_crew( IDecoratorEquipment crew ) {
+        _crew = crew;
+    }
 
     @Override
     public void set_sail( IDecoratorSail sail ) {
@@ -108,7 +116,7 @@ public class FigaroBoat implements IBoat{
         }
 
         double relativeAngle = Math.abs((_angle - _windAngle + 360) % 360);
-        if (relativeAngle > 180){
+        if (relativeAngle > 180) {
             relativeAngle = 360 - relativeAngle;
         }
 
@@ -124,8 +132,7 @@ public class FigaroBoat implements IBoat{
         _speed = polarSpeed;
 
         System.out.printf(
-                "[POLAR] Wind=%.1fkn | Angle=%.1f° | Speed=%.2f%n",
-                _windSpeed, adjustedAngle, _speed
+                "[POLAR] Wind=%.1fkn | Angle=%.1f° | Speed=%.2f%n", _windSpeed, adjustedAngle, _speed
         );
     }
 

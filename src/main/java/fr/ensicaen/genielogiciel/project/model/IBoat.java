@@ -33,10 +33,12 @@ public interface IBoat {
     void set_speed( double speed );
 
 
-    void set_windAngle(double windAngle);
+    void set_windAngle( double windAngle );
+
     double get_windAngle();
 
-    void set_windSpeed(double windSpeed);
+    void set_windSpeed( double windSpeed );
+
     double get_windSpeed();
 
 
