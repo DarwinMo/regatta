@@ -73,4 +73,17 @@ public class TimeScore {
         this.totalTime = 0;
         this.isRunning = false;
     }
+
+    public void resume() {
+
+    }
+
+    public boolean isPaused() {
+        return false;
+    }
+
+    public void pause() {
+
+    }
+
 }
