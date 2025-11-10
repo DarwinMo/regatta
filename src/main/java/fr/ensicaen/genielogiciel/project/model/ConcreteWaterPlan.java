@@ -5,11 +5,11 @@ public class ConcreteWaterPlan implements IWaterPlan {
     private IWind _wind;
 
     @Override
-    public boolean isInside(double x, double y) {
+    public boolean isInside( double x, double y ) {
         return _bounds.contains(x, y);
     }
 
-    public ConcreteWaterPlan(double width, double height, IWind wind) {
+    public ConcreteWaterPlan( double width, double height, IWind wind ) {
         _wind = wind;
         _bounds = new Bounds(0.0, 0.0, width, height);
     }

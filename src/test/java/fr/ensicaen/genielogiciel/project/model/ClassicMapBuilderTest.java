@@ -13,11 +13,7 @@ public class ClassicMapBuilderTest {
         ConcreteBuoy buoy = new ConcreteBuoy(5, 6);
 
 
-        IMap map = new ClassicMapBuilder()
-                .addWaterPlan(plan)
-                .addCoast(coast)
-                .addBuoy(buoy)
-                .build();
+        IMap map = new ClassicMapBuilder().addWaterPlan(plan).addCoast(coast).addBuoy(buoy).build();
 
         // Vérifications simples
         assertNotNull(map);
