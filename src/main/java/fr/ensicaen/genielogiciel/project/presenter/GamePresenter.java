@@ -14,6 +14,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
+import java.io.IOException;
+
 public final class GamePresenter {
     private final PlayerModel _playerModel;
     private IBoat _boatModel;
@@ -30,7 +32,11 @@ public final class GamePresenter {
         _windSpeed = weatherAPI.getWindSpeed();
         _windDirection = weatherAPI.getWindDirection();
 
-        initGame();
+        try {
+            initGame();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setGameView( IGameView gameView ) {
@@ -61,7 +67,7 @@ public final class GamePresenter {
         }
     }
 
-    private void initGame() {
+    private void initGame() throws IOException {
         _boatModel = new FigaroFactory(new MediumSail(), new SingleCrew()).createFigaro();
     }
 

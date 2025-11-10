@@ -1,5 +1,7 @@
 package fr.ensicaen.genielogiciel.project.model;
 
+import java.io.IOException;
+
 public class FigaroFactory implements IBoatFactory {
 
     private final IDecoratorSail _sail;
@@ -11,7 +13,7 @@ public class FigaroFactory implements IBoatFactory {
     }
 
     @Override
-    public IBoat createFigaro() {
+    public IBoat createFigaro() throws IOException {
         return new FigaroBoat(_sail, _crew);
     }
 }

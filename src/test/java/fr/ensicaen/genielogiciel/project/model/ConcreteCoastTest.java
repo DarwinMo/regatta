@@ -56,7 +56,17 @@ class ConcreteCoastTest {
         }
 
         @Override
+        public double get_windAngle() {
+            return 0;
+        }
+
+        @Override
         public void set_windSpeed( double windSpeed ) {
+        }
+
+        @Override
+        public double get_windSpeed() {
+            return 0;
         }
 
         @Override

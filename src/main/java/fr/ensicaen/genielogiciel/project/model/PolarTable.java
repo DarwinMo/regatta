@@ -1,61 +1,91 @@
 package fr.ensicaen.genielogiciel.project.model;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 public class PolarTable {
     private final double[][] _values;
     private final int[] _angles = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180};
     private final int[] _windSpeeds = {4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30};
 
-    public PolarTable( String fileName ) throws IOException {
+    public PolarTable( String resourcePath ) throws IOException {
         _values = new double[_angles.length][_windSpeeds.length];
-        BufferedReader br = new BufferedReader(new FileReader(fileName));
+
+        InputStream input = getClass().getResourceAsStream(resourcePath);
+        if (input == null) {
+            throw new IOException("Fichier polaire introuvable dans le classpath : " + resourcePath);
+        }
+        InputStream is = getClass().getResourceAsStream(resourcePath);
+        if (is == null) {
+            throw new IOException("Fichier " + resourcePath + " introuvable dans le classpath !");
+        }
+        BufferedReader br = new BufferedReader(new InputStreamReader(is));
+
         String line;
         int i = 0;
         while ((line = br.readLine()) != null && i < _angles.length) {
-            String[] tokens = line.trim().split("\\s+");
-            if (tokens.length != _windSpeeds.length) {
-                br.close();
-                throw new IOException("Nombre de colonnes incorrect dans le fichier .pol à la ligne" + (i + 1));
+            line = line.trim();
+            if (line.isEmpty() || line.startsWith("#")) continue; // ignore commentaires
+
+            String[] tokens = line.split("\\s+");
+
+            if (tokens[0].equals("4")) continue;
+
+            if (tokens.length != _windSpeeds.length + 1) {
+                throw new IOException("Nombre de colonnes incorrect dans le fichier .pol à la ligne " + (i + 1));
             }
+
             for (int j = 0; j < _windSpeeds.length; j++) {
-                _values[i][j] = Double.parseDouble(tokens[j]);
+                _values[i][j] = Double.parseDouble(tokens[j + 1]);
             }
             i++;
         }
-        br.close();
+
         if (i != _angles.length) {
-            throw new IOException("Nombre de lignes incorrect dans le fichier .pol : attendu " + _angles.length + " lignes, trouvé " + i);
+            throw new IOException("Nombre de lignes incorrect dans le fichier .pol : attendu " + _angles.length + ", trouvé " + i);
+
         }
     }
 
-    public double getSpeed( double angle, double windSpeed ) {
-        angle = Math.max(_angles[0], Math.min(_angles[_angles.length - 1], angle));
+    public double getSpeed( double boatAngle, double windSpeed ) {
+        boatAngle = boatAngle % 360;
+
+        if (boatAngle > 180) {
+            boatAngle = 360 - boatAngle;
+        }
+
         windSpeed = Math.max(_windSpeeds[0], Math.min(_windSpeeds[_windSpeeds.length - 1], windSpeed));
 
-        int i1 = 0;
-        while (i1 < _angles.length - 1 && _angles[i1 + 1] < angle) i1++;
-        int i2 = Math.min(i1 + 1, _angles.length - 1);
+        int lowerAngleIndex = 0;
+        while (lowerAngleIndex < _angles.length - 1 && _angles[lowerAngleIndex + 1] < boatAngle) {
+            lowerAngleIndex++;
+        }
+        int upperAngleIndex = Math.min(lowerAngleIndex + 1, _angles.length - 1);
+        double lowerAngle = _angles[lowerAngleIndex];
+        double upperAngle = _angles[upperAngleIndex];
 
-        double a1 = _angles[i1], a2 = _angles[i2];
+        int lowerWindIndex = 0;
+        while (lowerWindIndex < _windSpeeds.length - 1 && _windSpeeds[lowerWindIndex + 1] < windSpeed) {
+            lowerWindIndex++;
+        }
+        int upperWindIndex = Math.min(lowerWindIndex + 1, _windSpeeds.length - 1);
+        double lowerWind = _windSpeeds[lowerWindIndex];
+        double upperWind = _windSpeeds[upperWindIndex];
 
-        int j1 = 0;
-        while (j1 < _windSpeeds.length - 1 && _windSpeeds[j1 + 1] < windSpeed) j1++;
-        int j2 = Math.min(j1 + 1, _windSpeeds.length - 1);
+        double speedLL = _values[lowerAngleIndex][lowerWindIndex];
+        double speedLU = _values[lowerAngleIndex][upperWindIndex];
+        double speedUL = _values[upperAngleIndex][lowerWindIndex];
+        double speedUU = _values[upperAngleIndex][upperWindIndex];
 
-        double s11 = _values[i1][j1];
-        double s12 = _values[i1][j2];
-        double s21 = _values[i2][j1];
-        double s22 = _values[i2][j2];
+        double angleFactor = (upperAngle == lowerAngle) ? 0 : (boatAngle - lowerAngle) / (upperAngle - lowerAngle);
+        double windFactor = (upperWind == lowerWind) ? 0 : (windSpeed - lowerWind) / (upperWind - lowerWind);
 
-        double fA = (a2 == a1) ? 0 : (angle - a1) / (a2 - a1);
-        double fS = (_windSpeeds[j2] == _windSpeeds[j1]) ? 0 : (windSpeed - _windSpeeds[j1]) / (_windSpeeds[j2] - _windSpeeds[j1]);
+        double speedLower = speedLL + windFactor * (speedLU - speedLL);
+        double speedUpper = speedUL + windFactor * (speedUU - speedUL);
 
-        double s1 = s11 + fS * (s12 - s11);
-        double s2 = s21 + fS * (s22 - s21);
-
-        return s1 + fA * (s2 - s1);
+        return speedLower + angleFactor * (speedUpper - speedLower);
     }
+
 }
