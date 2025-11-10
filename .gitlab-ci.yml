@@ -1,0 +1,56 @@
+# Continuous integration for Gradle and JVM applications
+image: gradle:jdk21
+
+variables:
+  # Using a fresh runtime for each build to isolate each runtime from any previous builds.
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+  # Runner variables at ENSICAEN
+  http_proxy: http://193.49.200.22:3128
+  https_proxy: http://193.49.200.22:3128
+  HTTP_PROXY: http://193.49.200.22:3128
+  HTTPS_PROXY: http://193.49.200.22:3128
+
+stages:
+  - build
+  - test
+  - style
+
+before_script:
+  - chmod +x gradlew
+  - mv gradle.properties.ci gradle.properties
+
+build:
+  # Existing build job
+  stage: build
+  tags:
+    - gitlab-runner-ensicaen
+  script:
+    - ./gradlew -Pci --console=plain --build-cache assemble
+  only:
+    - master
+    - production
+
+test:
+  # Existing test job
+  stage: test
+  tags:
+    - gitlab-runner-ensicaen
+  coverage: "/Coverage Total: ([0-9]{1,3})%/"
+  script:
+    - ./gradlew -Pci -i --console=plain test jacocoTestReport
+    - cat build/jacocoHtml/index.html | grep -o 'Total[^%]*%' | sed 's/<.*>/ /; s/Total/Coverage Total:/'
+
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master" || $CI_PIPELINE_SOURCE == "merge_request_event"
+
+code_style_check:
+  stage: style
+  tags:
+    - gitlab-runner-ensicaen
+  script:
+    - echo "Starting code style verification with Spotless..."
+    - ./gradlew -Pci --console=plain spotlessCheck
+
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master" || $CI_PIPELINE_SOURCE == "merge_request_event"

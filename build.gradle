@@ -1,0 +1,71 @@
+plugins {
+    id 'application'
+    id("org.openjfx.javafxplugin") version '0.1.0'
+    id 'java'
+    id 'jacoco'
+    id("com.diffplug.spotless") version "7.2.1"
+}
+
+version '0.0.1'
+
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+application {
+    mainClass = 'fr.ensicaen.genielogiciel.project.Main'
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets.main {
+    java.srcDir file('src/main/java')
+}
+
+javafx {
+    version = "21" // ✅ mise à jour
+    modules = ['javafx.controls', 'javafx.fxml']
+}
+
+dependencies {
+    // ✅ JavaFX dépendances natives pour Mac ARM
+    implementation 'org.openjfx:javafx-controls:21:mac-aarch64'
+    implementation 'org.openjfx:javafx-fxml:21:mac-aarch64'
+
+    // ✅ tests
+    testImplementation("org.junit.jupiter:junit-jupiter:5.+")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.mockito:mockito-core:5.+")
+}
+
+test {
+    useJUnitPlatform()
+    jvmArgs(['-XX:+EnableDynamicAgentLoading', '-Xshare:off'])
+}
+
+jacoco {
+    toolVersion = "0.8.13"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}
+
+spotless {
+    java {
+        eclipse().configFile('coding-style.xml')
+    }
+}
+
+task installLocalGitHook(type: Copy){
+    from new File(rootProject.rootDir, 'scripts/pre-commit')
+    into { new File(rootProject.rootDir, '.git/hooks')}
+    fileMode 0775
+}
+
+build.dependsOn installLocalGitHook
