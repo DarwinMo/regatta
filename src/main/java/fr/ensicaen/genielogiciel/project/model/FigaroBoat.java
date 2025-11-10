@@ -13,12 +13,15 @@ public class FigaroBoat implements IBoat {
     private double _speed = 0;
     private double _windAngle = 0;
     private double _windSpeed = 0;
+    private double _targetSpeed = 0;
     private IDecoratorSail _sail;
     private IDecoratorEquipment _crew;
     private PolarTable _polarTable;
 
+    private static final double ACCELERATION_FACTOR = 0.15;
+    private static final double DECELERATION_FACTOR = 0.10;
 
-    public FigaroBoat( IDecoratorSail sail, IDecoratorEquipment crew ) throws IOException {
+    public FigaroBoat( IDecoratorSail sail, IDecoratorEquipment crew ) {
         _sail = sail;
         _crew = crew;
         InputStream test = getClass().getResourceAsStream("/fr/ensicaen/genielogiciel/project/model/polaire-figaro.pol");
@@ -129,15 +132,17 @@ public class FigaroBoat implements IBoat {
         if (_sail != null) polarSpeed = _sail.adjustSpeed(polarSpeed, adjustedAngle);
         if (_crew != null) polarSpeed = _crew.adjustSpeed(polarSpeed, adjustedAngle);
 
-        _speed = polarSpeed;
+        _targetSpeed = polarSpeed;
 
         System.out.printf(
-                "[POLAR] Wind=%.1fkn | Angle=%.1f° | Speed=%.2f%n", _windSpeed, adjustedAngle, _speed
+                "[POLAR] Wind=%.1fkn | Angle=%.1f° | Speed=%.2f%n", _windSpeed, adjustedAngle, _targetSpeed
         );
     }
 
     @Override
     public void applyWind() {
+        double factor = (_targetSpeed > _speed) ? ACCELERATION_FACTOR : DECELERATION_FACTOR;
+        _speed += factor * (_targetSpeed - _speed);
         _dx = Math.sin(Math.toRadians(_angle)) * _speed;
         _dy = -Math.cos(Math.toRadians(_angle)) * _speed;
         _x += _dx;
