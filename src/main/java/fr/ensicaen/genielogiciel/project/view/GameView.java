@@ -50,8 +50,9 @@ public final class GameView implements IGameView {
         _base.getChildren().add(boat);
         return boat;
     }
-    public Circle drawBuoy(double x,double y,double radius){
-        Circle buoy = new Circle(x,y,radius);
+
+    public Circle drawBuoy( double x, double y, double radius ) {
+        Circle buoy = new Circle(x, y, radius);
         buoy.setFill(Color.TRANSPARENT);
         buoy.setStroke(Color.RED);
         buoy.setStrokeWidth(6);
@@ -83,13 +84,10 @@ public final class GameView implements IGameView {
         double radius = 13;
 
         _buoy1 = drawBuoy(200, 100, radius);
-        _buoy2 = drawBuoy(2*_base.getWidth() - 100, 500, radius);
+        _buoy2 = drawBuoy(2 * _base.getWidth() - 100, 500, radius);
         _buoy3 = drawBuoy(_base.getWidth() / 2, _base.getHeight() - 120, radius);
 
     }
-
-
-
 
 
     private void handleKeyPressed( KeyCode code ) {

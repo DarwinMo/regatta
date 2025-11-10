@@ -22,7 +22,7 @@ public class WeatherAPI implements IWeather {
 
     @Override
     public double getWindDirection() {
-        _tempDirection = _random.nextDouble() *  360;
+        _tempDirection = _random.nextDouble() * 360;
         return _tempDirection;
     }
 

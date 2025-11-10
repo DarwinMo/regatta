@@ -11,10 +11,8 @@ class WeatherAPITest {
     void getWindSpeed() {
         WeatherAPI weatherAPI = new WeatherAPI();
         double windSpeed = weatherAPI.getWindSpeed();
-        assertTrue(windSpeed >= 0 && windSpeed <= 30,
-                "Wind speed should be between 0 and 30");
-        assertEquals(windSpeed, weatherAPI.getTempWindSpeed(),
-                "Returned wind speed should match the stored temporary value");
+        assertTrue(windSpeed >= 0 && windSpeed <= 30, "Wind speed should be between 0 and 30");
+        assertEquals(windSpeed, weatherAPI.getTempWindSpeed(), "Returned wind speed should match the stored temporary value");
     }
 
     @Test
@@ -22,10 +20,8 @@ class WeatherAPITest {
         WeatherAPI weatherAPI = new WeatherAPI();
         double direction = weatherAPI.getWindDirection();
 
-        assertTrue(direction >= 0 && direction < 360,
-                "Wind direction should be between 0 (inclusive) and 360 (exclusive)");
+        assertTrue(direction >= 0 && direction < 360, "Wind direction should be between 0 (inclusive) and 360 (exclusive)");
 
-        assertEquals(direction, weatherAPI.getTempDirection(),
-                "Returned direction should match the stored temporary value");
+        assertEquals(direction, weatherAPI.getTempDirection(), "Returned direction should match the stored temporary value");
     }
 }

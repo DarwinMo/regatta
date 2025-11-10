@@ -1,0 +1,12 @@
+{
+  "java.format.settings.url": "./coding-style.xml",
+  "java.format.settings.profile": "Default",
+  "java.format.enabled": true,
+  "[java]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "redhat.java"
+  },
+  "java.saveActions.organizeImports": true,
+  "java.completion.importOrder": ["java", "javax", "com", "org"],
+  "java.configuration.updateBuildConfiguration": "automatic"
+}

@@ -8,7 +8,7 @@ public class ConcreteGame implements IGame {
 
     }
 
-    public void setBoat(IBoat boat) {
+    public void setBoat( IBoat boat ) {
         this._boat = boat;
     }
 

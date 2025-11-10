@@ -1,6 +1,9 @@
 package fr.ensicaen.genielogiciel.project.model;
 
-public class FigaroBoat implements IBoat{
+import java.io.IOException;
+import java.io.InputStream;
+
+public class FigaroBoat implements IBoat {
 
     private double _x = 580;
     private double _y = 480;
@@ -12,88 +15,124 @@ public class FigaroBoat implements IBoat{
     private double _windSpeed = 0;
     private IDecoratorSail _sail;
     private IDecoratorEquipment _crew;
+    private PolarTable _polarTable;
 
 
-    public FigaroBoat(IDecoratorSail sail, IDecoratorEquipment crew) {
+    public FigaroBoat( IDecoratorSail sail, IDecoratorEquipment crew ) throws IOException {
         _sail = sail;
+        _crew = crew;
+        InputStream test = getClass().getResourceAsStream("/fr/ensicaen/genielogiciel/project/model/polaire-figaro.pol");
+        System.out.println("Test resource = " + (test == null ? "NOT FOUND" : "OK"));
+
+        try {
+            _polarTable = new PolarTable("/fr/ensicaen/genielogiciel/project/model/polaire-figaro.pol");
+        } catch (IOException e) {
+            System.err.println("[WARNING] Impossible de charger la table polaire : " + e.getMessage());
+            _polarTable = null;
+        }
+    }
+
+    @Override
+    public double get_x() {
+        return _x;
+    }
+
+    @Override
+    public double get_y() {
+        return _y;
+    }
+
+    @Override
+    public double get_dx() {
+        return _dx;
+    }
+
+    @Override
+    public double get_dy() {
+        return _dy;
+    }
+
+    @Override
+    public int get_angle() {
+        return _angle;
+    }
+
+    @Override
+    public void set_angle( int _angle ) {
+        this._angle = _angle;
+    }
+
+    @Override
+    public double get_speed() {
+        return _speed;
+    }
+
+    @Override
+    public void set_speed( double _speed ) {
+        this._speed = _speed;
+    }
+
+    @Override
+    public void set_windAngle( double _windAngle ) {
+        this._windAngle = _windAngle;
+    }
+
+    @Override
+    public double get_windAngle() {
+        return _windAngle;
+    }
+
+    @Override
+    public void set_windSpeed( double _windSpeed ) {
+        this._windSpeed = _windSpeed;
+    }
+
+    @Override
+    public double get_windSpeed() {
+        return _windSpeed;
+    }
+
+    @Override
+    public void set_crew( IDecoratorEquipment crew ) {
         _crew = crew;
     }
 
     @Override
-    public double get_x() { return _x; }
-
-    @Override
-    public double get_y() { return _y; }
-
-    @Override
-    public double get_dx() { return _dx;}
-
-    @Override
-    public double get_dy() { return _dy; }
-
-    @Override
-    public int get_angle() { return _angle; }
-
-    @Override
-    public void set_angle(int _angle) { this._angle = _angle; }
-
-    @Override
-    public double get_speed() { return _speed; }
-
-    @Override
-    public void set_speed(double _speed) { this._speed = _speed; }
-
-    @Override
-    public void set_windAngle(double _windAngle) { this._windAngle = _windAngle; }
-
-    @Override
-    public void set_windSpeed(double _windSpeed) { this._windSpeed = _windSpeed; }
-
-    @Override
-    public void set_crew(IDecoratorEquipment crew) { _crew = crew;}
-
-    @Override
-    public void set_sail(IDecoratorSail sail) { _sail = sail;}
+    public void set_sail( IDecoratorSail sail ) {
+        _sail = sail;
+    }
 
     @Override
     public void trim() {
-        // Adjust the boat heading slightly to align better with the wind
         int diff = (int) (_windAngle - _angle);
         if (Math.abs(diff) > 5) rotate((diff > 0) ? 2 : -2);
     }
 
     @Override
     public void accelerate() {
-        // Compute base speed based on wind intensity
-        double baseSpeed = _windSpeed * 0.1;
+        if (_polarTable == null) {
+            System.err.println("[ERROR] PolarTable non chargée !");
+            return;
+        }
 
-        // Calculate the relative angle between wind direction and boat heading
         double relativeAngle = Math.abs((_angle - _windAngle + 360) % 360);
-        if (relativeAngle > 180) relativeAngle = 360 - relativeAngle;
+        if (relativeAngle > 180) {
+            relativeAngle = 360 - relativeAngle;
+        }
 
-        // Adjust angle depending on sail and crew characteristics
         double adjustedAngle = relativeAngle;
-        double adjustedSpeed = baseSpeed;
-        if (_sail!=null) {
-            adjustedAngle = _sail.adjustAngle(adjustedAngle);
-            adjustedSpeed = _sail.adjustSpeed(adjustedSpeed, adjustedAngle);
-        }
-        if (_crew!=null) {
-            adjustedAngle = _crew.adjustAngle(adjustedAngle);
-            adjustedSpeed = _crew.adjustSpeed(adjustedSpeed, adjustedAngle);
-        }
+        if (_sail != null) adjustedAngle = _sail.adjustAngle(adjustedAngle);
+        if (_crew != null) adjustedAngle = _crew.adjustAngle(adjustedAngle);
 
-        // Compute speed using a simplified polar curve model
-        double polarFactor = Math.max(0.3, Math.cos(Math.toRadians(adjustedAngle)));
-        _speed = adjustedSpeed * (1.5 + polarFactor);
+        double polarSpeed = _polarTable.getSpeed(adjustedAngle, _windSpeed);
 
-        // à enlever par la suite
+        if (_sail != null) polarSpeed = _sail.adjustSpeed(polarSpeed, adjustedAngle);
+        if (_crew != null) polarSpeed = _crew.adjustSpeed(polarSpeed, adjustedAngle);
+
+        _speed = polarSpeed;
+
         System.out.printf(
-                "[DEBUG] Angle=%.1f° (adjusted=%.1f°) | BaseSpeed=%.2f | FinalSpeed=%.2f",
-                relativeAngle,
-                adjustedAngle,
-                baseSpeed,
-                _speed
+                "[POLAR] Wind=%.1fkn | Angle=%.1f° | Speed=%.2f%n", _windSpeed, adjustedAngle, _speed
         );
     }
 
@@ -114,7 +153,7 @@ public class FigaroBoat implements IBoat{
     }
 
     @Override
-    public void rotate(int deltaAngle) {
+    public void rotate( int deltaAngle ) {
         _angle = (360 + _angle + deltaAngle) % 360;
     }
 }
