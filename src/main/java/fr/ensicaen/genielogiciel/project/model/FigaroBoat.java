@@ -19,7 +19,7 @@ public class FigaroBoat implements IBoat {
     private PolarTable _polarTable;
 
     private static final double ACCELERATION_FACTOR = 0.15;
-    private static final double DECELERATION_FACTOR = 0.15;
+    private static final double DECELERATION_FACTOR = 0.10;
 
     public FigaroBoat( IDecoratorSail sail, IDecoratorEquipment crew ) {
         _sail = sail;
@@ -135,7 +135,7 @@ public class FigaroBoat implements IBoat {
         _targetSpeed = polarSpeed;
 
         System.out.printf(
-                "[POLAR] Wind=%.1fkn | Angle=%.1f° | Speed=%.2f%n", _windSpeed, adjustedAngle, _speed
+                "[POLAR] Wind=%.1fkn | Angle=%.1f° | Speed=%.2f%n", _windSpeed, adjustedAngle, _targetSpeed
         );
     }
 
