@@ -7,7 +7,9 @@ public class TimeScore {
     private long startTime;
     private long finishTime;
     private long totalTime;
+    private long pauseTime;
     private boolean isRunning;
+    private boolean isPaused;
 
     /**
      * Démarre le chronomètre
@@ -19,6 +21,30 @@ public class TimeScore {
         this.startTime = System.currentTimeMillis();
         this.isRunning = true;
         this.totalTime = 0;
+        this.isPaused = false;
+    }
+
+    /**
+     * Met en pause le chronomètre
+     */
+    public void pause() {
+        if (!isRunning || isPaused) {
+            throw new IllegalStateException("Impossible de mettre en pause : le chronomètre n'est pas en cours.");
+        }
+        this.pauseTime = System.currentTimeMillis();
+        this.totalTime += pauseTime - startTime;
+        this.isPaused = true;
+    }
+
+    /**
+     * Reprend le chronomètre après une pause
+     */
+    public void resume() {
+        if (!isPaused) {
+            throw new IllegalStateException("Impossible de reprendre : le chronomètre n'est pas en pause.");
+        }
+        this.startTime = System.currentTimeMillis();
+        this.isPaused = false;
     }
 
     /**

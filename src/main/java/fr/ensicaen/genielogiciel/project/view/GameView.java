@@ -1,5 +1,7 @@
 package fr.ensicaen.genielogiciel.project.view;
 
+import java.io.IOException;
+
 import fr.ensicaen.genielogiciel.project.Main;
 import fr.ensicaen.genielogiciel.project.presenter.GamePresenter;
 import fr.ensicaen.genielogiciel.project.presenter.IGameView;
@@ -16,8 +18,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
-import java.util.Random;
-import java.io.IOException;
 
 public final class GameView implements IGameView {
     private static Stage _stage;
@@ -97,7 +97,10 @@ public final class GameView implements IGameView {
             _gamePresenter.handleUserAction(UserAction.LEFT);
         } else if (code == KeyCode.RIGHT) {
             _gamePresenter.handleUserAction(UserAction.RIGHT);
+        } else if (code == KeyCode.ESCAPE) {
+            _gamePresenter.handleUserAction(UserAction.PAUSE);
         }
+
     }
 
     public static final class GameViewFactory {
