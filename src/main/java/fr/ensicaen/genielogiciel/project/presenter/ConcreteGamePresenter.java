@@ -16,15 +16,15 @@ public class ConcreteGamePresenter implements Ipresenter {
         IGame _game = new ConcreteGame();
     }
 
-    public void startGame(){
+    public void startGame() {
         running = true;
     }
 
-    public void attach(IGameView gameView) {
+    public void attach( IGameView gameView ) {
         _gameView = gameView;
     }
 
-    public void handleUserEvent(UserAction action){
+    public void handleUserEvent( UserAction action ) {
         if (action == UserAction.LEFT) {
             _game.getBoat().rotate(-2);
         } else if (action == UserAction.RIGHT) {

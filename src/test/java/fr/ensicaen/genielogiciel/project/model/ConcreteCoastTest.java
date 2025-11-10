@@ -8,7 +8,7 @@ class ConcreteCoastTest {
     static class TestBoat implements IBoat {
         private double x, y;
 
-        public TestBoat(double x, double y) {
+        public TestBoat( double x, double y ) {
             this.x = x;
             this.y = y;
         }

@@ -33,31 +33,49 @@ public class FigaroBoat implements IBoat{
     }
 
     @Override
-    public double get_x() { return _x; }
+    public double get_x() {
+        return _x;
+    }
 
     @Override
-    public double get_y() { return _y; }
+    public double get_y() {
+        return _y;
+    }
 
     @Override
-    public double get_dx() { return _dx;}
+    public double get_dx() {
+        return _dx;
+    }
 
     @Override
-    public double get_dy() { return _dy; }
+    public double get_dy() {
+        return _dy;
+    }
 
     @Override
-    public int get_angle() { return _angle; }
+    public int get_angle() {
+        return _angle;
+    }
 
     @Override
-    public void set_angle(int _angle) { this._angle = _angle; }
+    public void set_angle( int _angle ) {
+        this._angle = _angle;
+    }
 
     @Override
-    public double get_speed() { return _speed; }
+    public double get_speed() {
+        return _speed;
+    }
 
     @Override
-    public void set_speed(double _speed) { this._speed = _speed; }
+    public void set_speed( double _speed ) {
+        this._speed = _speed;
+    }
 
     @Override
-    public void set_windAngle(double _windAngle) { this._windAngle = _windAngle; }
+    public void set_windAngle( double _windAngle ) {
+        this._windAngle = _windAngle;
+    }
 
     @Override
     public double get_windAngle() { return _windAngle ;}
@@ -72,7 +90,9 @@ public class FigaroBoat implements IBoat{
     public void set_crew(IDecoratorEquipment crew) { _crew = crew;}
 
     @Override
-    public void set_sail(IDecoratorSail sail) { _sail = sail;}
+    public void set_sail( IDecoratorSail sail ) {
+        _sail = sail;
+    }
 
     @Override
     public void trim() {
@@ -126,7 +146,7 @@ public class FigaroBoat implements IBoat{
     }
 
     @Override
-    public void rotate(int deltaAngle) {
+    public void rotate( int deltaAngle ) {
         _angle = (360 + _angle + deltaAngle) % 360;
     }
 }

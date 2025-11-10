@@ -1,13 +1,13 @@
 package fr.ensicaen.genielogiciel.project.model;
 
-public class ConcreteCoast implements ICoast{
+public class ConcreteCoast implements ICoast {
 
     private final double startX;
     private final double startY;
     private final double endX;
     private final double endY;
 
-    public ConcreteCoast(double startX, double startY, double endX, double endY) {
+    public ConcreteCoast( double startX, double startY, double endX, double endY ) {
         this.startX = startX;
         this.startY = startY;
         this.endX = endX;
@@ -35,7 +35,7 @@ public class ConcreteCoast implements ICoast{
     }
 
     @Override
-    public boolean isCollision(IBoat boat) {
+    public boolean isCollision( IBoat boat ) {
         double boatX = boat.get_x();
         double boatY = boat.get_y();
 

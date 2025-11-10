@@ -7,8 +7,8 @@ import java.io.InputStreamReader;
 
 public class PolarTable {
     private final double[][] _values;
-    private final int[] _angles = {0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180};
-    private final int[] _windSpeeds = {4,6,8,10,12,14,16,18,20,22,24,26,28,30};
+    private final int[] _angles = {0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 160, 170, 180};
+    private final int[] _windSpeeds = {4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30};
 
     public PolarTable(String resourcePath) throws IOException {
         _values = new double[_angles.length][_windSpeeds.length];

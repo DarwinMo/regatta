@@ -1,9 +1,14 @@
 package fr.ensicaen.genielogiciel.project.presenter;
 
 // Remarque : l'animation n'est pas considérée comme étant du graphisme à proprement parlé.
-//            On peut la considérer comme une bibliothèque tiers de gestion de threading.
-//            On peut donc l'utiliser dans le presenter.
-import fr.ensicaen.genielogiciel.project.model.*;
+// On peut la considérer comme une bibliothèque tiers de gestion de threading.
+// On peut donc l'utiliser dans le presenter.
+import fr.ensicaen.genielogiciel.project.model.FigaroFactory;
+import fr.ensicaen.genielogiciel.project.model.IBoat;
+import fr.ensicaen.genielogiciel.project.model.MediumSail;
+import fr.ensicaen.genielogiciel.project.model.PlayerModel;
+import fr.ensicaen.genielogiciel.project.model.SingleCrew;
+import fr.ensicaen.genielogiciel.project.model.WeatherAPI;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -78,7 +83,7 @@ public final class GamePresenter {
     private void update() {
         _boatModel.set_windSpeed(_windSpeed);
         _boatModel.set_windAngle(_windDirection);
-        System.out.println("\nWind speed="+_windSpeed+" | wind direction="+_windDirection);
+        System.out.println("\nWind speed=" + _windSpeed + " | wind direction=" + _windDirection);
         _boatModel.accelerate();
         _boatModel.applyWind();
     }

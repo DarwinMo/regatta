@@ -7,7 +7,7 @@ public class FigaroFactory implements IBoatFactory {
     private final IDecoratorSail _sail;
     private final IDecoratorEquipment _crew;
 
-    public FigaroFactory(IDecoratorSail sail, IDecoratorEquipment crew) {
+    public FigaroFactory( IDecoratorSail sail, IDecoratorEquipment crew ) {
         _sail = sail;
         _crew = crew;
     }
