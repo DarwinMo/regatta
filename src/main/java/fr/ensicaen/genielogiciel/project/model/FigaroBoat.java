@@ -132,7 +132,7 @@ public class FigaroBoat implements IBoat {
         _speed = polarSpeed;
 
         System.out.printf(
-                "[POLAR] Wind=%.1fkn | Angle=%.1f° | Speed=%.2f%n", _windSpeed, adjustedAngle, _speed
+                "Angle=%.1f° | Speed=%.2f%n", adjustedAngle, _speed
         );
     }
 

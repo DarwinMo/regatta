@@ -6,23 +6,22 @@ public class WeatherAPI implements IWeather {
 
     private double _tempWindSpeed;
     private double _tempDirection;
-    private final Random _random;
+    private final PrevisionMeteoAPI _previsionAPI;
 
 
     public WeatherAPI() {
-        _random = new Random();
+        _previsionAPI = new PrevisionMeteoAPI();
+        _tempDirection = _previsionAPI.getWindDirection();
+        _tempWindSpeed = _previsionAPI.getWindSpeed();
     }
 
     @Override
     public double getWindSpeed() {
-        double maxWindSpeed = 30.0;
-        _tempWindSpeed = _random.nextDouble() * maxWindSpeed;
         return _tempWindSpeed;
     }
 
     @Override
     public double getWindDirection() {
-        _tempDirection = _random.nextDouble() * 360;
         return _tempDirection;
     }
 
