@@ -93,6 +93,7 @@ public final class GameView implements IGameView {
 
 
     private void handleKeyPressed( KeyCode code ) {
+        System.out.println("UserAction = " + code);
         if (code == KeyCode.SPACE) {
             _gamePresenter.handleUserAction(UserAction.START);
         } else if (code == KeyCode.LEFT) {
@@ -118,6 +119,8 @@ public final class GameView implements IGameView {
             final Stage stage = new Stage();
             stage.setTitle(Main.getMessageBundle().getString("project.title"));
             stage.setScene(scene);
+            stage.show();
+            root.requestFocus();
             stage.setMaximized(true);
             _stage = stage;
             scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
