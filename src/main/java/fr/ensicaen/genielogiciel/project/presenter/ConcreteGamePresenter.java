@@ -11,6 +11,7 @@ import java.io.IOException;
 public class ConcreteGamePresenter implements Ipresenter {
 
     IMap _map;
+    IMapBuilder _mapBuilder;
     IBoat _boat;
     PlayerModel _player;
     IWind _wind;
@@ -34,6 +35,12 @@ public class ConcreteGamePresenter implements Ipresenter {
     public void setGameView( IGameView gameView ) {
         _gameView = gameView;
         _gameView.addBoat(_boat.get_x(), _boat.get_y());
+        for(IBuoy buoy : _map.getBuoys()){
+            _gameView.addBuoys(buoy.getX(), buoy.getY());
+        }
+        for(ICoast coast : _map.getCoasts()){
+            _gameView.addCoast(coast.getStartX(),coast.getStartY(),coast.getEndX(),coast.getEndY());
+        }
     }
 
     public void handleUserAction( UserAction code ) {
@@ -61,7 +68,11 @@ public class ConcreteGamePresenter implements Ipresenter {
 
     private void initGame( CrewType crewType, SailType sailType ) throws IOException {
         _boat = new FigaroFactory(_getDecoratorSail(sailType), _getDecoratorEquipment(crewType)).createFigaro();
-
+        // temporary this needs to be replaced by a file configuration and default map with rand
+        ConcreteWaterPlan plan = new ConcreteWaterPlan(1000, 800, _wind);
+        ConcreteCoast coast = new ConcreteCoast(1, 2, 3, 4);
+        ConcreteBuoy buoy = new ConcreteBuoy(5, 6);
+        _map = new ClassicMapBuilder().addWaterPlan(plan).addCoast(coast).addBuoy(buoy).build();
     }
 
     private IDecoratorSail _getDecoratorSail( SailType sailType ) {
