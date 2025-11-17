@@ -1,12 +1,7 @@
 package fr.ensicaen.genielogiciel.project.presenter;
 
 
-import fr.ensicaen.genielogiciel.project.model.FigaroFactory;
-import fr.ensicaen.genielogiciel.project.model.IBoat;
-import fr.ensicaen.genielogiciel.project.model.MediumSail;
-import fr.ensicaen.genielogiciel.project.model.PlayerModel;
-import fr.ensicaen.genielogiciel.project.model.SingleCrew;
-import fr.ensicaen.genielogiciel.project.model.WeatherAPI;
+import fr.ensicaen.genielogiciel.project.model.*;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -66,7 +61,8 @@ public final class GamePresenter {
     }
 
     private void initGame() throws IOException {
-        _boatModel = new FigaroFactory(new MediumSail(), new SingleCrew()).createFigaro();
+        _boatModel = new FigaroFactory(new MediumSail(), new SingleCrew()).createBoat();
+        //_boatModel = new Oceanis37Factory(new MediumSail(), new SingleCrew()).createBoat();
     }
 
     private void runGameLoop() {
