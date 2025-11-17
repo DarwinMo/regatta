@@ -59,8 +59,22 @@ public class ConcreteGamePresenter implements Ipresenter {
         }
     }
 
-    private void initGame() throws IOException {
-        _boat = new FigaroFactory(new MediumSail(), new SingleCrew()).createFigaro();
+    private void initGame(CrewType crewType,SailType sailType) throws IOException {
+        _boat = new FigaroFactory(_getDecoratorSail(sailType), _getDecoratorEquipment(crewType)).createFigaro();
+        
+    }
+
+    private IDecoratorSail _getDecoratorSail(SailType sailType) {
+        if(sailType == SailType.MEDIUM){
+            return new MediumSail();
+        }
+        return new LargeSail();
+    }
+    private IDecoratorEquipment _getDecoratorEquipment(CrewType crewType) {
+        if(crewType == CrewType.SINGLE){
+            return new SingleCrew();
+        }
+        return new DoubleCrew();
     }
 
     private void runGameLoop() {
