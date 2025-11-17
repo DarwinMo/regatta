@@ -5,7 +5,7 @@ public class ConcreteWind implements IWind {
     private final double _windSpeed;
     private final double _windDirection;
 
-    ConcreteWind( IWeather _weatherAPI ) {
+    public ConcreteWind( IWeather _weatherAPI ) {
         _windSpeed = _weatherAPI.getWindSpeed();
         _windDirection = _weatherAPI.getWindDirection();
     }

@@ -3,7 +3,8 @@ package fr.ensicaen.genielogiciel.project.view;
 import java.io.IOException;
 
 import fr.ensicaen.genielogiciel.project.Main;
-import fr.ensicaen.genielogiciel.project.presenter.GamePresenter;
+import fr.ensicaen.genielogiciel.project.presenter.ConcreteGamePresenter;
+import fr.ensicaen.genielogiciel.project.presenter.ConcreteGamePresenter;
 import fr.ensicaen.genielogiciel.project.presenter.IGameView;
 import fr.ensicaen.genielogiciel.project.presenter.UserAction;
 import javafx.fxml.FXML;
@@ -22,7 +23,7 @@ import javafx.stage.Stage;
 
 public final class GameView implements IGameView {
     private static Stage _stage;
-    private GamePresenter _gamePresenter;
+    private ConcreteGamePresenter _gamePresenter;
     private Ellipse _boat;
     private Circle _buoy1;
     private Circle _buoy2;
@@ -31,7 +32,7 @@ public final class GameView implements IGameView {
     @FXML
     private AnchorPane _base;
 
-    public void setGamePresenter( GamePresenter gamePresenter ) {
+    public void setGamePresenter( ConcreteGamePresenter gamePresenter ) {
         _gamePresenter = gamePresenter;
     }
 
