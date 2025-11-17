@@ -18,7 +18,7 @@ public class ConcreteGamePresenter implements Ipresenter {
     private boolean _started = false;
     private Timeline _timeline;
 
-    public ConcreteGamePresenter( String nickName,CrewType crewType,SailType sailType ) throws IOException {
+    public ConcreteGamePresenter( String nickName, CrewType crewType, SailType sailType ) throws IOException {
 
         _player = new PlayerModel();
         _player.setNickname(nickName);
@@ -59,19 +59,20 @@ public class ConcreteGamePresenter implements Ipresenter {
         }
     }
 
-    private void initGame(CrewType crewType,SailType sailType) throws IOException {
+    private void initGame( CrewType crewType, SailType sailType ) throws IOException {
         _boat = new FigaroFactory(_getDecoratorSail(sailType), _getDecoratorEquipment(crewType)).createFigaro();
 
     }
 
-    private IDecoratorSail _getDecoratorSail(SailType sailType) {
-        if(sailType == SailType.MEDIUM){
+    private IDecoratorSail _getDecoratorSail( SailType sailType ) {
+        if (sailType == SailType.MEDIUM) {
             return new MediumSail();
         }
         return new LargeSail();
     }
-    private IDecoratorEquipment _getDecoratorEquipment(CrewType crewType) {
-        if(crewType == CrewType.SINGLE){
+
+    private IDecoratorEquipment _getDecoratorEquipment( CrewType crewType ) {
+        if (crewType == CrewType.SINGLE) {
             return new SingleCrew();
         }
         return new DoubleCrew();
