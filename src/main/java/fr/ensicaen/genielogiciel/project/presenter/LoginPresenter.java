@@ -21,7 +21,7 @@ public final class LoginPresenter {
         } else {
             try {
                 final GameView view = GameView.GameViewFactory.createView();
-                final ConcreteGamePresenter gamePresenter = new ConcreteGamePresenter(nickName, CrewType.DOUBLE,SailType.LARGE);
+                final ConcreteGamePresenter gamePresenter = new ConcreteGamePresenter(nickName, CrewType.DOUBLE, SailType.LARGE);
                 view.setGamePresenter(gamePresenter);
                 gamePresenter.setGameView(view);
                 view.show();
