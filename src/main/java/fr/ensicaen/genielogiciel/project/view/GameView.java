@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -26,6 +27,7 @@ public final class GameView implements IGameView {
     private Circle _buoy1;
     private Circle _buoy2;
     private Circle _buoy3;
+    private Button pauseButton;
     @FXML
     private AnchorPane _base;
 
@@ -116,6 +118,8 @@ public final class GameView implements IGameView {
             final Stage stage = new Stage();
             stage.setTitle(Main.getMessageBundle().getString("project.title"));
             stage.setScene(scene);
+            stage.show();
+            root.requestFocus();
             stage.setMaximized(true);
             _stage = stage;
             scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
@@ -125,5 +129,7 @@ public final class GameView implements IGameView {
             view.addBuoys();
             return view;
         }
+
+
     }
 }
