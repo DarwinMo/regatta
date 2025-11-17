@@ -109,13 +109,4 @@ public class ConcreteGamePresenter implements Ipresenter {
         _gameView.update(_boat.get_dx(), _boat.get_dy(), _boat.get_angle());
     }
 
-    @Override
-    public void attach( IGameView gameView ) {
-
-    }
-
-    @Override
-    public void handleUserEvent( UserAction action ) {
-
-    }
 }
