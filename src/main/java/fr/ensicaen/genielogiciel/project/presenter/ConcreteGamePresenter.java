@@ -10,26 +10,32 @@ import java.io.IOException;
 
 public class ConcreteGamePresenter implements Ipresenter {
 
-    IMap _map;
-    IMapBuilder _mapBuilder;
-    IBoat _boat;
-    PlayerModel _player;
-    IWind _wind;
+    private IMap _map;
+    private IMapBuilder _mapBuilder;
+    private IBoat _boat;
+    private final PlayerModel _player;
+    private IWind _wind;
+
+    private BoatDirectionManager _boatDirectionManager;
+
     private IGameView _gameView;
     private boolean _started = false;
     private Timeline _timeline;
+
+    private final int _rotationAngle = 2;
 
     public ConcreteGamePresenter( String nickName, CrewType crewType, SailType sailType ) throws IOException {
 
         _player = new PlayerModel();
         _player.setNickname(nickName);
-        _wind = new ConcreteWind(new WeatherAPI());
+
 
         try {
             initGame(crewType, sailType);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        _boatDirectionManager = new BoatDirectionManager(_boat,_rotationAngle);
     }
 
     public void setGameView( IGameView gameView ) {
@@ -60,15 +66,16 @@ public class ConcreteGamePresenter implements Ipresenter {
 
     private void changeDirection( UserAction action ) {
         if (action == UserAction.LEFT) {
-            _boat.rotate(-2);
+            _boatDirectionManager.goLeft();
         } else if (action == UserAction.RIGHT) {
-            _boat.rotate(+2);
+            _boatDirectionManager.goRight();
         }
     }
 
     private void initGame( CrewType crewType, SailType sailType ) throws IOException {
         _boat = new FigaroFactory(_getDecoratorSail(sailType), _getDecoratorEquipment(crewType)).createFigaro();
         // temporary this needs to be replaced by a file configuration and default map with rand
+        _wind = new ConcreteWind(new WeatherAPI());
         ConcreteWaterPlan plan = new ConcreteWaterPlan(1000, 800, _wind);
         ConcreteCoast coast = new ConcreteCoast(1, 2, 3, 4);
         ConcreteBuoy buoy = new ConcreteBuoy(5, 6);
