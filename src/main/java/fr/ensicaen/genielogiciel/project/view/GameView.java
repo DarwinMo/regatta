@@ -93,7 +93,6 @@ public final class GameView implements IGameView {
 
 
     private void handleKeyPressed( KeyCode code ) {
-        System.out.println("UserAction = " + code);
         if (code == KeyCode.SPACE) {
             _gamePresenter.handleUserAction(UserAction.START);
         } else if (code == KeyCode.LEFT) {
