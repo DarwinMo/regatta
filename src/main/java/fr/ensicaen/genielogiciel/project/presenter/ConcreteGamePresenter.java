@@ -18,14 +18,14 @@ public class ConcreteGamePresenter implements Ipresenter {
     private boolean _started = false;
     private Timeline _timeline;
 
-    public ConcreteGamePresenter( String nickName ) {
+    public ConcreteGamePresenter( String nickName,CrewType crewType,SailType sailType ) throws IOException {
 
         _player = new PlayerModel();
         _player.setNickname(nickName);
         _wind = new ConcreteWind(new WeatherAPI());
 
         try {
-            initGame();
+            initGame(crewType, sailType);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -61,7 +61,7 @@ public class ConcreteGamePresenter implements Ipresenter {
 
     private void initGame(CrewType crewType,SailType sailType) throws IOException {
         _boat = new FigaroFactory(_getDecoratorSail(sailType), _getDecoratorEquipment(crewType)).createFigaro();
-        
+
     }
 
     private IDecoratorSail _getDecoratorSail(SailType sailType) {
