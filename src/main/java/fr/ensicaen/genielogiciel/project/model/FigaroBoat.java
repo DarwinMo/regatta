@@ -106,6 +106,11 @@ public class FigaroBoat implements IBoat {
     }
 
     @Override
+    public boolean hasCrossedFinishLine() {
+        return false;
+    }
+
+    @Override
     public void trim() {
         int diff = (int) (_windAngle - _angle);
         if (Math.abs(diff) > 5) rotate((diff > 0) ? 2 : -2);

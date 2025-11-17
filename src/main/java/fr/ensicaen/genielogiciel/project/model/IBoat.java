@@ -45,4 +45,7 @@ public interface IBoat {
     void set_crew( IDecoratorEquipment crew );
 
     void set_sail( IDecoratorSail sail );
+
+    // To implement
+    boolean hasCrossedFinishLine();
 }

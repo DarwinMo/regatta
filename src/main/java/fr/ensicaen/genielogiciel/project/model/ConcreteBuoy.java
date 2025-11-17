@@ -11,6 +11,11 @@ public class ConcreteBuoy implements IBuoy {
     }
 
     @Override
+    public boolean isMarked() {
+        return false;
+    }
+
+    @Override
     public double getY() {
         return y;
     }

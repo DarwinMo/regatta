@@ -6,6 +6,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class ConcreteGamePresenter implements Ipresenter {
@@ -16,13 +17,12 @@ public class ConcreteGamePresenter implements Ipresenter {
     private final PlayerModel _player;
     private IWind _wind;
 
-    private BoatDirectionManager _boatDirectionManager;
+
+    private final BoatDirectionManager _boatDirectionManager;
 
     private IGameView _gameView;
     private boolean _started = false;
     private Timeline _timeline;
-
-    private final int _rotationAngle = 2;
 
     public ConcreteGamePresenter( String nickName, CrewType crewType, SailType sailType ) throws IOException {
 
@@ -35,7 +35,8 @@ public class ConcreteGamePresenter implements Ipresenter {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        _boatDirectionManager = new BoatDirectionManager(_boat,_rotationAngle);
+        int _rotationAngle = 2;
+        _boatDirectionManager = new BoatDirectionManager(_boat, _rotationAngle);
     }
 
     public void setGameView( IGameView gameView ) {
@@ -105,11 +106,29 @@ public class ConcreteGamePresenter implements Ipresenter {
         _timeline.play();
     }
 
+    private void stopGameLoop() {
+        if(_timeline != null) {
+            _timeline.stop();
+        }
+    }
+
+    private boolean loopCompleted(){
+        for(IBuoy buoy : _map.getBuoys()) {
+            if(!buoy.isMarked()){
+                return false;
+            }
+        }
+        return _boat.hasCrossedFinishLine();
+    }
+
     private void update() {
         _boat.set_windSpeed(_wind.getWindSpeed());
         _boat.set_windAngle(_wind.getWindDirection());
         _boat.accelerate();
         _boat.applyWind();
+        if(loopCompleted()){
+            stopGameLoop();
+        }
     }
 
     private void render() {
