@@ -61,7 +61,6 @@ public final class GamePresenter {
     }
 
     private void initGame() throws IOException {
-        //_boatModel = new FigaroFactory(new MediumSail(), new SingleCrew()).createBoat();
         _boatModel = new Oceanis37Factory(new MediumSail(), new SingleCrew()).createBoat();
     }
 
