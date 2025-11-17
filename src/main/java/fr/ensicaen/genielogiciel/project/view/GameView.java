@@ -118,6 +118,8 @@ public final class GameView implements IGameView {
             final Stage stage = new Stage();
             stage.setTitle(Main.getMessageBundle().getString("project.title"));
             stage.setScene(scene);
+            stage.show();
+            root.requestFocus();
             stage.setMaximized(true);
             _stage = stage;
             scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
