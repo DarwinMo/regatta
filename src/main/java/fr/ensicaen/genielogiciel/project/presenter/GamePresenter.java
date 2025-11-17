@@ -1,8 +1,6 @@
 package fr.ensicaen.genielogiciel.project.presenter;
 
-// Remarque : l'animation n'est pas considérée comme étant du graphisme à proprement parlé.
-// On peut la considérer comme une bibliothèque tiers de gestion de threading.
-// On peut donc l'utiliser dans le presenter.
+
 import fr.ensicaen.genielogiciel.project.model.FigaroFactory;
 import fr.ensicaen.genielogiciel.project.model.IBoat;
 import fr.ensicaen.genielogiciel.project.model.MediumSail;
