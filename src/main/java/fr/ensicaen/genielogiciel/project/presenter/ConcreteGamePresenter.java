@@ -60,7 +60,7 @@ public class ConcreteGamePresenter implements Ipresenter {
     }
 
     private void initGame( CrewType crewType, SailType sailType ) throws IOException {
-        _boat = new FigaroFactory(_getDecoratorSail(sailType), _getDecoratorEquipment(crewType)).createFigaro();
+        _boat = new FigaroFactory(_getDecoratorSail(sailType), _getDecoratorEquipment(crewType)).createBoat();
 
     }
 
