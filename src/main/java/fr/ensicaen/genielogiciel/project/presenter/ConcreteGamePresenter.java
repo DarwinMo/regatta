@@ -42,11 +42,11 @@ public class ConcreteGamePresenter implements Ipresenter {
     public void setGameView( IGameView gameView ) {
         _gameView = gameView;
         _gameView.addBoat(_boat.get_x(), _boat.get_y());
-        for(IBuoy buoy : _map.getBuoys()){
+        for (IBuoy buoy : _map.getBuoys()) {
             _gameView.addBuoys(buoy.getX(), buoy.getY());
         }
-        for(ICoast coast : _map.getCoasts()){
-            _gameView.addCoast(coast.getStartX(),coast.getStartY(),coast.getEndX(),coast.getEndY());
+        for (ICoast coast : _map.getCoasts()) {
+            _gameView.addCoast(coast.getStartX(), coast.getStartY(), coast.getEndX(), coast.getEndY());
         }
     }
 
@@ -107,14 +107,14 @@ public class ConcreteGamePresenter implements Ipresenter {
     }
 
     private void stopGameLoop() {
-        if(_timeline != null) {
+        if (_timeline != null) {
             _timeline.stop();
         }
     }
 
-    private boolean loopCompleted(){
-        for(IBuoy buoy : _map.getBuoys()) {
-            if(!buoy.isMarked()){
+    private boolean loopCompleted() {
+        for (IBuoy buoy : _map.getBuoys()) {
+            if (!buoy.isMarked()) {
                 return false;
             }
         }
@@ -126,7 +126,7 @@ public class ConcreteGamePresenter implements Ipresenter {
         _boat.set_windAngle(_wind.getWindDirection());
         _boat.accelerate();
         _boat.applyWind();
-        if(loopCompleted()){
+        if (loopCompleted()) {
             stopGameLoop();
         }
     }
