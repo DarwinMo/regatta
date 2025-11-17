@@ -49,7 +49,7 @@ public class PrevisionMeteoAPI {
         }
     }
 
-    private void parseWeatherData(String json) {
+    private void parseWeatherData( String json ) {
         try {
             Pattern speedPattern = Pattern.compile("\"wnd_spd\"\\s*:\\s*([0-9.]+)");
             Pattern dirPattern = Pattern.compile("\"wnd_dir\"\\s*:\\s*\"([A-Z]+)\"");
@@ -74,7 +74,7 @@ public class PrevisionMeteoAPI {
         }
     }
 
-    private double cardinalToDegrees(String dir) {
+    private double cardinalToDegrees( String dir ) {
         return switch (dir.toUpperCase()) {
             case "N" -> 0;
             case "NE" -> 45;
