@@ -10,12 +10,11 @@ public class ClassicMapBuilderTest {
         IWind wind = new ConcreteWind(new WeatherAPI());
         ConcreteWaterPlan plan = new ConcreteWaterPlan(1000, 800, wind);
         ConcreteCoast coast = new ConcreteCoast(1, 2, 3, 4);
-        ConcreteBuoy buoy = new ConcreteBuoy(5, 6);
+        ConcreteBuoy buoy = new ConcreteBuoy(5, 6,0);
 
 
         IMap map = new ClassicMapBuilder().addWaterPlan(plan).addCoast(coast).addBuoy(buoy).build();
 
-        // Vérifications simples
         assertNotNull(map);
         assertEquals(plan, map.getWaterPlan());
         assertEquals(1, map.getCoasts().size());

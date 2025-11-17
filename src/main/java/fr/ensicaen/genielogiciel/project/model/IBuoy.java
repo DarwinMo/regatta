@@ -1,7 +1,7 @@
 package fr.ensicaen.genielogiciel.project.model;
 
 public interface IBuoy {
-    double getX();
+    double get_x();
 
-    double getY();
+    double get_y();
 }
