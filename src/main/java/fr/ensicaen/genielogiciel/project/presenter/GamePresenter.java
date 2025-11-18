@@ -1,5 +1,7 @@
 package fr.ensicaen.genielogiciel.project.presenter;
 
+import java.io.IOException;
+
 // Remarque : l'animation n'est pas considérée comme étant du graphisme à proprement parlé.
 // On peut la considérer comme une bibliothèque tiers de gestion de threading.
 // On peut donc l'utiliser dans le presenter.
@@ -14,8 +16,6 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
-
-import java.io.IOException;
 
 public final class GamePresenter {
     private final PlayerModel _playerModel;
@@ -75,9 +75,9 @@ public final class GamePresenter {
     private void runGameLoop() {
         _timeline = new Timeline(new KeyFrame(
                 Duration.millis(50), onFinished -> {
-            update();
-            render();
-        }
+                    update();
+                    render();
+                }
         ));
         _timeline.setCycleCount(Animation.INDEFINITE);
         _timeline.play();
@@ -93,7 +93,8 @@ public final class GamePresenter {
 
     private void render() {
         _gameView.update(_boatModel.get_dx(), _boatModel.get_dy(), _boatModel.get_angle());
-        _gameView.updateDashboard(90, _boatModel.get_angle(), _boatModel.get_speed(), Timeline.INDEFINITE);
+        // The minus signal is because wind angle is clock-wise oriented
+        _gameView.updateDashboard(-_boatModel.get_windAngle(), _boatModel.get_angle(), _boatModel.get_speed(), Timeline.INDEFINITE);
 
     }
 

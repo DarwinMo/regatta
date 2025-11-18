@@ -5,5 +5,5 @@ public interface IGameView {
 
     void update( double dx, double dy, double angle );
 
-    void updateDashboard( double windDir, double heading, double speed, double time );
+    void updateDashboard( double windDir, double boatDir, double speed, double time );
 }

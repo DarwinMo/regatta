@@ -6,7 +6,6 @@ import fr.ensicaen.genielogiciel.project.Main;
 import fr.ensicaen.genielogiciel.project.presenter.GamePresenter;
 import fr.ensicaen.genielogiciel.project.presenter.IGameView;
 import fr.ensicaen.genielogiciel.project.presenter.UserAction;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -20,7 +19,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 
@@ -113,8 +111,7 @@ public final class GameView implements IGameView {
 
         public static GameView createView() throws IOException {
             FXMLLoader loader = new FXMLLoader(
-                    LoginView.class.getResource("SpotMap.fxml"),
-                    Main.getMessageBundle()
+                    LoginView.class.getResource("SpotMap.fxml"), Main.getMessageBundle()
             );
 
             Parent root = loader.load();
@@ -142,26 +139,24 @@ public final class GameView implements IGameView {
     @FXML
     private void initialize() {
         windIcon.setImage(new Image(
-                getClass().getResource("/fr/ensicaen/genielogiciel/project/images/wind.png").toExternalForm(),
-                18, 18, true, true
+                getClass().getResource("/fr/ensicaen/genielogiciel/project/images/wind.png").toExternalForm(), 18, 18, true, true
         ));
         headingIcon.setImage(new Image(
-                getClass().getResource("/fr/ensicaen/genielogiciel/project/images/heading.png").toExternalForm(),
-                18, 18, true, true
+                getClass().getResource("/fr/ensicaen/genielogiciel/project/images/heading.png").toExternalForm(), 18, 18, true, true
         ));
         windArrow.setImage(new Image(
                 getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowRight.png").toExternalForm()
         ));
 
         headingArrow.setImage(new Image(
-                getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowRight.png").toExternalForm()
+                getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowUp.png").toExternalForm()
         ));
 
     }
 
-    public void updateDashboard( double windDir, double heading, double speed, double time ) {
-        windArrow.setRotate(90);
-        headingArrow.setRotate(90);
+    public void updateDashboard( double windDir, double boatDir, double speed, double time ) {
+        windArrow.setRotate(windDir);
+        headingArrow.setRotate(boatDir);
         speedLabel.setText(String.format("%.1f", speed));
         timeLabel.setText(String.format("%.1f s", time));
     }
