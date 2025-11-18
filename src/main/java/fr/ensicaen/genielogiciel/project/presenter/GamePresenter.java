@@ -3,6 +3,7 @@ package fr.ensicaen.genielogiciel.project.presenter;
 // Remarque : l'animation n'est pas considérée comme étant du graphisme à proprement parlé.
 // On peut la considérer comme une bibliothèque tiers de gestion de threading.
 // On peut donc l'utiliser dans le presenter.
+
 import fr.ensicaen.genielogiciel.project.model.FigaroFactory;
 import fr.ensicaen.genielogiciel.project.model.IBoat;
 import fr.ensicaen.genielogiciel.project.model.MediumSail;
@@ -72,10 +73,12 @@ public final class GamePresenter {
     }
 
     private void runGameLoop() {
-        _timeline = new Timeline(new KeyFrame(Duration.millis(50), onFinished -> {
+        _timeline = new Timeline(new KeyFrame(
+                Duration.millis(50), onFinished -> {
             update();
             render();
-        }));
+        }
+        ));
         _timeline.setCycleCount(Animation.INDEFINITE);
         _timeline.play();
     }
@@ -90,5 +93,8 @@ public final class GamePresenter {
 
     private void render() {
         _gameView.update(_boatModel.get_dx(), _boatModel.get_dy(), _boatModel.get_angle());
+        _gameView.updateDashboard(90, _boatModel.get_angle(), _boatModel.get_speed(), Timeline.INDEFINITE);
+
     }
+
 }

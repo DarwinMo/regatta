@@ -6,11 +6,16 @@ import fr.ensicaen.genielogiciel.project.Main;
 import fr.ensicaen.genielogiciel.project.presenter.GamePresenter;
 import fr.ensicaen.genielogiciel.project.presenter.IGameView;
 import fr.ensicaen.genielogiciel.project.presenter.UserAction;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -20,18 +25,39 @@ import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 
 public final class GameView implements IGameView {
+
     private static Stage _stage;
     private GamePresenter _gamePresenter;
     private Ellipse _boat;
-    private Circle _buoy1;
-    private Circle _buoy2;
-    private Circle _buoy3;
+
+    @FXML
+    private Button pauseButton;
     @FXML
     private AnchorPane _base;
+
+    @FXML
+    private ImageView windIcon;
+
+    @FXML
+    private ImageView headingIcon;
+
+    @FXML
+    private Label timeLabel;
+
+    @FXML
+    private Label speedLabel;
+
+    @FXML
+    private ImageView windArrow;
+
+    @FXML
+    private ImageView headingArrow;
+
 
     public void setGamePresenter( GamePresenter gamePresenter ) {
         _gamePresenter = gamePresenter;
     }
+
 
     public void rotate( Ellipse boat, double val ) {
         boat.setRotate(val);
@@ -51,16 +77,6 @@ public final class GameView implements IGameView {
         return boat;
     }
 
-    public Circle drawBuoy( double x, double y, double radius ) {
-        Circle buoy = new Circle(x, y, radius);
-        buoy.setFill(Color.TRANSPARENT);
-        buoy.setStroke(Color.RED);
-        buoy.setStrokeWidth(6);
-        _base.getChildren().add(buoy);
-        return buoy;
-    }
-
-
     public void move( Ellipse boat, double dx, double dy ) {
         boat.setLayoutX(boat.getLayoutX() + dx);
         boat.setLayoutY(boat.getLayoutY() + dy);
@@ -79,17 +95,6 @@ public final class GameView implements IGameView {
         _boat = drawBoat(x, y, 6, 16);
     }
 
-
-    public void addBuoys() {
-        double radius = 13;
-
-        _buoy1 = drawBuoy(200, 100, radius);
-        _buoy2 = drawBuoy(2 * _base.getWidth() - 100, 500, radius);
-        _buoy3 = drawBuoy(_base.getWidth() / 2, _base.getHeight() - 120, radius);
-
-    }
-
-
     private void handleKeyPressed( KeyCode code ) {
         if (code == KeyCode.SPACE) {
             _gamePresenter.handleUserAction(UserAction.START);
@@ -100,30 +105,66 @@ public final class GameView implements IGameView {
         } else if (code == KeyCode.ESCAPE) {
             _gamePresenter.handleUserAction(UserAction.PAUSE);
         }
-
     }
 
     public static final class GameViewFactory {
         private GameViewFactory() {
-            // Factory class as Utility class where the constructor is private
         }
 
         public static GameView createView() throws IOException {
-            final FXMLLoader loader = new FXMLLoader(LoginView.class.getResource("SpotMap.fxml"), Main.getMessageBundle());
-            final Parent root = loader.load();
-            final GameView view = loader.getController();
-            final Scene scene = new Scene(root, 800, 600);
-            final Stage stage = new Stage();
+            FXMLLoader loader = new FXMLLoader(
+                    LoginView.class.getResource("SpotMap.fxml"),
+                    Main.getMessageBundle()
+            );
+
+            Parent root = loader.load();
+            GameView view = loader.getController();
+
+            Scene scene = new Scene(root, 800, 600);
+            Stage stage = new Stage();
             stage.setTitle(Main.getMessageBundle().getString("project.title"));
             stage.setScene(scene);
+            stage.show();
+            root.requestFocus();
             stage.setMaximized(true);
             _stage = stage;
-            scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
-                final KeyCode code = event.getCode();
-                view.handleKeyPressed(code);
-            });
-            view.addBuoys();
+
+            scene.addEventHandler(
+                    KeyEvent.KEY_PRESSED, event -> {
+                        view.handleKeyPressed(event.getCode());
+                    }
+            );
+
             return view;
         }
     }
+
+    @FXML
+    private void initialize() {
+        windIcon.setImage(new Image(
+                getClass().getResource("/fr/ensicaen/genielogiciel/project/images/wind.png").toExternalForm(),
+                18, 18, true, true
+        ));
+        headingIcon.setImage(new Image(
+                getClass().getResource("/fr/ensicaen/genielogiciel/project/images/heading.png").toExternalForm(),
+                18, 18, true, true
+        ));
+        windArrow.setImage(new Image(
+                getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowRight.png").toExternalForm()
+        ));
+
+        headingArrow.setImage(new Image(
+                getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowRight.png").toExternalForm()
+        ));
+
+    }
+
+    public void updateDashboard( double windDir, double heading, double speed, double time ) {
+        windArrow.setRotate(90);
+        headingArrow.setRotate(90);
+        speedLabel.setText(String.format("%.1f", speed));
+        timeLabel.setText(String.format("%.1f s", time));
+    }
+
+
 }

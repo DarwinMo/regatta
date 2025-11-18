@@ -20,8 +20,11 @@ public final class LoginPresenter {
             try {
                 final GameView view = GameView.GameViewFactory.createView();
                 final GamePresenter gamePresenter = new GamePresenter(nickName);
+
+
                 view.setGamePresenter(gamePresenter);
                 gamePresenter.setGameView(view);
+
                 view.show();
             } catch (IOException e) {
                 e.printStackTrace();
