@@ -53,14 +53,16 @@
         </HBox>
 
 
-        <HBox spacing="6" alignment="CENTER_LEFT"
+        <HBox spacing="6" alignment="BOTTOM_LEFT"
               AnchorPane.leftAnchor="20"
               AnchorPane.bottomAnchor="30">
             <Label fx:id="speedLabel"
-                   text="3.2"
+                   text="0"
+                   prefHeight="48"
                    style="-fx-text-fill: white; -fx-font-size: 48;"/>
-            <Label
+            <Label  
                     text="kt"
+                    prefHeight="48"
                     style="-fx-text-fill: white; -fx-font-size: 24;"/>
         </HBox>
     </VBox>
