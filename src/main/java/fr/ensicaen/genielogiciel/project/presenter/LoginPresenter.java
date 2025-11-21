@@ -7,6 +7,7 @@ import fr.ensicaen.genielogiciel.project.view.GameView;
 import fr.ensicaen.genielogiciel.project.view.LoginView;
 
 import java.io.IOException;
+import java.util.Locale;
 
 public final class LoginPresenter {
     private ILoginView _loginView;
@@ -31,4 +32,5 @@ public final class LoginPresenter {
             _loginView.close();
         }
     }
+
 }
