@@ -26,7 +26,7 @@ public class ConcreteGamePresenter implements Ipresenter {
     private Timeline _timeline;
     private final TimeScore _timeScore = new TimeScore();
 
-    public ConcreteGamePresenter( String nickName, CrewType crewType, SailType sailType ) throws IOException {
+    public ConcreteGamePresenter(String nickName, CrewType crewType, SailType sailType) throws IOException {
 
         _player = new PlayerModel();
         _player.setNickname(nickName);
@@ -41,7 +41,7 @@ public class ConcreteGamePresenter implements Ipresenter {
         _boatDirectionManager = new BoatDirectionManager(_boat, _rotationAngle);
     }
 
-    public void setGameView( GameView gameView ) {
+    public void setGameView(GameView gameView) {
         _gameView = gameView;
         _gameView.addBoat(_boat.get_x(), _boat.get_y());
         for (IBuoy buoy : _map.getBuoys()) {
@@ -52,7 +52,7 @@ public class ConcreteGamePresenter implements Ipresenter {
         }
     }
 
-    public void handleUserAction( UserAction code ) {
+    public void handleUserAction(UserAction code) {
         if (code == UserAction.START) {
             startGame();
         } else {
@@ -68,7 +68,7 @@ public class ConcreteGamePresenter implements Ipresenter {
         }
     }
 
-    private void changeDirection( UserAction action ) {
+    private void changeDirection(UserAction action) {
         if (action == UserAction.LEFT) {
             _boatDirectionManager.goLeft();
         } else if (action == UserAction.RIGHT) {
@@ -76,7 +76,7 @@ public class ConcreteGamePresenter implements Ipresenter {
         }
     }
 
-    private void initGame( CrewType crewType, SailType sailType ) throws IOException {
+    private void initGame(CrewType crewType, SailType sailType) throws IOException {
         _boat = new FigaroFactory(_getDecoratorSail(sailType), _getDecoratorEquipment(crewType)).createBoat();
         // temporary this needs to be replaced by a file configuration and default map with rand
         _wind = new ConcreteWind(new WeatherAPI());
@@ -88,14 +88,14 @@ public class ConcreteGamePresenter implements Ipresenter {
         _map = new ClassicMapBuilder().addWaterPlan(plan).addCoast(coast).addBuoy(buoy1).addBuoy(buoy2).addBuoy(buoy3).build();
     }
 
-    private IDecoratorSail _getDecoratorSail( SailType sailType ) {
+    private IDecoratorSail _getDecoratorSail(SailType sailType) {
         if (sailType == SailType.MEDIUM) {
             return new MediumSail();
         }
         return new LargeSail();
     }
 
-    private IDecoratorEquipment _getDecoratorEquipment( CrewType crewType ) {
+    private IDecoratorEquipment _getDecoratorEquipment(CrewType crewType) {
         if (crewType == CrewType.SINGLE) {
             return new SingleCrew();
         }
