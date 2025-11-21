@@ -1,10 +1,12 @@
 package fr.ensicaen.genielogiciel.project.view;
 
+import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.ensicaen.genielogiciel.project.Main;
 import fr.ensicaen.genielogiciel.project.presenter.ConcreteGamePresenter;
-import fr.ensicaen.genielogiciel.project.presenter.GamePresenter;
 import fr.ensicaen.genielogiciel.project.presenter.UserAction;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,6 +21,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 
@@ -51,6 +54,8 @@ public final class GameView implements IGameView {
     @FXML
     private ImageView headingArrow;
 
+
+    private List<ImageView> buoys = new ArrayList<>();
 
     public void setGamePresenter( ConcreteGamePresenter gamePresenter ) {
         _gamePresenter = gamePresenter;
@@ -154,17 +159,33 @@ public final class GameView implements IGameView {
 
     }
 
-    public void updateDashboard( double windDir, double boatDir, double speed, double time ) {
+    public void updateDashboard( double windDir, double boatDir, double speed, String time ) {
         windArrow.setRotate(windDir);
         headingArrow.setRotate(boatDir);
         speedLabel.setText(String.format("%.1f", speed));
-        timeLabel.setText(String.format("%.1f s", time));
+        timeLabel.setText(time);
     }
+
 
     @Override
     public void addBuoys( double x, double y ) {
+        ImageView buoy = new ImageView(
+                new Image(getClass().getResource(
+                        "/fr/ensicaen/genielogiciel/project/images/buoy.png").toExternalForm())
+        );
 
+        buoy.setFitWidth(32);
+        buoy.setFitHeight(32);
+        buoy.setPreserveRatio(true);
+
+        buoy.setLayoutX(x);
+        buoy.setLayoutY(y);
+
+        _base.getChildren().add(buoy);
+
+        buoys.add(buoy);
     }
+
 
     @Override
     public void addCoast( double start_x, double start_y, double end_x, double end_y ) {

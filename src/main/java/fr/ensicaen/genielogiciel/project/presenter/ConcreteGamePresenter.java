@@ -24,6 +24,7 @@ public class ConcreteGamePresenter implements Ipresenter {
     private IGameView _gameView;
     private boolean _started = false;
     private Timeline _timeline;
+    private final TimeScore _timeScore = new TimeScore();
 
     public ConcreteGamePresenter( String nickName, CrewType crewType, SailType sailType ) throws IOException {
 
@@ -62,6 +63,7 @@ public class ConcreteGamePresenter implements Ipresenter {
     private void startGame() {
         if (!_started) {
             _started = true;
+            _timeScore.start();
             runGameLoop();
         }
     }
@@ -80,8 +82,10 @@ public class ConcreteGamePresenter implements Ipresenter {
         _wind = new ConcreteWind(new WeatherAPI());
         ConcreteWaterPlan plan = new ConcreteWaterPlan(1000, 800, _wind);
         ConcreteCoast coast = new ConcreteCoast(1, 2, 3, 4);
-        ConcreteBuoy buoy = new ConcreteBuoy(5, 6);
-        _map = new ClassicMapBuilder().addWaterPlan(plan).addCoast(coast).addBuoy(buoy).build();
+        ConcreteBuoy buoy1 = new ConcreteBuoy(30, 30);
+        ConcreteBuoy buoy2 = new ConcreteBuoy(300, 120);
+        ConcreteBuoy buoy3 = new ConcreteBuoy(600, 400);
+        _map = new ClassicMapBuilder().addWaterPlan(plan).addCoast(coast).addBuoy(buoy1).addBuoy(buoy2).addBuoy(buoy3).build();
     }
 
     private IDecoratorSail _getDecoratorSail( SailType sailType ) {
@@ -136,7 +140,8 @@ public class ConcreteGamePresenter implements Ipresenter {
 
     private void render() {
         _gameView.update(_boat.get_dx(), _boat.get_dy(), _boat.get_angle());
-        _gameView.updateDashboard(_wind.getWindDirection(), _boat.get_angle(), _boat.get_speed(), Timeline.INDEFINITE);
+        String liveTime = _timeScore.getFormattedCurrentTime();
+        _gameView.updateDashboard(_wind.getWindDirection(), _boat.get_angle(), _boat.get_speed(), liveTime);
 
     }
 

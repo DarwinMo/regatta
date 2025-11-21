@@ -8,7 +8,7 @@ public interface IGameView {
 
     void update( double dx, double dy, double angle );
 
-    void updateDashboard( double windDir, double boatDir, double speed, double time );
+    void updateDashboard( double windDir, double boatDir, double speed, String time );
 
     void addBuoys( double x, double y );
 
