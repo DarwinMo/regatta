@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import fr.ensicaen.genielogiciel.project.Main;
 import fr.ensicaen.genielogiciel.project.presenter.GamePresenter;
-import fr.ensicaen.genielogiciel.project.presenter.IGameView;
 import fr.ensicaen.genielogiciel.project.presenter.UserAction;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

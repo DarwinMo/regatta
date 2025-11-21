@@ -12,6 +12,7 @@ import fr.ensicaen.genielogiciel.project.model.MediumSail;
 import fr.ensicaen.genielogiciel.project.model.PlayerModel;
 import fr.ensicaen.genielogiciel.project.model.SingleCrew;
 import fr.ensicaen.genielogiciel.project.model.WeatherAPI;
+import fr.ensicaen.genielogiciel.project.view.IGameView;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -75,9 +76,9 @@ public final class GamePresenter {
     private void runGameLoop() {
         _timeline = new Timeline(new KeyFrame(
                 Duration.millis(50), onFinished -> {
-                    update();
-                    render();
-                }
+            update();
+            render();
+        }
         ));
         _timeline.setCycleCount(Animation.INDEFINITE);
         _timeline.play();

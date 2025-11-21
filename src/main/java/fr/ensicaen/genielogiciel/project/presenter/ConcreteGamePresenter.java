@@ -2,6 +2,7 @@ package fr.ensicaen.genielogiciel.project.presenter;
 
 import fr.ensicaen.genielogiciel.project.model.ConcreteGame;
 import fr.ensicaen.genielogiciel.project.model.IGame;
+import fr.ensicaen.genielogiciel.project.view.IGameView;
 
 public class ConcreteGamePresenter implements Ipresenter {
     private IGame _game;

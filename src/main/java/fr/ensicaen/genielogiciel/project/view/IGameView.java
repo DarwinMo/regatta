@@ -1,4 +1,4 @@
-package fr.ensicaen.genielogiciel.project.presenter;
+package fr.ensicaen.genielogiciel.project.view;
 
 public interface IGameView {
     void addBoat( double x, double y );
@@ -6,4 +6,6 @@ public interface IGameView {
     void update( double dx, double dy, double angle );
 
     void updateDashboard( double windDir, double boatDir, double speed, double time );
+
+
 }
