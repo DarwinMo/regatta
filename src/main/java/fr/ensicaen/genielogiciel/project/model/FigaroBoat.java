@@ -13,19 +13,23 @@ public class FigaroBoat implements IBoat {
     private double _speed = 0;
     private double _windAngle = 0;
     private double _windSpeed = 0;
+    private double _targetSpeed = 0;
     private IDecoratorSail _sail;
     private IDecoratorEquipment _crew;
     private PolarTable _polarTable;
 
+    private static final double ACCELERATION_FACTOR = 0.15;
+    private static final double DECELERATION_FACTOR = 0.10;
+    private static final String POLAR = "/fr/ensicaen/genielogiciel/project/model/polaire-figaro.pol";
 
-    public FigaroBoat( IDecoratorSail sail, IDecoratorEquipment crew ) throws IOException {
+    public FigaroBoat( IDecoratorSail sail, IDecoratorEquipment crew ) {
         _sail = sail;
         _crew = crew;
-        InputStream test = getClass().getResourceAsStream("/fr/ensicaen/genielogiciel/project/model/polaire-figaro.pol");
+        InputStream test = getClass().getResourceAsStream(POLAR);
         System.out.println("Test resource = " + (test == null ? "NOT FOUND" : "OK"));
 
         try {
-            _polarTable = new PolarTable("/fr/ensicaen/genielogiciel/project/model/polaire-figaro.pol");
+            _polarTable = new PolarTable(POLAR);
         } catch (IOException e) {
             System.err.println("[WARNING] Impossible de charger la table polaire : " + e.getMessage());
             _polarTable = null;
@@ -103,6 +107,11 @@ public class FigaroBoat implements IBoat {
     }
 
     @Override
+    public boolean hasCrossedFinishLine() {
+        return false;
+    }
+
+    @Override
     public void trim() {
         int diff = (int) (_windAngle - _angle);
         if (Math.abs(diff) > 5) rotate((diff > 0) ? 2 : -2);
@@ -129,15 +138,17 @@ public class FigaroBoat implements IBoat {
         if (_sail != null) polarSpeed = _sail.adjustSpeed(polarSpeed, adjustedAngle);
         if (_crew != null) polarSpeed = _crew.adjustSpeed(polarSpeed, adjustedAngle);
 
-        _speed = polarSpeed;
+        _targetSpeed = polarSpeed;
 
         System.out.printf(
-                "[POLAR] Wind=%.1fkn | Angle=%.1f° | Speed=%.2f%n", _windSpeed, adjustedAngle, _speed
+                "Angle=%.1f° | Speed=%.2f%n", adjustedAngle, _speed
         );
     }
 
     @Override
     public void applyWind() {
+        double factor = (_targetSpeed > _speed) ? ACCELERATION_FACTOR : DECELERATION_FACTOR;
+        _speed += factor * (_targetSpeed - _speed);
         _dx = Math.sin(Math.toRadians(_angle)) * _speed;
         _dy = -Math.cos(Math.toRadians(_angle)) * _speed;
         _x += _dx;

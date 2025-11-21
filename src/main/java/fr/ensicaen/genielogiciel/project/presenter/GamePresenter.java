@@ -1,22 +1,14 @@
 package fr.ensicaen.genielogiciel.project.presenter;
 
-import java.io.IOException;
 
-// Remarque : l'animation n'est pas considérée comme étant du graphisme à proprement parlé.
-// On peut la considérer comme une bibliothèque tiers de gestion de threading.
-// On peut donc l'utiliser dans le presenter.
-
-import fr.ensicaen.genielogiciel.project.model.FigaroFactory;
-import fr.ensicaen.genielogiciel.project.model.IBoat;
-import fr.ensicaen.genielogiciel.project.model.MediumSail;
-import fr.ensicaen.genielogiciel.project.model.PlayerModel;
-import fr.ensicaen.genielogiciel.project.model.SingleCrew;
-import fr.ensicaen.genielogiciel.project.model.WeatherAPI;
+import fr.ensicaen.genielogiciel.project.model.*;
 import fr.ensicaen.genielogiciel.project.view.IGameView;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+
+import java.io.IOException;
 
 public final class GamePresenter {
     private final PlayerModel _playerModel;
@@ -70,7 +62,7 @@ public final class GamePresenter {
     }
 
     private void initGame() throws IOException {
-        _boatModel = new FigaroFactory(new MediumSail(), new SingleCrew()).createFigaro();
+        _boatModel = new Oceanis37Factory(new MediumSail(), new SingleCrew()).createBoat();
     }
 
     private void runGameLoop() {
@@ -94,9 +86,7 @@ public final class GamePresenter {
 
     private void render() {
         _gameView.update(_boatModel.get_dx(), _boatModel.get_dy(), _boatModel.get_angle());
-        // The minus signal is because wind angle is clock-wise oriented
-        _gameView.updateDashboard(-_boatModel.get_windAngle(), _boatModel.get_angle(), _boatModel.get_speed(), Timeline.INDEFINITE);
+        _gameView.updateDashboard(_windDirection, _boatModel.get_angle(), _boatModel.get_speed(), Timeline.INDEFINITE);
 
     }
-
 }

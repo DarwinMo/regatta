@@ -1,6 +1,8 @@
 package fr.ensicaen.genielogiciel.project.presenter;
 
 import fr.ensicaen.genielogiciel.project.Main;
+import fr.ensicaen.genielogiciel.project.model.DoubleCrew;
+import fr.ensicaen.genielogiciel.project.model.LargeSail;
 import fr.ensicaen.genielogiciel.project.view.GameView;
 import fr.ensicaen.genielogiciel.project.view.LoginView;
 
@@ -19,12 +21,9 @@ public final class LoginPresenter {
         } else {
             try {
                 final GameView view = GameView.GameViewFactory.createView();
-                final GamePresenter gamePresenter = new GamePresenter(nickName);
-
-
+                final ConcreteGamePresenter gamePresenter = new ConcreteGamePresenter(nickName, CrewType.DOUBLE, SailType.LARGE);
                 view.setGamePresenter(gamePresenter);
                 gamePresenter.setGameView(view);
-
                 view.show();
             } catch (IOException e) {
                 e.printStackTrace();

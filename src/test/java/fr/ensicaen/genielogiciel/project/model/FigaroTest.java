@@ -2,9 +2,7 @@ package fr.ensicaen.genielogiciel.project.model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.io.IOException;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class FigaroTest {
@@ -13,7 +11,7 @@ public class FigaroTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        boat = new FigaroFactory(new MediumSail(), new SingleCrew()).createFigaro();
+        boat = new FigaroFactory(new MediumSail(), new SingleCrew()).createBoat();
         boat.set_windAngle(90);
         boat.set_windSpeed(10);
         boat.set_angle(0);
@@ -24,7 +22,7 @@ public class FigaroTest {
         assertEquals(580, boat.get_x(), 0.001);
         assertEquals(480, boat.get_y(), 0.001);
         assertEquals(0, boat.get_angle());
-        assertEquals(0, boat.get_speed());
+        assertEquals(0, boat.get_speed(), 0.001);
     }
 
     @Test
@@ -44,9 +42,17 @@ public class FigaroTest {
     }
 
     @Test
-    void testAccelerateIncreasesSpeed() {
+    void testAccelerateWithInertia() {
         boat.accelerate();
-        assertTrue(boat.get_speed() > 0, "Speed should increase after acceleration");
+        double speedBefore = boat.get_speed();
+
+        boat.applyWind();
+        boat.applyWind();
+        boat.applyWind();
+
+        double speedAfter = boat.get_speed();
+        assertTrue(speedAfter > speedBefore, "Speed should increase gradually with inertia");
+        assertTrue(speedAfter < boat.get_windSpeed(), "Speed should not instantly reach max wind speed due to inertia");
     }
 
     @Test
@@ -62,25 +68,60 @@ public class FigaroTest {
     void testCrewInfluence() {
         boat.set_crew(new SingleCrew());
         boat.accelerate();
+        boat.applyWind();
+        boat.applyWind();
         double speedOneCrew = boat.get_speed();
 
         boat.set_crew(new DoubleCrew());
         boat.accelerate();
+        boat.applyWind();
+        boat.applyWind();
         double speedTwoCrew = boat.get_speed();
 
-        assertTrue(speedTwoCrew != speedOneCrew, "Crew number should influence speed");
+        assertNotEquals(speedOneCrew, speedTwoCrew, "Crew number should influence speed");
     }
 
     @Test
     void testSailSizeInfluence() {
         boat.set_sail(new MediumSail());
         boat.accelerate();
+        boat.applyWind();
+        boat.applyWind();
         double speedMediumSail = boat.get_speed();
 
         boat.set_sail(new LargeSail());
         boat.accelerate();
+        boat.applyWind();
+        boat.applyWind();
         double speedLargeSail = boat.get_speed();
 
-        assertTrue(speedMediumSail != speedLargeSail, "Sail size should influence speed");
+        assertNotEquals(speedMediumSail, speedLargeSail, "Sail size should influence speed");
     }
+
+    @Test
+    void testInertiaDecayWhenNoWind() throws IOException {
+        boat = new FigaroFactory(new MediumSail(), new SingleCrew()).createBoat();
+        boat.set_windSpeed(10);
+        boat.set_windAngle(90);
+        boat.accelerate();
+
+        // On laisse le bateau atteindre une vitesse cible
+        for (int i = 0; i < 10; i++) {
+            boat.applyWind();
+        }
+
+        double initialSpeed = boat.get_speed();
+
+        boat.set_windSpeed(0);
+        boat.accelerate();
+
+        for (int i = 0; i < 10; i++) {
+            boat.applyWind();
+        }
+
+        double reducedSpeed = boat.get_speed();
+
+        assertTrue(reducedSpeed < initialSpeed && reducedSpeed > 0, "Speed should decay when wind speed drops due to inertia");
+    }
+
 }
