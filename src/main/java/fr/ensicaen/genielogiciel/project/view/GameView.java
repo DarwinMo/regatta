@@ -82,6 +82,16 @@ public final class GameView implements IGameView {
         _boat = drawBoat(x, y, 6, 16);
     }
 
+    @Override
+    public void addBuoys( double x, double y ) {
+
+    }
+
+    @Override
+    public void addCoast( double s_x, double s_y, double e_x, double e_y ) {
+
+    }
+
 
     public void addBuoys() {
         double radius = 13;

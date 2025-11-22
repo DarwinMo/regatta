@@ -78,6 +78,11 @@ class ConcreteCoastTest {
         }
 
         @Override
+        public boolean hasCrossedFinishLine() {
+            return false;
+        }
+
+        @Override
         public void trim() {
         }
 
