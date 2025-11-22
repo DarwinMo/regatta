@@ -59,6 +59,7 @@ public class TimeScore {
         return String.format("%02d:%02d:%03d", minutes, seconds, milliseconds);
     }
 
+
     public boolean isRunning() {
         return isRunning;
     }
@@ -71,4 +72,20 @@ public class TimeScore {
     }
 
 
+    public long getCurrentTime() {
+        if (!isRunning) {
+            return totalTime;
+        }
+        return totalTime + (System.currentTimeMillis() - startTime);
+    }
+
+    public String getFormattedCurrentTime() {
+        long t = getCurrentTime();
+        long minutes = (t / 60000) % 60;
+        long seconds = (t / 1000) % 60;
+        long milliseconds = t % 1000;
+
+        return String.format("%02d:%02d:%03d", minutes, seconds, milliseconds);
+
+    }
 }

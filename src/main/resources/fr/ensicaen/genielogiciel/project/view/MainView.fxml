@@ -13,6 +13,7 @@
             <Menu text="%menu.file">
                 <MenuItem text="%project.bye" onAction="#onQuit"/>
             </Menu>
+            
         </MenuBar>
     </top>
     <center>

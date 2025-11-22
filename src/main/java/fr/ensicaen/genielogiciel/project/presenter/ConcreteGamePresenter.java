@@ -1,12 +1,13 @@
 package fr.ensicaen.genielogiciel.project.presenter;
 
 import fr.ensicaen.genielogiciel.project.model.*;
+import fr.ensicaen.genielogiciel.project.view.GameView;
+import fr.ensicaen.genielogiciel.project.view.IGameView;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-import java.awt.*;
 import java.io.IOException;
 
 public class ConcreteGamePresenter implements Ipresenter {
@@ -23,13 +24,11 @@ public class ConcreteGamePresenter implements Ipresenter {
     private IGameView _gameView;
     private boolean _started = false;
     private Timeline _timeline;
+    private final TimeScore _timeScore = new TimeScore();
 
     public ConcreteGamePresenter( String nickName, CrewType crewType, SailType sailType ) throws IOException {
-
         _player = new PlayerModel();
         _player.setNickname(nickName);
-
-
         try {
             initGame(crewType, sailType);
         } catch (IOException e) {
@@ -39,7 +38,7 @@ public class ConcreteGamePresenter implements Ipresenter {
         _boatDirectionManager = new BoatDirectionManager(_boat, _rotationAngle);
     }
 
-    public void setGameView( IGameView gameView ) {
+    public void setGameView( GameView gameView ) {
         _gameView = gameView;
         _gameView.addBoat(_boat.get_x(), _boat.get_y());
         for (IBuoy buoy : _map.getBuoys()) {
@@ -61,6 +60,7 @@ public class ConcreteGamePresenter implements Ipresenter {
     private void startGame() {
         if (!_started) {
             _started = true;
+            _timeScore.start();
             runGameLoop();
         }
     }
@@ -79,8 +79,10 @@ public class ConcreteGamePresenter implements Ipresenter {
         _wind = new ConcreteWind(new WeatherAPI());
         ConcreteWaterPlan plan = new ConcreteWaterPlan(1000, 800, _wind);
         ConcreteCoast coast = new ConcreteCoast(1, 2, 3, 4);
-        ConcreteBuoy buoy = new ConcreteBuoy(5, 6);
-        _map = new ClassicMapBuilder().addWaterPlan(plan).addCoast(coast).addBuoy(buoy).build();
+        ConcreteBuoy buoy1 = new ConcreteBuoy(30, 30);
+        ConcreteBuoy buoy2 = new ConcreteBuoy(300, 120);
+        ConcreteBuoy buoy3 = new ConcreteBuoy(600, 400);
+        _map = new ClassicMapBuilder().addWaterPlan(plan).addCoast(coast).addBuoy(buoy1).addBuoy(buoy2).addBuoy(buoy3).build();
     }
 
     private IDecoratorSail _getDecoratorSail( SailType sailType ) {
@@ -98,10 +100,12 @@ public class ConcreteGamePresenter implements Ipresenter {
     }
 
     private void runGameLoop() {
-        _timeline = new Timeline(new KeyFrame(Duration.millis(50), onFinished -> {
-            update();
-            render();
-        }));
+        _timeline = new Timeline(new KeyFrame(
+                Duration.millis(50), onFinished -> {
+                    update();
+                    render();
+                }
+        ));
         _timeline.setCycleCount(Animation.INDEFINITE);
         _timeline.play();
     }
@@ -133,6 +137,8 @@ public class ConcreteGamePresenter implements Ipresenter {
 
     private void render() {
         _gameView.update(_boat.get_dx(), _boat.get_dy(), _boat.get_angle());
+        String liveTime = _timeScore.getFormattedCurrentTime();
+        _gameView.updateDashboard(_wind.getWindDirection(), _boat.get_angle(), _boat.get_speed(), liveTime);
     }
 
 }
