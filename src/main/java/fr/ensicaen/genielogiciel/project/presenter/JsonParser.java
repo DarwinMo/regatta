@@ -10,9 +10,14 @@ public class JsonParser implements IParser {
 
     @Override
     public IMap loadGame( String filePath ) {
+        if (filePath == null) {
+            return null;
+        }
         ObjectMapper mapper = new ObjectMapper();
-        IMapBuilder mapBuilder = new ClassicMapBuilder();
+        IMapBuilder mapBuilder;
         try {
+            mapBuilder = new ClassicMapBuilder();
+
             JsonNode root = mapper.readTree(new File(filePath));
 
             JsonNode boat = root.get("boat");
@@ -45,9 +50,11 @@ public class JsonParser implements IParser {
                 }
             }
 
+            return mapBuilder.build();
+
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        return mapBuilder.build();
     }
 }
