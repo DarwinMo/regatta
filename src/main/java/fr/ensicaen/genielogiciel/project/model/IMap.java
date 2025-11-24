@@ -3,6 +3,7 @@ package fr.ensicaen.genielogiciel.project.model;
 import java.util.List;
 
 public interface IMap {
+
     IWaterPlan getWaterPlan();
 
     List<ICoast> getCoasts();

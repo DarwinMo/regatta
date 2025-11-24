@@ -75,14 +75,8 @@ public class ConcreteGamePresenter implements Ipresenter {
 
     private void initGame( CrewType crewType, SailType sailType ) throws IOException {
         _boat = new FigaroFactory(_getDecoratorSail(sailType), _getDecoratorEquipment(crewType)).createBoat(450, 450);
-        // temporary this needs to be replaced by a file configuration and default map with rand
-        _wind = new ConcreteWind(new WeatherAPI());
-        ConcreteWaterPlan plan = new ConcreteWaterPlan(1000, 800, _wind);
-        ConcreteCoast coast = new ConcreteCoast(1, 2, 3, 4);
-        ConcreteBuoy buoy1 = new ConcreteBuoy(30, 30);
-        ConcreteBuoy buoy2 = new ConcreteBuoy(300, 120);
-        ConcreteBuoy buoy3 = new ConcreteBuoy(600, 400);
-        _map = new ClassicMapBuilder().addWaterPlan(plan).addCoast(coast).addBuoy(buoy1).addBuoy(buoy2).addBuoy(buoy3).build();
+        _map = new GameLoader(new JsonParser()).loadGame(null);
+        _wind = _map.getWaterPlan().getWind();
     }
 
     private IDecoratorSail _getDecoratorSail( SailType sailType ) {
