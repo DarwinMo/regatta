@@ -85,7 +85,7 @@ public final class GameView implements IGameView {
         boat.setLayoutY(boat.getLayoutY() + dy);
     }
 
-    public void update( double dx, double dy, double angle ) {
+    public void updateBoat( double dx, double dy, double angle ) {
         rotate(_boat, angle);
         move(_boat, dx, dy);
     }

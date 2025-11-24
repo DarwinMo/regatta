@@ -10,7 +10,7 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 
-public class ConcreteGamePresenter implements Ipresenter {
+public class ConcreteGamePresenter implements IPresenter {
 
     private IMap _map;
     private IMapBuilder _mapBuilder;
@@ -136,9 +136,8 @@ public class ConcreteGamePresenter implements Ipresenter {
     }
 
     private void render() {
-        _gameView.update(_boat.get_dx(), _boat.get_dy(), _boat.get_angle());
-        String liveTime = _timeScore.getFormattedCurrentTime();
-        _gameView.updateDashboard(_wind.getWindDirection(), _boat.get_angle(), _boat.get_speed(), liveTime);
+        _gameView.updateBoat(_boat.get_dx(), _boat.get_dy(), _boat.get_angle());
+        _gameView.updateDashboard(_wind.getWindDirection(), _boat.get_angle(), _boat.get_speed(), _timeScore.getFormattedCurrentTime());
     }
 
 }
