@@ -2,15 +2,7 @@ package fr.ensicaen.genielogiciel.project.presenter;
 
 import fr.ensicaen.genielogiciel.project.model.*;
 
-import java.io.InputStream;
-
-public class GameLoader {
-
-    private final IParser _parser;
-
-    public GameLoader( IParser parser ) {
-        _parser = parser;
-    }
+public record GameLoader(IParser _parser) {
 
     public IMap loadGame( String filePath ) {
         if (filePath == null) {

@@ -13,7 +13,6 @@ import java.io.IOException;
 public class ConcreteGamePresenter implements Ipresenter {
 
     private IMap _map;
-    private IMapBuilder _mapBuilder;
     private IBoat _boat;
     private final PlayerModel _player;
     private IWind _wind;
@@ -74,24 +73,11 @@ public class ConcreteGamePresenter implements Ipresenter {
     }
 
     private void initGame( CrewType crewType, SailType sailType ) throws IOException {
-        _boat = new FigaroFactory(_getDecoratorSail(sailType), _getDecoratorEquipment(crewType)).createBoat(450, 450);
         _map = new GameLoader(new JsonParser()).loadGame(null);
         _wind = _map.getWaterPlan().getWind();
+        _boat = _map.getBoat();
     }
 
-    private IDecoratorSail _getDecoratorSail( SailType sailType ) {
-        if (sailType == SailType.MEDIUM) {
-            return new MediumSail();
-        }
-        return new LargeSail();
-    }
-
-    private IDecoratorEquipment _getDecoratorEquipment( CrewType crewType ) {
-        if (crewType == CrewType.SINGLE) {
-            return new SingleCrew();
-        }
-        return new DoubleCrew();
-    }
 
     private void runGameLoop() {
         _timeline = new Timeline(new KeyFrame(
