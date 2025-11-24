@@ -1,6 +1,9 @@
 package fr.ensicaen.genielogiciel.project.presenter;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import fr.ensicaen.genielogiciel.project.model.IDecoratorSail;
+import fr.ensicaen.genielogiciel.project.model.LargeSail;
+import fr.ensicaen.genielogiciel.project.model.MediumSail;
 
 public enum SailType {
     MEDIUM, LARGE;
@@ -15,5 +18,12 @@ public enum SailType {
             finalSail = SailType.MEDIUM;
         }
         return finalSail;
+    }
+
+    public static IDecoratorSail getDecoratorSail( SailType sailType ) {
+        if (sailType == SailType.MEDIUM) {
+            return new MediumSail();
+        }
+        return new LargeSail();
     }
 }

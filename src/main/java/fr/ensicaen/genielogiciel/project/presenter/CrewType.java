@@ -1,6 +1,9 @@
 package fr.ensicaen.genielogiciel.project.presenter;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import fr.ensicaen.genielogiciel.project.model.DoubleCrew;
+import fr.ensicaen.genielogiciel.project.model.IDecoratorEquipment;
+import fr.ensicaen.genielogiciel.project.model.SingleCrew;
 
 public enum CrewType {
     SINGLE, DOUBLE;
@@ -15,5 +18,12 @@ public enum CrewType {
             finalCrew = CrewType.SINGLE;
         }
         return finalCrew;
+    }
+
+    public static IDecoratorEquipment getDecoratorEquipment( CrewType crewType ) {
+        if (crewType == CrewType.SINGLE) {
+            return new SingleCrew();
+        }
+        return new DoubleCrew();
     }
 }

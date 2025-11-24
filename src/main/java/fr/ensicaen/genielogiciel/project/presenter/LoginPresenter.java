@@ -1,13 +1,10 @@
 package fr.ensicaen.genielogiciel.project.presenter;
 
 import fr.ensicaen.genielogiciel.project.Main;
-import fr.ensicaen.genielogiciel.project.model.DoubleCrew;
-import fr.ensicaen.genielogiciel.project.model.LargeSail;
 import fr.ensicaen.genielogiciel.project.view.GameView;
 import fr.ensicaen.genielogiciel.project.view.LoginView;
 
 import java.io.IOException;
-import java.util.Locale;
 
 public final class LoginPresenter {
     private ILoginView _loginView;
@@ -16,13 +13,13 @@ public final class LoginPresenter {
         _loginView = loginView;
     }
 
-    public void launchGame( String nickName ) {
+    public void launchGame( String nickName, String configurationFile ) {
         if (nickName.isEmpty()) {
             _loginView.displayError(Main.getMessageBundle().getString("error.nickname"));
         } else {
             try {
                 final GameView view = GameView.GameViewFactory.createView();
-                final ConcreteGamePresenter gamePresenter = new ConcreteGamePresenter(nickName, CrewType.DOUBLE, SailType.LARGE);
+                final ConcreteGamePresenter gamePresenter = new ConcreteGamePresenter(nickName, configurationFile);
                 view.setGamePresenter(gamePresenter);
                 gamePresenter.setGameView(view);
                 view.show();

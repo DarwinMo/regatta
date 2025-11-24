@@ -41,7 +41,8 @@ public class LoginView implements ILoginView {
 
     @FXML
     private void onClickOnStartGame() {
-        _loginPresenter.launchGame(_nickName.getText());
+        // here there should be an att _confFile that gives the chosen conf file
+        _loginPresenter.launchGame(_nickName.getText(), null);
     }
 
     public static class LoginViewFactory {

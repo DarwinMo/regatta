@@ -9,6 +9,7 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.lang.module.Configuration;
 
 public class ConcreteGamePresenter implements Ipresenter {
 
@@ -25,14 +26,10 @@ public class ConcreteGamePresenter implements Ipresenter {
     private Timeline _timeline;
     private final TimeScore _timeScore = new TimeScore();
 
-    public ConcreteGamePresenter( String nickName, CrewType crewType, SailType sailType ) throws IOException {
+    public ConcreteGamePresenter( String nickName, String configurationFile ) throws IOException {
         _player = new PlayerModel();
         _player.setNickname(nickName);
-        try {
-            initGame(crewType, sailType);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        initGame(configurationFile);
         int _rotationAngle = 2;
         _boatDirectionManager = new BoatDirectionManager(_boat, _rotationAngle);
     }
@@ -72,8 +69,8 @@ public class ConcreteGamePresenter implements Ipresenter {
         }
     }
 
-    private void initGame( CrewType crewType, SailType sailType ) throws IOException {
-        _map = new GameLoader(new JsonParser()).loadGame(null);
+    private void initGame( String configurationFile ) {
+        _map = new GameLoader(new JsonParser()).loadGame(configurationFile);
         _wind = _map.getWaterPlan().getWind();
         _boat = _map.getBoat();
     }

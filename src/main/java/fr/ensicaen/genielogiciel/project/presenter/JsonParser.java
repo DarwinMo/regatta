@@ -7,26 +7,6 @@ import java.io.File;
 import java.io.IOException;
 
 public class JsonParser implements IParser {
-    private IDecoratorSail _getDecoratorSail( SailType sailType ) {
-        if (sailType == SailType.MEDIUM) {
-            return new MediumSail();
-        }
-        return new LargeSail();
-    }
-
-    private IDecoratorEquipment _getDecoratorEquipment( CrewType crewType ) {
-        if (crewType == CrewType.SINGLE) {
-            return new SingleCrew();
-        }
-        return new DoubleCrew();
-    }
-
-    private IBoatFactory _getBoatFactory( BoatType boatType, SailType sailType, CrewType crewType ) {
-        if (boatType == BoatType.OCEANIS37) {
-            return new Oceanis37Factory(_getDecoratorSail(sailType), _getDecoratorEquipment(crewType));
-        }
-        return new FigaroFactory(_getDecoratorSail(sailType), _getDecoratorEquipment(crewType));
-    }
 
     @Override
     public IMap loadGame( String filePath ) {
@@ -48,7 +28,7 @@ public class JsonParser implements IParser {
             CrewType finalCrewType = CrewType.getCrewType(boat);
             BoatType finalBoatType = BoatType.getBoatType(boat);
 
-            mapBuilder.addBoat(_getBoatFactory(finalBoatType, finalsailType, finalCrewType).createBoat(boatX, boatY));
+            mapBuilder.addBoat(BoatType.getBoatFactory(finalBoatType, finalsailType, finalCrewType).createBoat(boatX, boatY));
 
             JsonNode waterPlan = root.get("waterPlan");
             int waterPlanWidth = waterPlan.get("width").asInt();
