@@ -4,6 +4,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import fr.ensicaen.genielogiciel.project.Main;
 import fr.ensicaen.genielogiciel.project.presenter.ConcreteGamePresenter;
@@ -144,17 +145,17 @@ public final class GameView implements IGameView {
     @FXML
     private void initialize() {
         windIcon.setImage(new Image(
-                getClass().getResource("/fr/ensicaen/genielogiciel/project/images/wind.png").toExternalForm(), 18, 18, true, true
+                Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/wind.png")).toExternalForm(), 18, 18, true, true
         ));
         headingIcon.setImage(new Image(
-                getClass().getResource("/fr/ensicaen/genielogiciel/project/images/heading.png").toExternalForm(), 18, 18, true, true
+                Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/heading.png")).toExternalForm(), 18, 18, true, true
         ));
         windArrow.setImage(new Image(
-                getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowRight.png").toExternalForm()
+                Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowRight.png")).toExternalForm()
         ));
 
         headingArrow.setImage(new Image(
-                getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowUp.png").toExternalForm()
+                Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowUp.png")).toExternalForm()
         ));
 
     }
@@ -170,8 +171,8 @@ public final class GameView implements IGameView {
     @Override
     public void addBuoys( double x, double y ) {
         ImageView buoy = new ImageView(
-                new Image(getClass().getResource(
-                        "/fr/ensicaen/genielogiciel/project/images/buoy.png").toExternalForm())
+                new Image(Objects.requireNonNull(getClass().getResource(
+                        "/fr/ensicaen/genielogiciel/project/images/buoy.png")).toExternalForm())
         );
 
         buoy.setFitWidth(32);
