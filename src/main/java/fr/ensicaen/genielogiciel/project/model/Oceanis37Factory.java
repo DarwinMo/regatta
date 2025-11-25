@@ -13,7 +13,7 @@ public class Oceanis37Factory implements IBoatFactory {
     }
 
     @Override
-    public IBoat createBoat() throws IOException {
-        return new Oceanis37Boat(_sail, _crew);
+    public IBoat createBoat( double x, double y ) throws IOException {
+        return new Oceanis37Boat(x, y, _sail, _crew);
     }
 }

@@ -13,7 +13,7 @@ public class FigaroFactory implements IBoatFactory {
     }
 
     @Override
-    public IBoat createBoat() throws IOException {
-        return new FigaroBoat(_sail, _crew);
+    public IBoat createBoat( double x, double y ) throws IOException {
+        return new FigaroBoat(x, y, _sail, _crew);
     }
 }

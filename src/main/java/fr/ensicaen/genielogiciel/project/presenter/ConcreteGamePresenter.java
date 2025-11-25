@@ -9,11 +9,11 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.lang.module.Configuration;
 
 public class ConcreteGamePresenter implements Ipresenter {
 
     private IMap _map;
-    private IMapBuilder _mapBuilder;
     private IBoat _boat;
     private final PlayerModel _player;
     private IWind _wind;
@@ -26,14 +26,10 @@ public class ConcreteGamePresenter implements Ipresenter {
     private Timeline _timeline;
     private final TimeScore _timeScore = new TimeScore();
 
-    public ConcreteGamePresenter( String nickName, CrewType crewType, SailType sailType ) throws IOException {
+    public ConcreteGamePresenter( String nickName, String configurationFile ) throws IOException {
         _player = new PlayerModel();
         _player.setNickname(nickName);
-        try {
-            initGame(crewType, sailType);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        initGame(configurationFile);
         int _rotationAngle = 2;
         _boatDirectionManager = new BoatDirectionManager(_boat, _rotationAngle);
     }
@@ -73,31 +69,12 @@ public class ConcreteGamePresenter implements Ipresenter {
         }
     }
 
-    private void initGame( CrewType crewType, SailType sailType ) throws IOException {
-        _boat = new FigaroFactory(_getDecoratorSail(sailType), _getDecoratorEquipment(crewType)).createBoat();
-        // temporary this needs to be replaced by a file configuration and default map with rand
-        _wind = new ConcreteWind(new WeatherAPI());
-        ConcreteWaterPlan plan = new ConcreteWaterPlan(1000, 800, _wind);
-        ConcreteCoast coast = new ConcreteCoast(1, 2, 3, 4);
-        ConcreteBuoy buoy1 = new ConcreteBuoy(30, 30);
-        ConcreteBuoy buoy2 = new ConcreteBuoy(300, 120);
-        ConcreteBuoy buoy3 = new ConcreteBuoy(600, 400);
-        _map = new ClassicMapBuilder().addWaterPlan(plan).addCoast(coast).addBuoy(buoy1).addBuoy(buoy2).addBuoy(buoy3).build();
+    private void initGame( String configurationFile ) {
+        _map = new GameLoader(new JsonParser()).loadGame(configurationFile);
+        _wind = _map.getWaterPlan().getWind();
+        _boat = _map.getBoat();
     }
 
-    private IDecoratorSail _getDecoratorSail( SailType sailType ) {
-        if (sailType == SailType.MEDIUM) {
-            return new MediumSail();
-        }
-        return new LargeSail();
-    }
-
-    private IDecoratorEquipment _getDecoratorEquipment( CrewType crewType ) {
-        if (crewType == CrewType.SINGLE) {
-            return new SingleCrew();
-        }
-        return new DoubleCrew();
-    }
 
     private void runGameLoop() {
         _timeline = new Timeline(new KeyFrame(
