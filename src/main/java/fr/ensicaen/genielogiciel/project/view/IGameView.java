@@ -6,7 +6,7 @@ import fr.ensicaen.genielogiciel.project.model.ICoast;
 public interface IGameView {
     void addBoat( double x, double y );
 
-    void update( double dx, double dy, double angle );
+    void updateBoat( double dx, double dy, double angle );
 
     void updateDashboard( double windDir, double boatDir, double speed, String time );
 
