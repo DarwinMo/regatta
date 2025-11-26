@@ -7,4 +7,9 @@ public interface IBuoy {
 
     boolean isMarked();
 
+
+    boolean checkPassage(IBoat boat);
+    boolean checkCollision(IBoat boat);
+
+    Line getLine();
 }

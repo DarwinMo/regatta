@@ -2,11 +2,11 @@
   "coasts": [
     {"s_x":1,"s_y":1,"e_x":50,"e_y":50}
   ],
-  "boat": {"x":300,"y":500,"sailType":"medium","boatType": "figaro","crewType": "single"},
+  "boat": {"x":600,"y":600,"sailType":"medium","boatType": "figaro","crewType": "single"},
   "buoys":[
-    {"x":30,"y":30},
-    {"x":300,"y":120},
-    {"x":600,"y":400}
+    {"x":400,"y":200,"angle": 180},
+    {"x":700,"y":400,"angle": 270},
+    {"x":250  ,"y":550,"angle": 45}
   ],
   "waterPlan": {"width":1000,"height":800}
 }

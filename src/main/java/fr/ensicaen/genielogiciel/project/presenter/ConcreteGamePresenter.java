@@ -2,14 +2,12 @@ package fr.ensicaen.genielogiciel.project.presenter;
 
 import fr.ensicaen.genielogiciel.project.model.*;
 import fr.ensicaen.genielogiciel.project.view.GameView;
-import fr.ensicaen.genielogiciel.project.view.IGameView;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.lang.module.Configuration;
 
 public class ConcreteGamePresenter implements IPresenter {
 
@@ -18,10 +16,9 @@ public class ConcreteGamePresenter implements IPresenter {
     private final PlayerModel _player;
     private IWind _wind;
 
-
     private final BoatDirectionManager _boatDirectionManager;
 
-    private IGameView _gameView;
+    private GameView _gameView;
     private boolean _started = false;
     private Timeline _timeline;
     private final TimeScore _timeScore = new TimeScore();
@@ -39,7 +36,11 @@ public class ConcreteGamePresenter implements IPresenter {
         _gameView.addBoat(_boat.get_x(), _boat.get_y());
         for (IBuoy buoy : _map.getBuoys()) {
             _gameView.addBuoys(buoy.get_x(), buoy.get_y());
+            if (buoy instanceof ConcreteBuoy) {
+                _gameView.addBuoyLines(((ConcreteBuoy)buoy).getLine());
+            }
         }
+
         for (ICoast coast : _map.getCoasts()) {
             _gameView.addCoast(coast.getStartX(), coast.getStartY(), coast.getEndX(), coast.getEndY());
         }
@@ -75,13 +76,12 @@ public class ConcreteGamePresenter implements IPresenter {
         _boat = _map.getBoat();
     }
 
-
     private void runGameLoop() {
         _timeline = new Timeline(new KeyFrame(
                 Duration.millis(50), onFinished -> {
-                    update();
-                    render();
-                }
+            update();
+            render();
+        }
         ));
         _timeline.setCycleCount(Animation.INDEFINITE);
         _timeline.play();
@@ -91,6 +91,7 @@ public class ConcreteGamePresenter implements IPresenter {
         if (_timeline != null) {
             _timeline.stop();
         }
+        System.out.println("FIN DE PARTIE ! Temps : " + _timeScore.getFormattedCurrentTime());
     }
 
     private boolean loopCompleted() {
@@ -99,7 +100,7 @@ public class ConcreteGamePresenter implements IPresenter {
                 return false;
             }
         }
-        return _boat.hasCrossedFinishLine();
+        return true;
     }
 
     private void update() {
@@ -107,14 +108,22 @@ public class ConcreteGamePresenter implements IPresenter {
         _boat.set_windAngle(_wind.getWindDirection());
         _boat.accelerate();
         _boat.applyWind();
+
+        for (IBuoy buoy : _map.getBuoys()) {
+            if (buoy.checkPassage(_boat)) {
+                System.out.println("PASSAGE VALIDÉ");
+            }
+            if (buoy.checkCollision(_boat)) {
+                System.out.println("Collision avec la bouée !");
+                _boat.set_speed(0);
+            }
+        }
         if (loopCompleted()) {
             stopGameLoop();
         }
     }
-
     private void render() {
         _gameView.updateBoat(_boat.get_dx(), _boat.get_dy(), _boat.get_angle());
         _gameView.updateDashboard(_wind.getWindDirection(), _boat.get_angle(), _boat.get_speed(), _timeScore.getFormattedCurrentTime());
     }
-
 }

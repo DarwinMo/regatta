@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 
 import fr.ensicaen.genielogiciel.project.Main;
+import fr.ensicaen.genielogiciel.project.model.Line;
 import fr.ensicaen.genielogiciel.project.presenter.ConcreteGamePresenter;
 import fr.ensicaen.genielogiciel.project.presenter.UserAction;
 import javafx.fxml.FXML;
@@ -22,7 +23,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 
@@ -179,19 +179,31 @@ public final class GameView implements IGameView {
         buoy.setFitHeight(32);
         buoy.setPreserveRatio(true);
 
-        buoy.setLayoutX(x);
-        buoy.setLayoutY(y);
+        buoy.setLayoutX(x - buoy.getFitWidth()/2);
+        buoy.setLayoutY(y - buoy.getFitHeight()/2);
 
         _base.getChildren().add(buoy);
 
         buoys.add(buoy);
     }
 
+    public void addBuoyLines(Line line){
+        double len = 1000000;
+        double centerX = line.getStartX();
+        double centerY = line.getStartY();
+        javafx.scene.shape.Line fxLine = new javafx.scene.shape.Line(
+                centerX,
+                centerY,
+                centerX + line.getDx()*len,
+                centerY + line.getDy()*len
+        );
+        fxLine.setStroke(Color.RED);
+        fxLine.setStrokeWidth(2);
+        _base.getChildren().add(fxLine);
+    }
 
     @Override
     public void addCoast( double start_x, double start_y, double end_x, double end_y ) {
 
     }
-
-
 }
