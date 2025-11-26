@@ -1,18 +1,19 @@
 package fr.ensicaen.genielogiciel.project.presenter;
 
 import fr.ensicaen.genielogiciel.project.model.*;
+import fr.ensicaen.genielogiciel.project.view.GameView;
+import fr.ensicaen.genielogiciel.project.view.IGameView;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
-import java.awt.*;
 import java.io.IOException;
+import java.lang.module.Configuration;
 
-public class ConcreteGamePresenter implements Ipresenter {
+public class ConcreteGamePresenter implements IPresenter {
 
     private IMap _map;
-    private IMapBuilder _mapBuilder;
     private IBoat _boat;
     private final PlayerModel _player;
     private IWind _wind;
@@ -23,23 +24,17 @@ public class ConcreteGamePresenter implements Ipresenter {
     private IGameView _gameView;
     private boolean _started = false;
     private Timeline _timeline;
+    private final TimeScore _timeScore = new TimeScore();
 
-    public ConcreteGamePresenter( String nickName, CrewType crewType, SailType sailType ) throws IOException {
-
+    public ConcreteGamePresenter( String nickName, String configurationFile ) throws IOException {
         _player = new PlayerModel();
         _player.setNickname(nickName);
-
-
-        try {
-            initGame(crewType, sailType);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        initGame(configurationFile);
         int _rotationAngle = 2;
         _boatDirectionManager = new BoatDirectionManager(_boat, _rotationAngle);
     }
 
-    public void setGameView( IGameView gameView ) {
+    public void setGameView( GameView gameView ) {
         _gameView = gameView;
         _gameView.addBoat(_boat.get_x(), _boat.get_y());
         for (IBuoy buoy : _map.getBuoys()) {
@@ -61,6 +56,7 @@ public class ConcreteGamePresenter implements Ipresenter {
     private void startGame() {
         if (!_started) {
             _started = true;
+            _timeScore.start();
             runGameLoop();
         }
     }
@@ -83,25 +79,14 @@ public class ConcreteGamePresenter implements Ipresenter {
         _map = new ClassicMapBuilder().addWaterPlan(plan).addCoast(coast).addBuoy(buoy).build();
     }
 
-    private IDecoratorSail _getDecoratorSail( SailType sailType ) {
-        if (sailType == SailType.MEDIUM) {
-            return new MediumSail();
-        }
-        return new LargeSail();
-    }
-
-    private IDecoratorEquipment _getDecoratorEquipment( CrewType crewType ) {
-        if (crewType == CrewType.SINGLE) {
-            return new SingleCrew();
-        }
-        return new DoubleCrew();
-    }
 
     private void runGameLoop() {
-        _timeline = new Timeline(new KeyFrame(Duration.millis(50), onFinished -> {
-            update();
-            render();
-        }));
+        _timeline = new Timeline(new KeyFrame(
+                Duration.millis(50), onFinished -> {
+                    update();
+                    render();
+                }
+        ));
         _timeline.setCycleCount(Animation.INDEFINITE);
         _timeline.play();
     }
@@ -132,7 +117,8 @@ public class ConcreteGamePresenter implements Ipresenter {
     }
 
     private void render() {
-        _gameView.update(_boat.get_dx(), _boat.get_dy(), _boat.get_angle());
+        _gameView.updateBoat(_boat.get_dx(), _boat.get_dy(), _boat.get_angle());
+        _gameView.updateDashboard(_wind.getWindDirection(), _boat.get_angle(), _boat.get_speed(), _timeScore.getFormattedCurrentTime());
     }
 
 }
