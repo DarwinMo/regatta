@@ -61,11 +61,6 @@ class ConcreteBuoyTest {
             }
 
             @Override
-            public double get_windAngle() {
-                return 0;
-            }
-
-            @Override
             public void set_windSpeed( double windSpeed ) {
             }
 
@@ -97,10 +92,6 @@ class ConcreteBuoyTest {
 
             @Override
             public void applyWind() {
-            }
-
-            @Override
-            public void move() {
             }
 
             @Override
