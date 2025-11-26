@@ -11,6 +11,7 @@ public abstract class AbstractBoat implements IBoat {
     private double _windAngle = 0;
     private double _windSpeed = 0;
     private double _targetSpeed = 0;
+    private IBoatState _state;
     private IDecoratorSail _sail;
     private IDecoratorEquipment _crew;
     protected PolarTable _polarTable;
@@ -23,6 +24,7 @@ public abstract class AbstractBoat implements IBoat {
         _y = y;
         _sail = sail;
         _crew = crew;
+        _state = new UpState();
     }
 
     @Override
@@ -135,10 +137,6 @@ public abstract class AbstractBoat implements IBoat {
         if (_crew != null) polarSpeed = _crew.adjustSpeed(polarSpeed, adjustedAngle);
 
         _targetSpeed = polarSpeed;
-
-        System.out.printf(
-                "Angle=%.1f° | Speed=%.2f%n", adjustedAngle, _speed
-        );
     }
 
     @Override
@@ -146,4 +144,7 @@ public abstract class AbstractBoat implements IBoat {
         return false;
     }
 
+    public void setState( IBoatState newState ) {
+        _state = newState;
+    }
 }
