@@ -6,9 +6,11 @@ import java.io.InputStream;
 public class FigaroBoat extends AbstractBoat {
 
     private static final String POLAR = "/fr/ensicaen/genielogiciel/project/model/polaire-figaro.pol";
+    private IBoatState _state;
 
     public FigaroBoat( double x, double y, IDecoratorSail sail, IDecoratorEquipment crew ) {
         super(x, y, sail, crew);
+        _state = new UpState();
 
         InputStream test = getClass().getResourceAsStream(POLAR);
         System.out.println("Test resource = " + (test == null ? "NOT FOUND" : "OK"));
@@ -21,4 +23,18 @@ public class FigaroBoat extends AbstractBoat {
         }
     }
 
+    @Override
+    public void start() {
+        _state.start(this);
+    }
+
+    @Override
+    public void stop() {
+        _state.stop(this);
+    }
+
+    @Override
+    public boolean isRunning() {
+        return _state.isRunning();
+    }
 }
