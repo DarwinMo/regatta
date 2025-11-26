@@ -28,7 +28,6 @@ public final class Main extends Application {
                                 "fr.ensicaen.genielogiciel.project.MessageBundle", Locale.getDefault()
                         );
                     } catch (MissingResourceException e) {
-                        // Fallback si la locale système ne correspond pas à un bundle présent
                         BUNDLE = local = ResourceBundle.getBundle(
                                 "fr.ensicaen.genielogiciel.project.MessageBundle", Locale.US
                         );

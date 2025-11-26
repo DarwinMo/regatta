@@ -59,4 +59,9 @@ public class LoginView implements ILoginView {
             return view;
         }
     }
+
+    @Override
+    public Stage getStage() {
+        return _stage;
+    }
 }
