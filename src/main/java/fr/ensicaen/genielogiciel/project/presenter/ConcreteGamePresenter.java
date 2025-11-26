@@ -38,7 +38,7 @@ public class ConcreteGamePresenter implements IPresenter {
         _gameView = gameView;
         _gameView.addBoat(_boat.get_x(), _boat.get_y());
         for (IBuoy buoy : _map.getBuoys()) {
-            _gameView.addBuoys(buoy.getX(), buoy.getY());
+            _gameView.addBuoys(buoy.get_x(), buoy.get_y());
         }
         for (ICoast coast : _map.getCoasts()) {
             _gameView.addCoast(coast.getStartX(), coast.getStartY(), coast.getEndX(), coast.getEndY());

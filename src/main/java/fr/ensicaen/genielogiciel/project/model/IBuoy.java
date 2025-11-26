@@ -1,10 +1,10 @@
 package fr.ensicaen.genielogiciel.project.model;
 
 public interface IBuoy {
-    double getX();
+    double get_x();
 
-    // to implement : it tells if palyer went throughout the buoy
+    double get_y();
+
     boolean isMarked();
 
-    double getY();
 }
