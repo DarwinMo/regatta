@@ -43,7 +43,7 @@ public class ConcreteGamePresenter implements Ipresenter {
         _gameView = gameView;
         _gameView.addBoat(_boat.get_x(), _boat.get_y());
         for (IBuoy buoy : _map.getBuoys()) {
-            _gameView.addBuoys(buoy.getX(), buoy.getY());
+            _gameView.addBuoys(buoy.get_x(), buoy.get_y());
         }
         for (ICoast coast : _map.getCoasts()) {
             _gameView.addCoast(coast.getStartX(), coast.getStartY(), coast.getEndX(), coast.getEndY());
@@ -79,7 +79,7 @@ public class ConcreteGamePresenter implements Ipresenter {
         _wind = new ConcreteWind(new WeatherAPI());
         ConcreteWaterPlan plan = new ConcreteWaterPlan(1000, 800, _wind);
         ConcreteCoast coast = new ConcreteCoast(1, 2, 3, 4);
-        ConcreteBuoy buoy = new ConcreteBuoy(5, 6);
+        ConcreteBuoy buoy = new ConcreteBuoy(5, 6, 0);
         _map = new ClassicMapBuilder().addWaterPlan(plan).addCoast(coast).addBuoy(buoy).build();
     }
 
