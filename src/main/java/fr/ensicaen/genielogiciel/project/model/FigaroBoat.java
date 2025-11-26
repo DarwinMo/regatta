@@ -20,15 +20,16 @@ public class FigaroBoat implements IBoat {
 
     private static final double ACCELERATION_FACTOR = 0.15;
     private static final double DECELERATION_FACTOR = 0.10;
+    private static final String POLAR = "/fr/ensicaen/genielogiciel/project/model/polaire-figaro.pol";
 
     public FigaroBoat( IDecoratorSail sail, IDecoratorEquipment crew ) {
         _sail = sail;
         _crew = crew;
-        InputStream test = getClass().getResourceAsStream("/fr/ensicaen/genielogiciel/project/model/polaire-figaro.pol");
+        InputStream test = getClass().getResourceAsStream(POLAR);
         System.out.println("Test resource = " + (test == null ? "NOT FOUND" : "OK"));
 
         try {
-            _polarTable = new PolarTable("/fr/ensicaen/genielogiciel/project/model/polaire-figaro.pol");
+            _polarTable = new PolarTable(POLAR);
         } catch (IOException e) {
             System.err.println("[WARNING] Impossible de charger la table polaire : " + e.getMessage());
             _polarTable = null;
@@ -103,6 +104,11 @@ public class FigaroBoat implements IBoat {
     @Override
     public void set_sail( IDecoratorSail sail ) {
         _sail = sail;
+    }
+
+    @Override
+    public boolean hasCrossedFinishLine() {
+        return false;
     }
 
     @Override

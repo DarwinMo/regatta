@@ -11,7 +11,7 @@ public class FigaroTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        boat = new FigaroFactory(new MediumSail(), new SingleCrew()).createFigaro();
+        boat = new FigaroFactory(new MediumSail(), new SingleCrew()).createBoat();
         boat.set_windAngle(90);
         boat.set_windSpeed(10);
         boat.set_angle(0);
@@ -100,7 +100,7 @@ public class FigaroTest {
 
     @Test
     void testInertiaDecayWhenNoWind() throws IOException {
-        boat = new FigaroFactory(new MediumSail(), new SingleCrew()).createFigaro();
+        boat = new FigaroFactory(new MediumSail(), new SingleCrew()).createBoat();
         boat.set_windSpeed(10);
         boat.set_windAngle(90);
         boat.accelerate();

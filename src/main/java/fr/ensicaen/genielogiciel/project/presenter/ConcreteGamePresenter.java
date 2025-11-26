@@ -6,14 +6,20 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
+import java.awt.*;
 import java.io.IOException;
 
 public class ConcreteGamePresenter implements Ipresenter {
 
-    IMap _map;
-    IBoat _boat;
-    PlayerModel _player;
-    IWind _wind;
+    private IMap _map;
+    private IMapBuilder _mapBuilder;
+    private IBoat _boat;
+    private final PlayerModel _player;
+    private IWind _wind;
+
+
+    private final BoatDirectionManager _boatDirectionManager;
+
     private IGameView _gameView;
     private boolean _started = false;
     private Timeline _timeline;
@@ -22,18 +28,26 @@ public class ConcreteGamePresenter implements Ipresenter {
 
         _player = new PlayerModel();
         _player.setNickname(nickName);
-        _wind = new ConcreteWind(new WeatherAPI());
+
 
         try {
             initGame(crewType, sailType);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+        int _rotationAngle = 2;
+        _boatDirectionManager = new BoatDirectionManager(_boat, _rotationAngle);
     }
 
     public void setGameView( IGameView gameView ) {
         _gameView = gameView;
         _gameView.addBoat(_boat.get_x(), _boat.get_y());
+        for (IBuoy buoy : _map.getBuoys()) {
+            _gameView.addBuoys(buoy.getX(), buoy.getY());
+        }
+        for (ICoast coast : _map.getCoasts()) {
+            _gameView.addCoast(coast.getStartX(), coast.getStartY(), coast.getEndX(), coast.getEndY());
+        }
     }
 
     public void handleUserAction( UserAction code ) {
@@ -53,15 +67,20 @@ public class ConcreteGamePresenter implements Ipresenter {
 
     private void changeDirection( UserAction action ) {
         if (action == UserAction.LEFT) {
-            _boat.rotate(-2);
+            _boatDirectionManager.goLeft();
         } else if (action == UserAction.RIGHT) {
-            _boat.rotate(+2);
+            _boatDirectionManager.goRight();
         }
     }
 
     private void initGame( CrewType crewType, SailType sailType ) throws IOException {
-        _boat = new FigaroFactory(_getDecoratorSail(sailType), _getDecoratorEquipment(crewType)).createFigaro();
-
+        _boat = new FigaroFactory(_getDecoratorSail(sailType), _getDecoratorEquipment(crewType)).createBoat();
+        // temporary this needs to be replaced by a file configuration and default map with rand
+        _wind = new ConcreteWind(new WeatherAPI());
+        ConcreteWaterPlan plan = new ConcreteWaterPlan(1000, 800, _wind);
+        ConcreteCoast coast = new ConcreteCoast(1, 2, 3, 4);
+        ConcreteBuoy buoy = new ConcreteBuoy(5, 6);
+        _map = new ClassicMapBuilder().addWaterPlan(plan).addCoast(coast).addBuoy(buoy).build();
     }
 
     private IDecoratorSail _getDecoratorSail( SailType sailType ) {
@@ -87,24 +106,33 @@ public class ConcreteGamePresenter implements Ipresenter {
         _timeline.play();
     }
 
+    private void stopGameLoop() {
+        if (_timeline != null) {
+            _timeline.stop();
+        }
+    }
+
+    private boolean loopCompleted() {
+        for (IBuoy buoy : _map.getBuoys()) {
+            if (!buoy.isMarked()) {
+                return false;
+            }
+        }
+        return _boat.hasCrossedFinishLine();
+    }
+
     private void update() {
         _boat.set_windSpeed(_wind.getWindSpeed());
         _boat.set_windAngle(_wind.getWindDirection());
         _boat.accelerate();
         _boat.applyWind();
+        if (loopCompleted()) {
+            stopGameLoop();
+        }
     }
 
     private void render() {
         _gameView.update(_boat.get_dx(), _boat.get_dy(), _boat.get_angle());
     }
 
-    @Override
-    public void attach( IGameView gameView ) {
-
-    }
-
-    @Override
-    public void handleUserEvent( UserAction action ) {
-
-    }
 }

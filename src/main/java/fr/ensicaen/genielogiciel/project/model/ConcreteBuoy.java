@@ -25,6 +25,14 @@ public class ConcreteBuoy implements IBuoy {
             double maxY = Math.max(_y1, _y2);
             return boat.get_x() >= minX && boat.get_x() <= maxX && boat.get_y() >= minY && boat.get_y() <= maxY;
         }
+    @Override
+    public boolean isMarked() {
+        return false;
+    }
+
+    @Override
+    public double getY() {
+        return y;
     }
 
 
