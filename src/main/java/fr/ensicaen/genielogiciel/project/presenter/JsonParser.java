@@ -52,7 +52,8 @@ public class JsonParser implements IParser {
                 for (JsonNode buoy : buoysArray) {
                     double bx = buoy.get("x").asDouble();
                     double by = buoy.get("y").asDouble();
-                    double angle = buoy.get("angle").asDouble();
+//                    double angle = buoy.get("angle").asDouble();
+                    double angle = 0; // a modifier apres !!!
                     mapBuilder.addBuoy(new ConcreteBuoy(bx, by, angle));
                 }
             }
