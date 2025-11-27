@@ -1,10 +1,10 @@
 package fr.ensicaen.genielogiciel.project.presenter;
 
+import java.io.IOException;
+
 import fr.ensicaen.genielogiciel.project.Main;
 import fr.ensicaen.genielogiciel.project.view.GameView;
 import fr.ensicaen.genielogiciel.project.view.LoginView;
-
-import java.io.IOException;
 
 public final class LoginPresenter {
     private ILoginView _loginView;
@@ -18,6 +18,7 @@ public final class LoginPresenter {
             _loginView.displayError(Main.getMessageBundle().getString("error.nickname"));
         } else {
             try {
+
                 final GameView view = GameView.GameViewFactory.createView();
                 final ConcreteGamePresenter gamePresenter = new ConcreteGamePresenter(nickName, configurationFile);
                 view.setGamePresenter(gamePresenter);
