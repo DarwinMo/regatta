@@ -1,7 +1,5 @@
 package fr.ensicaen.genielogiciel.project.view;
 
-import fr.ensicaen.genielogiciel.project.model.IBuoy;
-import fr.ensicaen.genielogiciel.project.model.ICoast;
 import fr.ensicaen.genielogiciel.project.model.Line;
 
 public interface IGameView {

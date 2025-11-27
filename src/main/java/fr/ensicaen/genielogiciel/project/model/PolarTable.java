@@ -27,7 +27,7 @@ public class PolarTable {
         int i = 0;
         while ((line = br.readLine()) != null && i < _angles.length) {
             line = line.trim();
-            if (line.isEmpty() || line.startsWith("#")) continue; // ignore commentaires
+            if (line.isEmpty() || line.startsWith("#")) continue;
 
             String[] tokens = line.split("\\s+");
 

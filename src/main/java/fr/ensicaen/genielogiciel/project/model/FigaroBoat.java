@@ -6,7 +6,7 @@ import java.io.InputStream;
 public class FigaroBoat extends AbstractBoat {
 
     private static final String POLAR = "/fr/ensicaen/genielogiciel/project/model/polaire-figaro.pol";
-    private IBoatState _state;
+    private final IBoatState _state;
 
     public FigaroBoat( double x, double y, IDecoratorSail sail, IDecoratorEquipment crew ) {
         super(x, y, sail, crew);

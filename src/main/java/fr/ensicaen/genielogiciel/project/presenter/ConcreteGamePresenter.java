@@ -24,7 +24,7 @@ public class ConcreteGamePresenter implements IPresenter {
     private final TimeScore _timeScore = new TimeScore();
     private int _currentBuoyIndex = 0;
 
-    public ConcreteGamePresenter(String nickName, String configurationFile) throws IOException {
+    public ConcreteGamePresenter( String nickName, String configurationFile ) throws IOException {
         _player = new PlayerModel();
         _player.setNickname(nickName);
         initGame(configurationFile);
@@ -32,7 +32,7 @@ public class ConcreteGamePresenter implements IPresenter {
         _boatDirectionManager = new BoatDirectionManager(_boat, _rotationAngle);
     }
 
-    public void setGameView(GameView gameView) {
+    public void setGameView( GameView gameView ) {
         _gameView = gameView;
         _gameView.addBoat(_boat.get_x(), _boat.get_y());
         for (IBuoy buoy : _map.getBuoys()) {
@@ -40,16 +40,18 @@ public class ConcreteGamePresenter implements IPresenter {
         }
 
         if (!_map.getBuoys().isEmpty()) {
-            IBuoy firstBuoy = _map.getBuoys().get(_currentBuoyIndex); // Utilise l'index 0
-            _gameView.addBuoyLines(firstBuoy.getStartLineX(), firstBuoy.getStartLineY(), firstBuoy.getEndLineY(), firstBuoy.getEndLineX());
+            IBuoy firstBuoy = _map.getBuoys().get(_currentBuoyIndex);
+            if (firstBuoy instanceof ConcreteBuoy) {
+                _gameView.addBuoyLines(firstBuoy.getLine());
+            }
         }
 
         for (ICoast coast : _map.getCoasts()) {
-            _gameView.addCoast(coast.getStartX(), coast.getStartY(), coast.getEndX(), coast.getEndY());
+            _gameView.addCoast(coast.startX(), coast.startY(), coast.endX(), coast.endY());
         }
     }
 
-    public void handleUserAction(UserAction code) {
+    public void handleUserAction( UserAction code ) {
         if (code == UserAction.START) {
             startGame();
         } else {
@@ -65,7 +67,7 @@ public class ConcreteGamePresenter implements IPresenter {
         }
     }
 
-    private void changeDirection(UserAction action) {
+    private void changeDirection( UserAction action ) {
         if (action == UserAction.LEFT) {
             _boatDirectionManager.goLeft();
         } else if (action == UserAction.RIGHT) {
@@ -73,7 +75,7 @@ public class ConcreteGamePresenter implements IPresenter {
         }
     }
 
-    private void initGame(String configurationFile) {
+    private void initGame( String configurationFile ) {
         _map = new GameLoader(new JsonParser()).loadGame(configurationFile);
         _wind = _map.getWaterPlan().getWind();
         _boat = _map.getBoat();
@@ -82,9 +84,9 @@ public class ConcreteGamePresenter implements IPresenter {
     private void runGameLoop() {
         _timeline = new Timeline(new KeyFrame(
                 Duration.millis(50), onFinished -> {
-            update();
-            render();
-        }
+                    update();
+                    render();
+                }
         ));
         _timeline.setCycleCount(Animation.INDEFINITE);
         _timeline.play();
@@ -124,7 +126,9 @@ public class ConcreteGamePresenter implements IPresenter {
                     _gameView.removeCurrentBuoyLine();
                 } else {
                     IBuoy nextBuoy = _map.getBuoys().get(_currentBuoyIndex);
-                    _gameView.addBuoyLines(nextBuoy.getStartLineX(), nextBuoy.getStartLineY(), nextBuoy.getEndLineY(), nextBuoy.getEndLineX());
+                    if (nextBuoy instanceof ConcreteBuoy) {
+                        _gameView.addBuoyLines(nextBuoy.getLine());
+                    }
                 }
             }
         }

@@ -1,39 +1,8 @@
 package fr.ensicaen.genielogiciel.project.model;
 
-public class ConcreteCoast implements ICoast {
+public record ConcreteCoast(double startX, double startY, double endX, double endY) implements ICoast {
 
-    private final double startX;
-    private final double startY;
-    private final double endX;
-    private final double endY;
     private static final double COLLISION_RADIUS = 20.0;
-
-    public ConcreteCoast( double startX, double startY, double endX, double endY ) {
-        this.startX = startX;
-        this.startY = startY;
-        this.endX = endX;
-        this.endY = endY;
-    }
-
-    @Override
-    public double getStartX() {
-        return startX;
-    }
-
-    @Override
-    public double getStartY() {
-        return startY;
-    }
-
-    @Override
-    public double getEndX() {
-        return endX;
-    }
-
-    @Override
-    public double getEndY() {
-        return endY;
-    }
 
     @Override
     public boolean isCollision( IBoat boat ) {
