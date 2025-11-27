@@ -6,21 +6,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class ConcreteCoastTest {
 
     static class TestBoat implements IBoat {
-        private double x, y;
+        private double _x, _y;
+        private IBoatState _state;
 
         public TestBoat( double x, double y ) {
-            this.x = x;
-            this.y = y;
+            _x = x;
+            _y = y;
+            _state = new UpState();
         }
 
         @Override
         public double get_x() {
-            return x;
+            return _x;
         }
 
         @Override
         public double get_y() {
-            return y;
+            return _y;
         }
 
         @Override
@@ -73,8 +75,28 @@ class ConcreteCoastTest {
         }
 
         @Override
+        public void start() {
+            _state.start(this);
+        }
+
+        @Override
+        public void stop() {
+            _state.stop(this);
+        }
+
+        @Override
+        public boolean isRunning() {
+            return _state.isRunning();
+        }
+
+        @Override
         public boolean hasCrossedFinishLine() {
             return false;
+        }
+
+        @Override
+        public void setState( IBoatState newState ) {
+            _state = newState;
         }
 
         @Override

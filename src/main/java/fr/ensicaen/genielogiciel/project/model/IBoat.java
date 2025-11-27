@@ -40,6 +40,14 @@ public interface IBoat {
 
     void set_sail( IDecoratorSail sail );
 
+    void start();
+
+    void stop();
+
+    boolean isRunning();
+
     // To implement
     boolean hasCrossedFinishLine();
+
+    void setState( IBoatState upState );
 }
