@@ -6,7 +6,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class ConcreteCoastTest {
 
     static class TestBoat implements IBoat {
-        private double _x, _y;
+        private final double _x;
+        private final double _y;
         private IBoatState _state;
 
         public TestBoat( double x, double y ) {

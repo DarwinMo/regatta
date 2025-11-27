@@ -30,7 +30,7 @@ public class FigaroTest {
         boat.rotate(15);
         assertEquals(15, boat.get_angle());
         boat.rotate(-30);
-        assertEquals(345, boat.get_angle()); // modulo 360
+        assertEquals(345, boat.get_angle());
     }
 
     @Test
@@ -105,7 +105,6 @@ public class FigaroTest {
         boat.set_windAngle(90);
         boat.accelerate();
 
-        // On laisse le bateau atteindre une vitesse cible
         for (int i = 0; i < 10; i++) {
             boat.applyWind();
         }
