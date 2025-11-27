@@ -77,8 +77,28 @@ class ConcreteBuoyTest {
             }
 
             @Override
+            public void start() {
+
+            }
+
+            @Override
+            public void stop() {
+
+            }
+
+            @Override
+            public boolean isRunning() {
+                return false;
+            }
+
+            @Override
             public boolean hasCrossedFinishLine() {
                 return false;
+            }
+
+            @Override
+            public void setState( IBoatState upState ) {
+
             }
 
             @Override
