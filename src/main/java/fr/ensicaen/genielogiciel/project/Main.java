@@ -29,7 +29,7 @@ public final class Main extends Application {
                         );
                     } catch (MissingResourceException e) {
                         BUNDLE = local = ResourceBundle.getBundle(
-                                "fr.ensicaen.genielogiciel.project.MessageBundle", Locale.US
+                                "fr.ensicaen.genielogiciel.project.MessageBundle", Locale.FRANCE
                         );
                     }
                 }

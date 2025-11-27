@@ -19,25 +19,30 @@ public final class LoginPresenter {
         _loginView = loginView;
     }
 
-    public void launchGame( String nickName ) {
+    public void launchGame( String nickName, String configurationFile ) {
         if (nickName.isEmpty()) {
             _loginView.displayError(Main.getMessageBundle().getString("error.nickname"));
         } else {
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource(
-                        "/fr/ensicaen/genielogiciel/project/view/BoatSelection.fxml"));
-                Parent root = loader.load();
-
-                BoatSelectionController controller = loader.getController();
-                LoginView view = (LoginView) _loginView;
-                controller.setStage(view.getStage());
-
-                Stage stage = view.getStage();
-                stage.setScene(new Scene(root));
-                stage.show();
+                // FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                //         "/fr/ensicaen/genielogiciel/project/view/BoatSelection.fxml"));
+                // Parent root = loader.load();
+                // BoatSelectionController controller = loader.getController();
+                // LoginView view = (LoginView) _loginView;
+                // controller.setStage(view.getStage());
+                // Stage stage = view.getStage();
+                // stage.setScene(new Scene(root));
+                // stage.show();
+                
+                final GameView view = GameView.GameViewFactory.createView();
+                final ConcreteGamePresenter gamePresenter = new ConcreteGamePresenter(nickName, configurationFile);
+                view.setGamePresenter(gamePresenter);
+                gamePresenter.setGameView(view);
+                view.show();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
+
 }

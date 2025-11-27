@@ -10,6 +10,7 @@ public class MainController {
     @FXML
     private Canvas gameCanvas;
 
+
     @FXML
     public void initialize() {
         if (gameCanvas != null) {

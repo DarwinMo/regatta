@@ -3,5 +3,5 @@ package fr.ensicaen.genielogiciel.project.model;
 import java.io.IOException;
 
 public interface IBoatFactory {
-    IBoat createFigaro() throws IOException;
+    IBoat createBoat( double x, double y ) throws IOException;
 }

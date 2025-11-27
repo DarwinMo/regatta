@@ -14,8 +14,6 @@ public interface IBoat {
 
     void rotate( int deltaAngle );
 
-    void move();
-
     double get_x();
 
     double get_y();
@@ -32,17 +30,24 @@ public interface IBoat {
 
     void set_speed( double speed );
 
-
     void set_windAngle( double windAngle );
-
-    double get_windAngle();
 
     void set_windSpeed( double windSpeed );
 
     double get_windSpeed();
 
-
     void set_crew( IDecoratorEquipment crew );
 
     void set_sail( IDecoratorSail sail );
+
+    void start();
+
+    void stop();
+
+    boolean isRunning();
+
+    // To implement
+    boolean hasCrossedFinishLine();
+
+    void setState( IBoatState upState );
 }
