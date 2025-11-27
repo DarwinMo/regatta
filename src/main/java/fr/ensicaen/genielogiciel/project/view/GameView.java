@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 
 import fr.ensicaen.genielogiciel.project.Main;
-import fr.ensicaen.genielogiciel.project.model.Line;
 import fr.ensicaen.genielogiciel.project.presenter.ConcreteGamePresenter;
 import fr.ensicaen.genielogiciel.project.presenter.IPresenter;
 import fr.ensicaen.genielogiciel.project.presenter.UserAction;
@@ -31,7 +30,7 @@ public final class GameView implements IGameView {
     private static Stage _stage;
     private ConcreteGamePresenter _gamePresenter;
     private Ellipse _boat;
-    private final List<ImageView> buoys = new ArrayList<>();
+    private List<ImageView> _buoys = new ArrayList<>();
     private javafx.scene.shape.Line _currentBuoyLine;
 
     @FXML
@@ -195,21 +194,19 @@ public final class GameView implements IGameView {
             buoy.setLayoutY(y - buoy.getFitHeight() / 2);
 
             _base.getChildren().add(buoy);
-            buoys.add(buoy);
+
+            _buoys.add(buoy);
         } catch (Exception e) {
             System.err.println("Impossible de charger l'image de la bouée.");
         }
     }
 
-    public void addBuoyLines( Line line ) {
+    public void addBuoyLines( double s_x, double s_y, double e_x, double e_y ) {
         if (_currentBuoyLine != null) {
             _base.getChildren().remove(_currentBuoyLine);
         }
-        double len = 3000;
-        double centerX = line.getStartX();
-        double centerY = line.getStartY();
         javafx.scene.shape.Line fxLine = new javafx.scene.shape.Line(
-                centerX, centerY, centerX + line.getDx() * len, centerY + line.getDy() * len
+                s_x, s_y, e_y, e_x
         );
         fxLine.setStroke(Color.RED);
         fxLine.setStrokeWidth(2);

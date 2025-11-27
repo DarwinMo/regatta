@@ -12,5 +12,11 @@ public interface IBuoy {
 
     boolean checkCollision( IBoat boat );
 
-    Line getLine();
+    public double getStartLineX();
+
+    public double getStartLineY();
+
+    public double getEndLineX();
+
+    public double getEndLineY();
 }
