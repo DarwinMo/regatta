@@ -45,10 +45,10 @@
                        fitWidth="30" fitHeight="30"
                        preserveRatio="true"/>
             <ImageView fx:id="windIcon"
-                       fitWidth="30" fitHeight="30"
+                       fitWidth="40" fitHeight="40"
                        preserveRatio="true"/>
             <ImageView fx:id="windArrow"
-                       fitWidth="30" fitHeight="30"
+                       fitWidth="40" fitHeight="40"
                        preserveRatio="true"/>
         </HBox>
 
@@ -60,7 +60,7 @@
                    text="0"
                    prefHeight="48"
                    style="-fx-text-fill: white; -fx-font-size: 48;"/>
-            <Label  
+            <Label
                     text="kt"
                     prefHeight="48"
                     style="-fx-text-fill: white; -fx-font-size: 24;"/>

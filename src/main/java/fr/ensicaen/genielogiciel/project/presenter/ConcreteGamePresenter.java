@@ -79,15 +79,15 @@ public class ConcreteGamePresenter implements IPresenter {
     private void runGameLoop() {
         _timeline = new Timeline(new KeyFrame(
                 Duration.millis(50), onFinished -> {
-                    update();
-                    render();
-                }
+            update();
+            render();
+        }
         ));
         _timeline.setCycleCount(Animation.INDEFINITE);
         _timeline.play();
     }
 
-    private void stopGameLoop() {
+    public void stopGameLoop() {
         if (_timeline != null) {
             _timeline.stop();
         }
@@ -108,7 +108,10 @@ public class ConcreteGamePresenter implements IPresenter {
         _boat.accelerate();
         _boat.applyWind();
         if (loopCompleted()) {
+            _timeScore.finish();
             stopGameLoop();
+            String finalTime = _timeScore.getFormattedTime();
+            _gameView.addEndScreen(finalTime);
         }
     }
 
@@ -116,5 +119,14 @@ public class ConcreteGamePresenter implements IPresenter {
         _gameView.updateBoat(_boat.get_dx(), _boat.get_dy(), _boat.get_angle());
         _gameView.updateDashboard(_wind.getWindDirection(), _boat.get_angle(), _boat.get_speed(), _timeScore.getFormattedCurrentTime());
     }
+
+    public void pauseGame() {
+        _timeline.pause();
+    }
+
+    public void resumeGame() {
+        _timeline.play();
+    }
+
 
 }

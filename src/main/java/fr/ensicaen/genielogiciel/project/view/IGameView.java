@@ -14,4 +14,6 @@ public interface IGameView {
 
 
     void addCoast( double start_x, double start_y, double end_x, double end_y );
+
+    void addEndScreen( String time );
 }
