@@ -22,6 +22,7 @@ public class ConcreteGamePresenter implements IPresenter {
     private boolean _started = false;
     private Timeline _timeline;
     private final TimeScore _timeScore = new TimeScore();
+    private int _currentBuoyIndex = 0;
 
     public ConcreteGamePresenter( String nickName, String configurationFile ) throws IOException {
         _player = new PlayerModel();
@@ -36,8 +37,12 @@ public class ConcreteGamePresenter implements IPresenter {
         _gameView.addBoat(_boat.get_x(), _boat.get_y());
         for (IBuoy buoy : _map.getBuoys()) {
             _gameView.addBuoys(buoy.get_x(), buoy.get_y());
-            if (buoy instanceof ConcreteBuoy) {
-                _gameView.addBuoyLines(((ConcreteBuoy)buoy).getLine());
+        }
+
+        if (!_map.getBuoys().isEmpty()) {
+            IBuoy firstBuoy = _map.getBuoys().get(_currentBuoyIndex); // Utilise l'index 0
+            if (firstBuoy instanceof ConcreteBuoy) {
+                _gameView.addBuoyLines(((ConcreteBuoy) firstBuoy).getLine());
             }
         }
 
@@ -79,9 +84,9 @@ public class ConcreteGamePresenter implements IPresenter {
     private void runGameLoop() {
         _timeline = new Timeline(new KeyFrame(
                 Duration.millis(50), onFinished -> {
-            update();
-            render();
-        }
+                    update();
+                    render();
+                }
         ));
         _timeline.setCycleCount(Animation.INDEFINITE);
         _timeline.play();
@@ -109,19 +114,41 @@ public class ConcreteGamePresenter implements IPresenter {
         _boat.accelerate();
         _boat.applyWind();
 
-        for (IBuoy buoy : _map.getBuoys()) {
-            if (buoy.checkPassage(_boat)) {
-                System.out.println("PASSAGE VALIDÉ");
+        if (_currentBuoyIndex < _map.getBuoys().size()) {
+            IBuoy currentBuoy = _map.getBuoys().get(_currentBuoyIndex);
+            if (currentBuoy.checkPassage(_boat)) {
+                System.out.println("PASSAGE VALIDÉ POUR BOUEE " + _currentBuoyIndex);
+                _currentBuoyIndex++;
+
+                if (_currentBuoyIndex >= _map.getBuoys().size()) {
+                    System.out.println("PARCOURS TERMINÉ !");
+                    stopGameLoop();
+                    _gameView.removeCurrentBuoyLine();
+                } else {
+                    IBuoy nextBuoy = _map.getBuoys().get(_currentBuoyIndex);
+                    if (nextBuoy instanceof ConcreteBuoy) {
+                        _gameView.addBuoyLines(((ConcreteBuoy) nextBuoy).getLine());
+                    }
+                }
             }
+        }
+
+        for (ICoast coast : _map.getCoasts()) {
+            if (coast.isCollision(_boat)) {
+                System.out.println("Collision avec la côte !");
+                _boat.set_speed(0);
+                break;
+            }
+        }
+        for (IBuoy buoy : _map.getBuoys()) {
             if (buoy.checkCollision(_boat)) {
                 System.out.println("Collision avec la bouée !");
                 _boat.set_speed(0);
+                break;
             }
         }
-        if (loopCompleted()) {
-            stopGameLoop();
-        }
     }
+
     private void render() {
         _gameView.updateBoat(_boat.get_dx(), _boat.get_dy(), _boat.get_angle());
         _gameView.updateDashboard(_wind.getWindDirection(), _boat.get_angle(), _boat.get_speed(), _timeScore.getFormattedCurrentTime());

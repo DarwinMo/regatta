@@ -13,6 +13,7 @@ public interface IGameView {
 
     void addBuoys( double x, double y );
 
-    void addBuoyLines(Line line);
+    void addBuoyLines( Line line );
+
     void addCoast( double start_x, double start_y, double end_x, double end_y );
 }

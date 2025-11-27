@@ -99,24 +99,41 @@ class ConcreteCoastTest {
         ConcreteCoast coast = new ConcreteCoast(0, 0, 10, 0);
 
         TestBoat boatOnCoast = new TestBoat(5, 0);
-        assertTrue(coast.isCollision(boatOnCoast), "Le bateau devrait toucher la côte");
+        assertTrue(coast.isCollision(boatOnCoast), "Le bateau devrait toucher la côte (distance 0)");
 
-        TestBoat boatNearCoast = new TestBoat(5, 0.1);
-        assertFalse(coast.isCollision(boatNearCoast), "Le bateau ne devrait pas toucher la côte");
+        TestBoat boatJustColliding = new TestBoat(5, 15);
+        assertTrue(coast.isCollision(boatJustColliding), "Le bateau devrait toucher la côte (distance 15)");
 
-        TestBoat boatFar = new TestBoat(5, 1);
-        assertFalse(coast.isCollision(boatFar), "Le bateau est trop loin de la côte");
+
+        TestBoat boatNearCoast = new TestBoat(5, 20.1);
+        assertFalse(coast.isCollision(boatNearCoast), "Le bateau ne devrait pas toucher la côte (distance 20.1)");
+
+        TestBoat boatFar = new TestBoat(5, 30);
+        assertFalse(coast.isCollision(boatFar), "Le bateau est trop loin de la côte (distance 30)");
 
         TestBoat boatStart = new TestBoat(0, 0);
         TestBoat boatEnd = new TestBoat(10, 0);
         assertTrue(coast.isCollision(boatStart), "Le bateau touche l'extrémité start");
         assertTrue(coast.isCollision(boatEnd), "Le bateau touche l'extrémité end");
+
+        TestBoat boatNearStart = new TestBoat(-15, 0);
+        assertTrue(coast.isCollision(boatNearStart), "Le bateau touche l'extrémité start (distance 15)");
+
+        TestBoat boatFarFromStart = new TestBoat(-20.1, 0);
+        assertFalse(coast.isCollision(boatFarFromStart), "Le bateau ne touche pas l'extrémité start (distance 20.1)");
     }
 
     @Test
     void testZeroLengthCoast() {
         ConcreteCoast coast = new ConcreteCoast(5, 5, 5, 5);
-        TestBoat boat = new TestBoat(5, 5);
-        assertFalse(coast.isCollision(boat), "Coast de longueur zéro ne doit pas détecter de collision");
+
+        TestBoat boatAtPoint = new TestBoat(5, 5);
+        assertTrue(coast.isCollision(boatAtPoint), "Le bateau au point devrait détecter une collision");
+
+        TestBoat boatNearPoint = new TestBoat(5, 5 + 19);
+        assertTrue(coast.isCollision(boatNearPoint), "Le bateau près du point devrait détecter une collision");
+
+        TestBoat boatFarFromPoint = new TestBoat(5, 5 + 21);
+        assertFalse(coast.isCollision(boatFarFromPoint), "Le bateau loin du point ne devrait pas détecter de collision");
     }
 }

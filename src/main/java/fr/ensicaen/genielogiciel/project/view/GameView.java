@@ -31,6 +31,8 @@ public final class GameView implements IGameView {
     private static Stage _stage;
     private ConcreteGamePresenter _gamePresenter;
     private Ellipse _boat;
+    private List<ImageView> buoys = new ArrayList<>();
+    private javafx.scene.shape.Line _currentBuoyLine;
 
     @FXML
     private Button pauseButton;
@@ -54,9 +56,6 @@ public final class GameView implements IGameView {
 
     @FXML
     private ImageView headingArrow;
-
-
-    private List<ImageView> buoys = new ArrayList<>();
 
     public void setGamePresenter( ConcreteGamePresenter gamePresenter ) {
         _gamePresenter = gamePresenter;
@@ -151,7 +150,7 @@ public final class GameView implements IGameView {
                 Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/heading.png")).toExternalForm(), 18, 18, true, true
         ));
         windArrow.setImage(new Image(
-                Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowRight.png")).toExternalForm()
+                Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowUp.png")).toExternalForm()
         ));
 
         headingArrow.setImage(new Image(
@@ -179,31 +178,48 @@ public final class GameView implements IGameView {
         buoy.setFitHeight(32);
         buoy.setPreserveRatio(true);
 
-        buoy.setLayoutX(x - buoy.getFitWidth()/2);
-        buoy.setLayoutY(y - buoy.getFitHeight()/2);
+        buoy.setLayoutX(x - buoy.getFitWidth() / 2);
+        buoy.setLayoutY(y - buoy.getFitHeight() / 2);
 
         _base.getChildren().add(buoy);
 
         buoys.add(buoy);
     }
 
-    public void addBuoyLines(Line line){
+    public void addBuoyLines( Line line ) {
+        if (_currentBuoyLine != null) {
+            _base.getChildren().remove(_currentBuoyLine);
+        }
         double len = 1000000;
         double centerX = line.getStartX();
         double centerY = line.getStartY();
         javafx.scene.shape.Line fxLine = new javafx.scene.shape.Line(
-                centerX,
-                centerY,
-                centerX + line.getDx()*len,
-                centerY + line.getDy()*len
+                centerX, centerY, centerX + line.getDx() * len, centerY + line.getDy() * len
         );
         fxLine.setStroke(Color.RED);
         fxLine.setStrokeWidth(2);
         _base.getChildren().add(fxLine);
+        _currentBuoyLine = fxLine;
+    }
+
+    public void removeCurrentBuoyLine() {
+        if (_currentBuoyLine != null) {
+            _base.getChildren().remove(_currentBuoyLine);
+            _currentBuoyLine = null;
+        }
     }
 
     @Override
     public void addCoast( double start_x, double start_y, double end_x, double end_y ) {
+        javafx.scene.shape.Line coastLine = new javafx.scene.shape.Line(
+                start_x, start_y, end_x, end_y
+        );
 
+        coastLine.setStroke(Color.SADDLEBROWN);
+        coastLine.setStrokeWidth(10);
+
+        _base.getChildren().add(coastLine);
+
+        coastLine.toBack();
     }
 }

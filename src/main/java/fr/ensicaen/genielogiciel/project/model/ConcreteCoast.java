@@ -6,6 +6,7 @@ public class ConcreteCoast implements ICoast {
     private final double startY;
     private final double endX;
     private final double endY;
+    private static final double COLLISION_RADIUS = 20.0;
 
     public ConcreteCoast( double startX, double startY, double endX, double endY ) {
         this.startX = startX;
@@ -42,16 +43,20 @@ public class ConcreteCoast implements ICoast {
         double dx = endX - startX;
         double dy = endY - startY;
 
-        double lengthCoast = dx * dx + dy * dy;
-        if (lengthCoast == 0) return false;
+        double lengthCoastSq = dx * dx + dy * dy;
+        if (lengthCoastSq == 0) {
+            double distSq = Math.pow(boatX - startX, 2) + Math.pow(boatY - startY, 2);
+            return distSq < (COLLISION_RADIUS * COLLISION_RADIUS);
+        }
+        double t = ((boatX - startX) * dx + (boatY - startY) * dy) / lengthCoastSq;
 
-        double t = ((boatX - startX) * dx + (boatY - startY) * dy) / lengthCoast;
         t = Math.max(0, Math.min(1, t));
 
         double projX = startX + t * dx;
         double projY = startY + t * dy;
 
-        double distance = Math.sqrt(Math.pow(projX - boatX, 2) + Math.pow(projY - boatY, 2));
-        return distance < 0.0001;
+        double distSq = Math.pow(projX - boatX, 2) + Math.pow(projY - boatY, 2);
+
+        return distSq < (COLLISION_RADIUS * COLLISION_RADIUS);
     }
 }

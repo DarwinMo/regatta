@@ -8,11 +8,11 @@ public class Line {
 
     private double lastSide = Double.NaN;
 
-    public Line(double x0, double y0, double dirX, double dirY) {
+    public Line( double x0, double y0, double dirX, double dirY ) {
         this._x1 = x0;
         this._y1 = y0;
 
-        double len = Math.sqrt(dirX*dirX + dirY*dirY);
+        double len = Math.sqrt(dirX * dirX + dirY * dirY);
         this.dx = dirX / len;
         this.dy = dirY / len;
 
@@ -20,13 +20,13 @@ public class Line {
         this.ny = -this.dx;
     }
 
-    private double side(IBoat boat) {
+    private double side( IBoat boat ) {
         double bx = boat.get_x() - _x1;
         double by = boat.get_y() - _y1;
         return bx * nx + by * ny;
     }
 
-    public boolean isCrossedBy(IBoat boat) {
+    public boolean isCrossedBy( IBoat boat ) {
         double currentSide = side(boat);
         boolean crossed = false;
 
@@ -44,8 +44,19 @@ public class Line {
         return crossed;
     }
 
-    public double getStartX() { return _x1; }
-    public double getStartY() { return _y1; }
-    public double getDx() { return dx; }
-    public double getDy() { return dy; }
+    public double getStartX() {
+        return _x1;
+    }
+
+    public double getStartY() {
+        return _y1;
+    }
+
+    public double getDx() {
+        return dx;
+    }
+
+    public double getDy() {
+        return dy;
+    }
 }

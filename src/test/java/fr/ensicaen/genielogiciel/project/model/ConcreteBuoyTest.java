@@ -28,37 +28,74 @@ class ConcreteBuoyTest {
             }
 
             @Override
-            public double get_dx() { return 0; }
+            public double get_dx() {
+                return 0;
+            }
+
             @Override
-            public double get_dy() { return 0; }
+            public double get_dy() {
+                return 0;
+            }
+
             @Override
-            public int get_angle() { return 0; }
+            public int get_angle() {
+                return 0;
+            }
+
             @Override
-            public void set_angle( int angle ) { }
+            public void set_angle( int angle ) {
+            }
+
             @Override
-            public double get_speed() { return 0; }
+            public double get_speed() {
+                return 0;
+            }
+
             @Override
-            public void set_speed( double speed ) { }
+            public void set_speed( double speed ) {
+            }
+
             @Override
-            public void set_windAngle( double windAngle ) { }
+            public void set_windAngle( double windAngle ) {
+            }
+
             @Override
-            public void set_windSpeed( double windSpeed ) { }
+            public void set_windSpeed( double windSpeed ) {
+            }
+
             @Override
-            public double get_windSpeed() { return 0; }
+            public double get_windSpeed() {
+                return 0;
+            }
+
             @Override
-            public void set_crew( IDecoratorEquipment crew ) { }
+            public void set_crew( IDecoratorEquipment crew ) {
+            }
+
             @Override
-            public void set_sail( IDecoratorSail sail ) { }
+            public void set_sail( IDecoratorSail sail ) {
+            }
+
             @Override
-            public boolean hasCrossedFinishLine() { return false; }
+            public boolean hasCrossedFinishLine() {
+                return false;
+            }
+
             @Override
-            public void trim() { }
+            public void trim() {
+            }
+
             @Override
-            public void accelerate() { }
+            public void accelerate() {
+            }
+
             @Override
-            public void applyWind() { }
+            public void applyWind() {
+            }
+
             @Override
-            public void rotate( int deltaAngle ) { }
+            public void rotate( int deltaAngle ) {
+            }
         };
     }
 

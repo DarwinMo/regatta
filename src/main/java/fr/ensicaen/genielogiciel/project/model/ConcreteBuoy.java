@@ -9,10 +9,14 @@ public class ConcreteBuoy implements IBuoy {
     private final Line line;
 
     @Override
-    public double get_x() { return _x; }
+    public double get_x() {
+        return _x;
+    }
 
     @Override
-    public double get_y() { return _y; }
+    public double get_y() {
+        return _y;
+    }
 
     @Override
     public boolean isMarked() {
@@ -41,10 +45,12 @@ public class ConcreteBuoy implements IBuoy {
         this.line = new Line(x, y, dx, dy);
     }
 
-    public Line getLine() { return line; }
+    public Line getLine() {
+        return line;
+    }
 
     @Override
-    public boolean checkPassage(IBoat boat) {
+    public boolean checkPassage( IBoat boat ) {
         if (!_validated && line.isCrossedBy(boat)) {
             _validated = true;
             return true;
@@ -53,10 +59,10 @@ public class ConcreteBuoy implements IBuoy {
     }
 
     @Override
-    public boolean checkCollision(IBoat boat) {
+    public boolean checkCollision( IBoat boat ) {
         double dx = boat.get_x() - _x;
         double dy = boat.get_y() - _y;
-        double distance = Math.sqrt(dx*dx + dy*dy);
+        double distance = Math.sqrt(dx * dx + dy * dy);
         return distance <= 15;
     }
 }

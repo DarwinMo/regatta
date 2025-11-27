@@ -136,9 +136,6 @@ public abstract class AbstractBoat implements IBoat {
 
         _targetSpeed = polarSpeed;
 
-        System.out.printf(
-                "Angle=%.1f° | Speed=%.2f%n", adjustedAngle, _speed
-        );
     }
 
     @Override
