@@ -1,6 +1,5 @@
 package fr.ensicaen.genielogiciel.project.view;
 
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +23,21 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public final class GameView implements IGameView {
 
     private static Stage _stage;
     private ConcreteGamePresenter _gamePresenter;
     private Ellipse _boat;
+    private List<ImageView> _buoys = new ArrayList<>();
+    private javafx.scene.shape.Line _currentBuoyLine;
 
 
     @FXML
@@ -188,14 +193,33 @@ public final class GameView implements IGameView {
         buoy.setFitHeight(32);
         buoy.setPreserveRatio(true);
 
-        buoy.setLayoutX(x);
-        buoy.setLayoutY(y);
+        buoy.setLayoutX(x - buoy.getFitWidth() / 2);
+        buoy.setLayoutY(y - buoy.getFitHeight() / 2);
 
         _base.getChildren().add(buoy);
 
-        buoys.add(buoy);
+        _buoys.add(buoy);
     }
 
+    public void addBuoyLines( double s_x, double s_y, double e_x, double e_y ) {
+        if (_currentBuoyLine != null) {
+            _base.getChildren().remove(_currentBuoyLine);
+        }
+        javafx.scene.shape.Line fxLine = new javafx.scene.shape.Line(
+                s_x, s_y, e_y, e_x
+        );
+        fxLine.setStroke(Color.RED);
+        fxLine.setStrokeWidth(2);
+        _base.getChildren().add(fxLine);
+        _currentBuoyLine = fxLine;
+    }
+
+    public void removeCurrentBuoyLine() {
+        if (_currentBuoyLine != null) {
+            _base.getChildren().remove(_currentBuoyLine);
+            _currentBuoyLine = null;
+        }
+    }
 
     @Override
     public void addCoast( double start_x, double start_y, double end_x, double end_y ) {
@@ -269,6 +293,12 @@ public final class GameView implements IGameView {
         _endOverlay.getChildren().add(endScreen);
         _base.getChildren().add(_endOverlay);
 
+        coastLine.setStroke(Color.SADDLEBROWN);
+        coastLine.setStrokeWidth(10);
+
+        _base.getChildren().add(coastLine);
+
+        coastLine.toBack();
     }
 
     private void goToLoginView() {

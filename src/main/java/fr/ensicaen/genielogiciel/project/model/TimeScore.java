@@ -1,8 +1,6 @@
 package fr.ensicaen.genielogiciel.project.model;
 
-/**
- * Classe pour mesurer le temps écoulé entre un démarrage et un arrêt
- */
+
 public class TimeScore {
     private long startTime;
     private long finishTime;

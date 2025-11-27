@@ -40,14 +40,12 @@ public class LoginView implements ILoginView {
     }
 
     @FXML
-    void onClickOnStartGame() {
-        // here there should be an att _confFile that gives the chosen conf file
+    private void onClickOnStartGame() {
         _loginPresenter.launchGame(_nickName.getText(), null);
     }
 
     public static class LoginViewFactory {
         private LoginViewFactory() {
-            // Factory class as Utility class where the constructor is private
         }
 
         public static LoginView createView( Stage primaryStage ) throws IOException {
@@ -59,5 +57,10 @@ public class LoginView implements ILoginView {
             primaryStage.setScene(scene);
             return view;
         }
+    }
+
+    @Override
+    public Stage getStage() {
+        return _stage;
     }
 }

@@ -1,8 +1,8 @@
 package fr.ensicaen.genielogiciel.project.model;
 
 public class ConcreteWaterPlan implements IWaterPlan {
-    private Bounds _bounds;
-    private IWind _wind;
+    private final Bounds _bounds;
+    private final IWind _wind;
 
     @Override
     public boolean isInside( double x, double y ) {

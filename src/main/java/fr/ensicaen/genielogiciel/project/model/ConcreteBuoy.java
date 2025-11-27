@@ -4,31 +4,11 @@ public class ConcreteBuoy implements IBuoy {
 
     private final double _x;
     private final double _y;
-    private final double _width = 20;
 
-    private boolean _entryPassed = false;
+    private boolean _validated = false;
+    private final Line line;
+    private double lastSide = Double.NaN;
 
-    private static class Line {
-        double _x1, _y1, _x2, _y2;
-
-        public Line( double _x1, double y1, double x2, double y2 ) {
-            this._x1 = _x1;
-            this._y1 = y1;
-            this._x2 = x2;
-            this._y2 = y2;
-        }
-
-        public boolean isCrossedBy( IBoat boat ) {
-            double minX = Math.min(_x1, _x2);
-            double maxX = Math.max(_x1, _x2);
-            double minY = Math.min(_y1, _y2);
-            double maxY = Math.max(_y1, _y2);
-            return boat.get_x() >= minX && boat.get_x() <= maxX && boat.get_y() >= minY && boat.get_y() <= maxY;
-        }
-
-    }
-
-    private final Line lineEntry, lineExit;
 
     @Override
     public double get_x() {
@@ -42,35 +22,71 @@ public class ConcreteBuoy implements IBuoy {
 
     @Override
     public boolean isMarked() {
-        return false;
+        return _validated;
     }
 
     public ConcreteBuoy( double x, double y, double angle ) {
         this._x = x;
         this._y = y;
-        double offsetX = Math.cos(Math.toRadians(angle + 90)) * _width;
-        double offsetY = Math.sin(Math.toRadians(angle + 90)) * _width;
-
-        this.lineEntry = new Line(x - offsetX, y - offsetY, x + offsetX, y + offsetY);
-        this.lineExit = new Line(x - offsetX * 0.9, y - offsetY * 0.9, x + offsetX * 0.9, y + offsetY * 0.9);
+        double _length = 100;
+        this.line = new Line(x, y, angle, _length);
     }
 
+    public double getStartLineX() {
+        return line.getStartX();
+    }
+
+    public double getStartLineY() {
+        return line.getStartY();
+    }
+
+    public double getEndLineX() {
+        return line.getEndX();
+    }
+
+    public double getEndLineY() {
+        return line.getEndY();
+    }
+
+    private double side( IBoat boat ) {
+
+        double bx = boat.get_x() - line.getStartX();
+        double by = boat.get_y() - line.getStartY();
+        return bx * line.getNX() + by * line.getNY();
+    }
+
+    public boolean isCrossedBy( IBoat boat ) {
+        double currentSide = side(boat);
+        boolean crossed = false;
+
+        if (!Double.isNaN(lastSide) && lastSide * currentSide < 0) {
+            double vectorX = boat.get_x() - line.getStartX();
+            double vectorY = boat.get_y() - line.getStartY();
+
+            double positionOnLine = vectorX * line.getDX() + vectorY * line.getDY();
+            if (positionOnLine > 0) {
+                crossed = true;
+            }
+        }
+        lastSide = currentSide;
+        return crossed;
+    }
+
+
+    @Override
     public boolean checkPassage( IBoat boat ) {
-        if (!_entryPassed && lineEntry.isCrossedBy(boat)) {
-            _entryPassed = true;
-            return true;
-        } else if (_entryPassed && lineExit.isCrossedBy(boat)) {
+        if (!_validated && isCrossedBy(boat)) {
+            _validated = true;
             return true;
         }
         return false;
     }
 
+    @Override
     public boolean checkCollision( IBoat boat ) {
         double dx = boat.get_x() - _x;
         double dy = boat.get_y() - _y;
         double distance = Math.sqrt(dx * dx + dy * dy);
-        double radius = 15; // rayon de collision
-        return distance <= radius;
+        return distance <= 15;
     }
 }
-
