@@ -2,14 +2,12 @@ package fr.ensicaen.genielogiciel.project.presenter;
 
 import fr.ensicaen.genielogiciel.project.model.*;
 import fr.ensicaen.genielogiciel.project.view.GameView;
-import fr.ensicaen.genielogiciel.project.view.IGameView;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
 
 import java.io.IOException;
-import java.lang.module.Configuration;
 
 public class ConcreteGamePresenter implements IPresenter {
 
@@ -18,13 +16,13 @@ public class ConcreteGamePresenter implements IPresenter {
     private final PlayerModel _player;
     private IWind _wind;
 
-
     private final BoatDirectionManager _boatDirectionManager;
 
-    private IGameView _gameView;
+    private GameView _gameView;
     private boolean _started = false;
     private Timeline _timeline;
     private final TimeScore _timeScore = new TimeScore();
+    private int _currentBuoyIndex = 0;
 
     public ConcreteGamePresenter( String nickName, String configurationFile ) throws IOException {
         _player = new PlayerModel();
@@ -40,6 +38,14 @@ public class ConcreteGamePresenter implements IPresenter {
         for (IBuoy buoy : _map.getBuoys()) {
             _gameView.addBuoys(buoy.get_x(), buoy.get_y());
         }
+
+        if (!_map.getBuoys().isEmpty()) {
+            IBuoy firstBuoy = _map.getBuoys().get(_currentBuoyIndex); // Utilise l'index 0
+            if (firstBuoy instanceof ConcreteBuoy) {
+                _gameView.addBuoyLines(((ConcreteBuoy) firstBuoy).getLine());
+            }
+        }
+
         for (ICoast coast : _map.getCoasts()) {
             _gameView.addCoast(coast.getStartX(), coast.getStartY(), coast.getEndX(), coast.getEndY());
         }
@@ -75,7 +81,6 @@ public class ConcreteGamePresenter implements IPresenter {
         _boat = _map.getBoat();
     }
 
-
     private void runGameLoop() {
         _timeline = new Timeline(new KeyFrame(
                 Duration.millis(50), onFinished -> {
@@ -91,6 +96,7 @@ public class ConcreteGamePresenter implements IPresenter {
         if (_timeline != null) {
             _timeline.stop();
         }
+        System.out.println("FIN DE PARTIE ! Temps : " + _timeScore.getFormattedCurrentTime());
     }
 
     private boolean loopCompleted() {
@@ -99,7 +105,7 @@ public class ConcreteGamePresenter implements IPresenter {
                 return false;
             }
         }
-        return _boat.hasCrossedFinishLine();
+        return true;
     }
 
     private void update() {
@@ -107,8 +113,39 @@ public class ConcreteGamePresenter implements IPresenter {
         _boat.set_windAngle(_wind.getWindDirection());
         _boat.accelerate();
         _boat.applyWind();
-        if (loopCompleted()) {
-            stopGameLoop();
+
+        if (_currentBuoyIndex < _map.getBuoys().size()) {
+            IBuoy currentBuoy = _map.getBuoys().get(_currentBuoyIndex);
+            if (currentBuoy.checkPassage(_boat)) {
+                System.out.println("PASSAGE VALIDÉ POUR BOUEE " + _currentBuoyIndex);
+                _currentBuoyIndex++;
+
+                if (_currentBuoyIndex >= _map.getBuoys().size()) {
+                    System.out.println("PARCOURS TERMINÉ !");
+                    stopGameLoop();
+                    _gameView.removeCurrentBuoyLine();
+                } else {
+                    IBuoy nextBuoy = _map.getBuoys().get(_currentBuoyIndex);
+                    if (nextBuoy instanceof ConcreteBuoy) {
+                        _gameView.addBuoyLines(((ConcreteBuoy) nextBuoy).getLine());
+                    }
+                }
+            }
+        }
+
+        for (ICoast coast : _map.getCoasts()) {
+            if (coast.isCollision(_boat)) {
+                System.out.println("Collision avec la côte !");
+                _boat.set_speed(0);
+                break;
+            }
+        }
+        for (IBuoy buoy : _map.getBuoys()) {
+            if (buoy.checkCollision(_boat)) {
+                System.out.println("Collision avec la bouée !");
+                _boat.set_speed(0);
+                break;
+            }
         }
     }
 
@@ -116,5 +153,4 @@ public class ConcreteGamePresenter implements IPresenter {
         _gameView.updateBoat(_boat.get_dx(), _boat.get_dy(), _boat.get_angle());
         _gameView.updateDashboard(_wind.getWindDirection(), _boat.get_angle(), _boat.get_speed(), _timeScore.getFormattedCurrentTime());
     }
-
 }
