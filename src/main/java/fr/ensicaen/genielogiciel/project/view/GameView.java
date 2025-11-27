@@ -67,12 +67,10 @@ public final class GameView implements IGameView {
     private AnchorPane _endOverlay;
 
 
-    private List<ImageView> buoys = new ArrayList<>();
-
     public void setGamePresenter( ConcreteGamePresenter gamePresenter ) {
         _gamePresenter = gamePresenter;
+        System.out.println("GameView : Présentateur connecté.");
     }
-
 
     public void rotate( Ellipse boat, double val ) {
         boat.setRotate(val);
@@ -98,19 +96,24 @@ public final class GameView implements IGameView {
     }
 
     public void updateBoat( double dx, double dy, double angle ) {
-        rotate(_boat, angle);
-        move(_boat, dx, dy);
+        if (_boat != null) {
+            rotate(_boat, angle);
+            move(_boat, dx, dy);
+        }
     }
 
     public void show() {
-        _stage.show();
+        if (_stage != null) _stage.show();
     }
 
+    @Override
     public void addBoat( double x, double y ) {
         _boat = drawBoat(x, y, 6, 16);
     }
 
-    private void handleKeyPressed( KeyCode code ) {
+    public void handleKeyPressed( KeyCode code ) {
+        if (_gamePresenter == null) return;
+
         if (code == KeyCode.SPACE) {
             _gamePresenter.handleUserAction(UserAction.START);
         } else if (code == KeyCode.LEFT) {
@@ -131,7 +134,7 @@ public final class GameView implements IGameView {
 
         public static GameView createView() throws IOException {
             FXMLLoader loader = new FXMLLoader(
-                    LoginView.class.getResource("SpotMap.fxml"), Main.getMessageBundle()
+                    GameView.class.getResource("SpotMap.fxml"), Main.getMessageBundle()
             );
 
             Parent root = loader.load();
@@ -158,6 +161,22 @@ public final class GameView implements IGameView {
 
     @FXML
     private void initialize() {
+        try {
+            windIcon.setImage(new Image(
+                    Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/wind.png")).toExternalForm(), 18, 18, true, true
+            ));
+            headingIcon.setImage(new Image(
+                    Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/heading.png")).toExternalForm(), 18, 18, true, true
+            ));
+            windArrow.setImage(new Image(
+                    Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowUp.png")).toExternalForm()
+            ));
+            headingArrow.setImage(new Image(
+                    Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowUp.png")).toExternalForm()
+            ));
+        } catch (NullPointerException e) {
+            System.err.println("Erreur chargement images : " + e.getMessage());
+        }
         windIcon.setImage(new Image(
                 Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/wind.png")).toExternalForm(), 18, 18, true, true
         ));
@@ -175,30 +194,34 @@ public final class GameView implements IGameView {
     }
 
     public void updateDashboard( double windDir, double boatDir, double speed, String time ) {
-        windArrow.setRotate(windDir);
-        headingArrow.setRotate(boatDir);
-        speedLabel.setText(String.format("%.1f", speed));
-        timeLabel.setText(time);
+        if (windArrow != null) windArrow.setRotate(windDir);
+        if (headingArrow != null) headingArrow.setRotate(boatDir);
+        if (speedLabel != null) speedLabel.setText(String.format("%.1f", speed));
+        if (timeLabel != null) timeLabel.setText(time);
     }
 
 
     @Override
     public void addBuoys( double x, double y ) {
-        ImageView buoy = new ImageView(
-                new Image(Objects.requireNonNull(getClass().getResource(
-                        "/fr/ensicaen/genielogiciel/project/images/buoy.png")).toExternalForm())
-        );
+        try {
+            ImageView buoy = new ImageView(
+                    new Image(Objects.requireNonNull(getClass().getResource(
+                            "/fr/ensicaen/genielogiciel/project/images/buoy.png")).toExternalForm())
+            );
 
-        buoy.setFitWidth(32);
-        buoy.setFitHeight(32);
-        buoy.setPreserveRatio(true);
+            buoy.setFitWidth(32);
+            buoy.setFitHeight(32);
+            buoy.setPreserveRatio(true);
 
-        buoy.setLayoutX(x - buoy.getFitWidth() / 2);
-        buoy.setLayoutY(y - buoy.getFitHeight() / 2);
+            buoy.setLayoutX(x - buoy.getFitWidth() / 2);
+            buoy.setLayoutY(y - buoy.getFitHeight() / 2);
 
-        _base.getChildren().add(buoy);
+            _base.getChildren().add(buoy);
 
-        _buoys.add(buoy);
+            _buoys.add(buoy);
+        } catch (Exception e) {
+            System.err.println("Impossible de charger l'image de la bouée.");
+        }
     }
 
     public void addBuoyLines( double s_x, double s_y, double e_x, double e_y ) {
@@ -245,12 +268,7 @@ public final class GameView implements IGameView {
 
         AnchorPane endScreen = new AnchorPane();
         endScreen.setStyle(
-                "-fx-background-color: rgba(0, 20, 40, 0.95);"
-                        + "-fx-padding: 25px;"
-                        + "-fx-border-color: white;"
-                        + "-fx-border-width: 3px;"
-                        + "-fx-background-radius: 10px;"
-                        + "-fx-border-radius: 10px;"
+                "-fx-background-color: rgba(0, 20, 40, 0.95);" + "-fx-padding: 25px;" + "-fx-border-color: white;" + "-fx-border-width: 3px;" + "-fx-background-radius: 10px;" + "-fx-border-radius: 10px;"
         );
         endScreen.setPrefSize(380, 280);
         AnchorPane.setTopAnchor(endScreen, (_base.getHeight() - 200) / 2);
@@ -293,12 +311,12 @@ public final class GameView implements IGameView {
         _endOverlay.getChildren().add(endScreen);
         _base.getChildren().add(_endOverlay);
 
-        coastLine.setStroke(Color.SADDLEBROWN);
-        coastLine.setStrokeWidth(10);
+        //coastLine.setStroke(Color.SADDLEBROWN);
+        //coastLine.setStrokeWidth(10);
 
-        _base.getChildren().add(coastLine);
+        //_base.getChildren().add(coastLine);
 
-        coastLine.toBack();
+        //coastLine.toBack();
     }
 
     private void goToLoginView() {
