@@ -1,0 +1,10 @@
+.dialog {
+    -fx-background-color: #00838F;
+    -fx-padding: 10;
+    -fx-border-color: white;
+    -fx-border-width: 5;
+}
+
+.text {
+    -fx-text-fill: white;
+}
