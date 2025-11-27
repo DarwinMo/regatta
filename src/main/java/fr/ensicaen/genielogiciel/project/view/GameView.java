@@ -1,7 +1,11 @@
 package fr.ensicaen.genielogiciel.project.view;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import fr.ensicaen.genielogiciel.project.Main;
-import fr.ensicaen.genielogiciel.project.model.Line;
 import fr.ensicaen.genielogiciel.project.presenter.ConcreteGamePresenter;
 import fr.ensicaen.genielogiciel.project.presenter.UserAction;
 import javafx.fxml.FXML;
@@ -30,7 +34,7 @@ public final class GameView implements IGameView {
     private static Stage _stage;
     private ConcreteGamePresenter _gamePresenter;
     private Ellipse _boat;
-    private final List<ImageView> buoys = new ArrayList<>();
+    private List<ImageView> _buoys = new ArrayList<>();
     private javafx.scene.shape.Line _currentBuoyLine;
 
     @FXML
@@ -182,18 +186,15 @@ public final class GameView implements IGameView {
 
         _base.getChildren().add(buoy);
 
-        buoys.add(buoy);
+        _buoys.add(buoy);
     }
 
-    public void addBuoyLines( Line line ) {
+    public void addBuoyLines( double s_x, double s_y, double e_x, double e_y ) {
         if (_currentBuoyLine != null) {
             _base.getChildren().remove(_currentBuoyLine);
         }
-        double len = 1000000;
-        double centerX = line.getStartX();
-        double centerY = line.getStartY();
         javafx.scene.shape.Line fxLine = new javafx.scene.shape.Line(
-                centerX, centerY, centerX + line.getDx() * len, centerY + line.getDy() * len
+                s_x, s_y, e_y, e_x
         );
         fxLine.setStroke(Color.RED);
         fxLine.setStrokeWidth(2);

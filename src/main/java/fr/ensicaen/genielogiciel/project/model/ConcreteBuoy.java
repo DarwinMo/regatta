@@ -7,6 +7,8 @@ public class ConcreteBuoy implements IBuoy {
 
     private boolean _validated = false;
     private final Line line;
+    private double lastSide = Double.NaN;
+
 
     @Override
     public double get_x() {
@@ -26,32 +28,54 @@ public class ConcreteBuoy implements IBuoy {
     public ConcreteBuoy( double x, double y, double angle ) {
         this._x = x;
         this._y = y;
+        double _length = 100;
+        this.line = new Line(x, y, angle, _length);
+    }
 
-        double radLine = Math.toRadians(angle + 90);
-        double dx = Math.cos(radLine);
-        double dy = Math.sin(radLine);
+    public double getStartLineX() {
+        return line.getStartX();
+    }
 
-        double radCourse = Math.toRadians(angle);
-        double courseX = Math.cos(radCourse);
-        double courseY = Math.sin(radCourse);
+    public double getStartLineY() {
+        return line.getStartY();
+    }
 
-        double dotProduct = dy * courseX + (-dx) * courseY;
+    public double getEndLineX() {
+        return line.getEndX();
+    }
 
-        if (dotProduct < 0) {
-            dx = -dx;
-            dy = -dy;
+    public double getEndLineY() {
+        return line.getEndY();
+    }
+
+    private double side( IBoat boat ) {
+
+        double bx = boat.get_x() - line.getStartX();
+        double by = boat.get_y() - line.getStartY();
+        return bx * line.getNX() + by * line.getNY();
+    }
+
+    public boolean isCrossedBy( IBoat boat ) {
+        double currentSide = side(boat);
+        boolean crossed = false;
+
+        if (!Double.isNaN(lastSide) && lastSide * currentSide < 0) {
+            double vectorX = boat.get_x() - line.getStartX();
+            double vectorY = boat.get_y() - line.getStartY();
+
+            double positionOnLine = vectorX * line.getDX() + vectorY * line.getDY();
+            if (positionOnLine > 0) {
+                crossed = true;
+            }
         }
-
-        this.line = new Line(x, y, dx, dy);
+        lastSide = currentSide;
+        return crossed;
     }
 
-    public Line getLine() {
-        return line;
-    }
 
     @Override
     public boolean checkPassage( IBoat boat ) {
-        if (!_validated && line.isCrossedBy(boat)) {
+        if (!_validated && isCrossedBy(boat)) {
             _validated = true;
             return true;
         }

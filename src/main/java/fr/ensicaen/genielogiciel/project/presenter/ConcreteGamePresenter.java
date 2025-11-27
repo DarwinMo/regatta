@@ -40,10 +40,8 @@ public class ConcreteGamePresenter implements IPresenter {
         }
 
         if (!_map.getBuoys().isEmpty()) {
-            IBuoy firstBuoy = _map.getBuoys().get(_currentBuoyIndex);
-            if (firstBuoy instanceof ConcreteBuoy) {
-                _gameView.addBuoyLines(firstBuoy.getLine());
-            }
+            IBuoy firstBuoy = _map.getBuoys().get(_currentBuoyIndex); // Utilise l'index 0
+            _gameView.addBuoyLines(firstBuoy.getStartLineX(), firstBuoy.getStartLineY(), firstBuoy.getEndLineY(), firstBuoy.getEndLineX());
         }
 
         for (ICoast coast : _map.getCoasts()) {
@@ -126,9 +124,7 @@ public class ConcreteGamePresenter implements IPresenter {
                     _gameView.removeCurrentBuoyLine();
                 } else {
                     IBuoy nextBuoy = _map.getBuoys().get(_currentBuoyIndex);
-                    if (nextBuoy instanceof ConcreteBuoy) {
-                        _gameView.addBuoyLines(nextBuoy.getLine());
-                    }
+                    _gameView.addBuoyLines(nextBuoy.getStartLineX(), nextBuoy.getStartLineY(), nextBuoy.getEndLineY(), nextBuoy.getEndLineX());
                 }
             }
         }
