@@ -2,7 +2,7 @@ package fr.ensicaen.genielogiciel.project.view;
 
 import java.io.IOException;
 
-import fr.ensicaen.genielogiciel.project.presenter.GamePresenter;
+import fr.ensicaen.genielogiciel.project.presenter.ConcreteGamePresenter;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -29,22 +29,23 @@ public class BoatSelectionController {
     @FXML
     private Button playButton;
 
-    private Stage stage;
-    private GamePresenter presenter;
+    private Stage _stage;
 
-    private String nickName;
+    private ConcreteGamePresenter _presenter;
+
+    private String _nickName;
 
     public void initWithNickName( String nickName ) {
-        this.nickName = nickName;
-        System.out.println("NickName reçu : " + nickName);
+        _nickName = nickName;
+        System.out.println("NickName reçu : " + _nickName);
     }
 
     public void setStage( Stage stage ) {
-        this.stage = stage;
+        _stage = stage;
     }
 
-    public void setPresenter( GamePresenter presenter ) {
-        this.presenter = presenter;
+    public void setPresenter( ConcreteGamePresenter presenter ) {
+        _presenter = presenter;
     }
 
     @FXML
@@ -86,16 +87,16 @@ public class BoatSelectionController {
     @FXML
     private void onEscape() {
         System.out.println("ECHAP cliqué");
-        if (stage != null) {
-            stage.close();
+        if (_stage != null) {
+            _stage.close();
         }
     }
 
     @FXML
     private void onPlay() {
         System.out.println("PLAY ! lancé");
-        if (stage == null) {
-            stage = (Stage) playButton.getScene().getWindow();
+        if (_stage == null) {
+            _stage = (Stage) playButton.getScene().getWindow();
         }
 
         try {
@@ -104,8 +105,8 @@ public class BoatSelectionController {
             Parent root = loader.load();
 
             Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+            _stage.setScene(scene);
+            _stage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
