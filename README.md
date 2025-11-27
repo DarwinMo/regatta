@@ -1,15 +1,18 @@
 ![ENSICAEN Logo](https://www.ensicaen.fr/wp-content/uploads/2017/02/LogoEnsicaen.gif)
 
-# Regatta Project
+# Regatta Project – Version 1.0.0
 
-![MVP1](./ressource/RegatteMVP1.png)
+![MVP2](./ressource/RegatteMVP2.png)
+
+
+
 
 ## Project Description
 
-This project contains an example of a graphical application written in Java using the JavaFX graphics library.
-It is based on the Model-View-Presenter (MVP) architectural pattern.
+This project showcases a graphical application developed in Java using the JavaFX graphics framework.
+It follows the Model-View-Presenter (MVP) architectural pattern to ensure clear separation of concerns, maintainability, and scalability.
 
-The project is managed using the 'gradle' build system.
+The entire project is built and managed with the Gradle build system, providing efficient dependency management and automated compilation workflows.
 
 ## Project Organization
 
@@ -19,17 +22,17 @@ The project is managed using the 'gradle' build system.
 
 - Benoît Cheramy
 
-### Git Maintener
+### Git Maintainers
 
 - Abraão Albuquerque
 - Mohamed Abdessalame
 
-### Architect
+### Architects
 
 - Abdessalame Mohamed
 - Abderrahmane Kabar
 
-### Devs Team
+### Development Team
 
 - Abraão Albuquerque
 - Mohamed ElBoukhiari
