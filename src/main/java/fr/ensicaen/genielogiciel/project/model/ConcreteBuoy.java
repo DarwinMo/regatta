@@ -25,7 +25,7 @@ public class ConcreteBuoy implements IBuoy {
         return _validated;
     }
 
-    public ConcreteBuoy(double x, double y, double angle) {
+    public ConcreteBuoy( double x, double y, double angle ) {
         this._x = x;
         this._y = y;
         double _length = 100;
@@ -48,14 +48,14 @@ public class ConcreteBuoy implements IBuoy {
         return line.getEndY();
     }
 
-    private double side(IBoat boat) {
+    private double side( IBoat boat ) {
 
         double bx = boat.get_x() - line.getStartX();
         double by = boat.get_y() - line.getStartY();
         return bx * line.getNX() + by * line.getNY();
     }
 
-    public boolean isCrossedBy(IBoat boat) {
+    public boolean isCrossedBy( IBoat boat ) {
         double currentSide = side(boat);
         boolean crossed = false;
 
@@ -74,7 +74,7 @@ public class ConcreteBuoy implements IBuoy {
 
 
     @Override
-    public boolean checkPassage(IBoat boat) {
+    public boolean checkPassage( IBoat boat ) {
         if (!_validated && isCrossedBy(boat)) {
             _validated = true;
             return true;
@@ -83,7 +83,7 @@ public class ConcreteBuoy implements IBuoy {
     }
 
     @Override
-    public boolean checkCollision(IBoat boat) {
+    public boolean checkCollision( IBoat boat ) {
         double dx = boat.get_x() - _x;
         double dy = boat.get_y() - _y;
         double distance = Math.sqrt(dx * dx + dy * dy);

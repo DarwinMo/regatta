@@ -3,12 +3,10 @@ package fr.ensicaen.genielogiciel.project.model;
 public class Line {
     private final double _sX, _sY, _eX, _eY;
 
-    private final double _dX, _dY,_nx,_ny;
+    private final double _dX, _dY, _nx, _ny;
 
 
-
-
-    public Line(double x0, double y0, double angle, double length) {
+    public Line( double x0, double y0, double angle, double length ) {
         this._sX = x0;
         this._sY = y0;
 
@@ -63,6 +61,7 @@ public class Line {
     public double getNX() {
         return _nx;
     }
+
     public double getNY() {
         return _ny;
     }
