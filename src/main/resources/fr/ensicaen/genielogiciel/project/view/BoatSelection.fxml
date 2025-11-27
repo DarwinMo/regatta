@@ -15,7 +15,7 @@
             </image>
         </ImageView>
 
-        <Pane opacity="0.0" prefHeight="768" prefWidth="1229">
+        <Pane prefHeight="768" prefWidth="1229">
             <children>
 
                 <Button fx:id="chooseFigaro1Button" layoutX="234.0" layoutY="310" onAction="#onChooseFigaro1" prefHeight="50.0" prefWidth="161.0" text="CHOOSE" />
