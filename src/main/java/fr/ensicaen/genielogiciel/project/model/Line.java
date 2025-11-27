@@ -1,62 +1,70 @@
 package fr.ensicaen.genielogiciel.project.model;
 
 public class Line {
-    private final double _x1, _y1;
-    private final double dx, dy;
+    private final double _sX, _sY, _eX, _eY;
 
-    private final double nx, ny;
+    private final double _dX, _dY,_nx,_ny;
 
-    private double lastSide = Double.NaN;
 
-    public Line( double x0, double y0, double dirX, double dirY ) {
-        this._x1 = x0;
-        this._y1 = y0;
 
-        double len = Math.sqrt(dirX * dirX + dirY * dirY);
-        this.dx = dirX / len;
-        this.dy = dirY / len;
 
-        this.nx = this.dy;
-        this.ny = -this.dx;
-    }
+    public Line(double x0, double y0, double angle, double length) {
+        this._sX = x0;
+        this._sY = y0;
 
-    private double side( IBoat boat ) {
-        double bx = boat.get_x() - _x1;
-        double by = boat.get_y() - _y1;
-        return bx * nx + by * ny;
-    }
+        double radLine = Math.toRadians(angle + 90);
+        double dx = Math.cos(radLine);
+        double dy = Math.sin(radLine);
 
-    public boolean isCrossedBy( IBoat boat ) {
-        double currentSide = side(boat);
-        boolean crossed = false;
+        double radCourse = Math.toRadians(angle);
+        double courseX = Math.cos(radCourse);
+        double courseY = Math.sin(radCourse);
 
-        if (!Double.isNaN(lastSide) && lastSide * currentSide < 0) {
-            double vectorX = boat.get_x() - _x1;
-            double vectorY = boat.get_y() - _y1;
+        double dotProduct = dy * courseX + (-dx) * courseY;
 
-            double positionOnLine = vectorX * dx + vectorY * dy;
-            if (positionOnLine > 0) {
-                crossed = true;
-            }
+        if (dotProduct < 0) {
+            dx = -dx;
+            dy = -dy;
         }
 
-        lastSide = currentSide;
-        return crossed;
+        _dX = dx / length;
+        _dY = dy / length;
+        _eX = _sX + dx * length;
+        _eY = _sY + dy * length;
+        _nx = _dY;
+        _ny = -_dX;
     }
 
+
     public double getStartX() {
-        return _x1;
+        return _sX;
     }
 
     public double getStartY() {
-        return _y1;
+        return _sY;
     }
 
-    public double getDx() {
-        return dx;
+    public double getEndX() {
+        return _eX;
     }
 
-    public double getDy() {
-        return dy;
+    public double getEndY() {
+        return _eY;
     }
+
+    public double getDX() {
+        return _dX;
+    }
+
+    public double getDY() {
+        return _dY;
+    }
+
+    public double getNX() {
+        return _nx;
+    }
+    public double getNY() {
+        return _ny;
+    }
+
 }

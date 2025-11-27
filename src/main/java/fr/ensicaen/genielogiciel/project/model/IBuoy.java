@@ -8,9 +8,15 @@ public interface IBuoy {
     boolean isMarked();
 
 
-    boolean checkPassage( IBoat boat );
+    boolean checkPassage(IBoat boat);
 
-    boolean checkCollision( IBoat boat );
+    boolean checkCollision(IBoat boat);
 
-    Line getLine();
+    public double getStartLineX ();
+
+    public double getStartLineY();
+
+    public double getEndLineX();
+
+    public double getEndLineY();
 }
