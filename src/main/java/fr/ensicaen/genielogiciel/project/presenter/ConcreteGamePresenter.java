@@ -24,7 +24,7 @@ public class ConcreteGamePresenter implements IPresenter {
     private final TimeScore _timeScore = new TimeScore();
     private int _currentBuoyIndex = 0;
 
-    public ConcreteGamePresenter(String nickName, String configurationFile) throws IOException {
+    public ConcreteGamePresenter( String nickName, String configurationFile ) throws IOException {
         _player = new PlayerModel();
         _player.setNickname(nickName);
         initGame(configurationFile);
@@ -32,7 +32,7 @@ public class ConcreteGamePresenter implements IPresenter {
         _boatDirectionManager = new BoatDirectionManager(_boat, _rotationAngle);
     }
 
-    public void setGameView(GameView gameView) {
+    public void setGameView( GameView gameView ) {
         _gameView = gameView;
         _gameView.addBoat(_boat.get_x(), _boat.get_y());
         for (IBuoy buoy : _map.getBuoys()) {
@@ -49,7 +49,7 @@ public class ConcreteGamePresenter implements IPresenter {
         }
     }
 
-    public void handleUserAction(UserAction code) {
+    public void handleUserAction( UserAction code ) {
         if (code == UserAction.START) {
             startGame();
         } else {
@@ -65,7 +65,7 @@ public class ConcreteGamePresenter implements IPresenter {
         }
     }
 
-    private void changeDirection(UserAction action) {
+    private void changeDirection( UserAction action ) {
         if (action == UserAction.LEFT) {
             _boatDirectionManager.goLeft();
         } else if (action == UserAction.RIGHT) {
@@ -73,7 +73,7 @@ public class ConcreteGamePresenter implements IPresenter {
         }
     }
 
-    private void initGame(String configurationFile) {
+    private void initGame( String configurationFile ) {
         _map = new GameLoader(new JsonParser()).loadGame(configurationFile);
         _wind = _map.getWaterPlan().getWind();
         _boat = _map.getBoat();
@@ -82,9 +82,9 @@ public class ConcreteGamePresenter implements IPresenter {
     private void runGameLoop() {
         _timeline = new Timeline(new KeyFrame(
                 Duration.millis(50), onFinished -> {
-            update();
-            render();
-        }
+                    update();
+                    render();
+                }
         ));
         _timeline.setCycleCount(Animation.INDEFINITE);
         _timeline.play();

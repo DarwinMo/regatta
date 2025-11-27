@@ -55,16 +55,16 @@ public final class GameView implements IGameView {
     @FXML
     private ImageView headingArrow;
 
-    public void setGamePresenter(ConcreteGamePresenter gamePresenter) {
+    public void setGamePresenter( ConcreteGamePresenter gamePresenter ) {
         _gamePresenter = gamePresenter;
     }
 
 
-    public void rotate(Ellipse boat, double val) {
+    public void rotate( Ellipse boat, double val ) {
         boat.setRotate(val);
     }
 
-    public Ellipse drawBoat(double x, double y, double rx, double ry) {
+    public Ellipse drawBoat( double x, double y, double rx, double ry ) {
         Ellipse boat = new Ellipse(x, y, rx, ry);
         boat.setFill(Color.YELLOW);
         boat.setStroke(Color.RED);
@@ -78,12 +78,12 @@ public final class GameView implements IGameView {
         return boat;
     }
 
-    public void move(Ellipse boat, double dx, double dy) {
+    public void move( Ellipse boat, double dx, double dy ) {
         boat.setLayoutX(boat.getLayoutX() + dx);
         boat.setLayoutY(boat.getLayoutY() + dy);
     }
 
-    public void updateBoat(double dx, double dy, double angle) {
+    public void updateBoat( double dx, double dy, double angle ) {
         rotate(_boat, angle);
         move(_boat, dx, dy);
     }
@@ -92,11 +92,11 @@ public final class GameView implements IGameView {
         _stage.show();
     }
 
-    public void addBoat(double x, double y) {
+    public void addBoat( double x, double y ) {
         _boat = drawBoat(x, y, 6, 16);
     }
 
-    private void handleKeyPressed(KeyCode code) {
+    private void handleKeyPressed( KeyCode code ) {
         if (code == KeyCode.SPACE) {
             _gamePresenter.handleUserAction(UserAction.START);
         } else if (code == KeyCode.LEFT) {
@@ -157,7 +157,7 @@ public final class GameView implements IGameView {
 
     }
 
-    public void updateDashboard(double windDir, double boatDir, double speed, String time) {
+    public void updateDashboard( double windDir, double boatDir, double speed, String time ) {
         windArrow.setRotate(windDir);
         headingArrow.setRotate(boatDir);
         speedLabel.setText(String.format("%.1f", speed));
@@ -166,7 +166,7 @@ public final class GameView implements IGameView {
 
 
     @Override
-    public void addBuoys(double x, double y) {
+    public void addBuoys( double x, double y ) {
         ImageView buoy = new ImageView(
                 new Image(Objects.requireNonNull(getClass().getResource(
                         "/fr/ensicaen/genielogiciel/project/images/buoy.png")).toExternalForm())
@@ -184,12 +184,12 @@ public final class GameView implements IGameView {
         _buoys.add(buoy);
     }
 
-    public void addBuoyLines(double s_x, double s_y, double e_x, double e_y) {
+    public void addBuoyLines( double s_x, double s_y, double e_x, double e_y ) {
         if (_currentBuoyLine != null) {
             _base.getChildren().remove(_currentBuoyLine);
         }
         javafx.scene.shape.Line fxLine = new javafx.scene.shape.Line(
-                s_x, s_y, e_y,e_x
+                s_x, s_y, e_y, e_x
         );
         fxLine.setStroke(Color.RED);
         fxLine.setStrokeWidth(2);
@@ -205,7 +205,7 @@ public final class GameView implements IGameView {
     }
 
     @Override
-    public void addCoast(double start_x, double start_y, double end_x, double end_y) {
+    public void addCoast( double start_x, double start_y, double end_x, double end_y ) {
         javafx.scene.shape.Line coastLine = new javafx.scene.shape.Line(
                 start_x, start_y, end_x, end_y
         );
