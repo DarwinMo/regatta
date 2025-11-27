@@ -1,11 +1,5 @@
 package fr.ensicaen.genielogiciel.project.view;
 
-import java.awt.*;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 import fr.ensicaen.genielogiciel.project.Main;
 import fr.ensicaen.genielogiciel.project.model.Line;
 import fr.ensicaen.genielogiciel.project.presenter.ConcreteGamePresenter;
@@ -26,12 +20,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 public final class GameView implements IGameView {
 
     private static Stage _stage;
     private ConcreteGamePresenter _gamePresenter;
     private Ellipse _boat;
-    private List<ImageView> buoys = new ArrayList<>();
+    private final List<ImageView> buoys = new ArrayList<>();
     private javafx.scene.shape.Line _currentBuoyLine;
 
     @FXML

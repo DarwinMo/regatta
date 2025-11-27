@@ -2,7 +2,6 @@ package fr.ensicaen.genielogiciel.project.model;
 
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class WeatherAPITest {

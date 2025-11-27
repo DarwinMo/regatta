@@ -1,9 +1,6 @@
 package fr.ensicaen.genielogiciel.project.model;
 
-/**
- * Represents a generic sailboat in the regatta simulation.
- * Defines the essential actions and state accessors that all boats must implement.
- */
+
 public interface IBoat {
 
     void trim();
@@ -46,7 +43,6 @@ public interface IBoat {
 
     boolean isRunning();
 
-    // To implement
     boolean hasCrossedFinishLine();
 
     void setState( IBoatState upState );

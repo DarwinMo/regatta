@@ -13,7 +13,6 @@ public class MainController {
 
     @FXML
     public void initialize() {
-        // Petit rendu pour valider visuellement que le Canvas est bien là
         if (gameCanvas != null) {
             GraphicsContext g = gameCanvas.getGraphicsContext2D();
             g.fillText("Plan d’eau (placeholder)", 20, 20);

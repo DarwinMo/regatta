@@ -1,11 +1,9 @@
 package fr.ensicaen.genielogiciel.project.model;
 
-import java.util.Random;
-
 public class WeatherAPI implements IWeather {
 
     private double _tempWindSpeed;
-    private double _tempDirection;
+    private final double _tempDirection;
     private final PrevisionMeteoAPI _previsionAPI;
 
     private static double kmhToKnots( double kmh ) {
@@ -29,11 +27,4 @@ public class WeatherAPI implements IWeather {
         return _tempDirection;
     }
 
-    public double getTempWindSpeed() {
-        return _tempWindSpeed;
-    }
-
-    public double getTempDirection() {
-        return _tempDirection;
-    }
 }
