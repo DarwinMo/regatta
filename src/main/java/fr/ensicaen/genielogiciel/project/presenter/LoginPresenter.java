@@ -1,16 +1,10 @@
 package fr.ensicaen.genielogiciel.project.presenter;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import java.io.IOException;
 
 import fr.ensicaen.genielogiciel.project.Main;
 import fr.ensicaen.genielogiciel.project.view.GameView;
 import fr.ensicaen.genielogiciel.project.view.LoginView;
-import fr.ensicaen.genielogiciel.project.view.BoatSelectionController;
-
-import java.io.IOException;
 
 public final class LoginPresenter {
     private ILoginView _loginView;
@@ -42,6 +36,7 @@ public final class LoginPresenter {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            _loginView.close();
         }
     }
 
