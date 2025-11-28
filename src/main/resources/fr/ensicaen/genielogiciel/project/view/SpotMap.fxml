@@ -16,18 +16,17 @@
     <Button fx:id="pauseButton"
             text="Pause"
             prefWidth="100" prefHeight="40"
-            style="-fx-font-size: 16px; -fx-background-color: black; -fx-text-fill: white;"
             AnchorPane.topAnchor="20"
             AnchorPane.rightAnchor="20"/>
 
 
-    <Label fx:id="timeLabel"
-           text="0.0ms"
-           style="-fx-text-fill: white; -fx-font-size: 28px;"
-           AnchorPane.topAnchor="20"
-           AnchorPane.leftAnchor="0"
-           AnchorPane.rightAnchor="0"
-           alignment="CENTER"/>
+        <Label fx:id="timeLabel"
+                text="0.0ms"
+                style="-fx-text-fill: white;"
+                prefWidth="198"
+                AnchorPane.topAnchor="20"
+                AnchorPane.leftAnchor="20"
+                alignment="CENTER"/>
 
 
     <VBox fx:id="Direction_Speed"
@@ -59,11 +58,11 @@
             <Label fx:id="speedLabel"
                    text="0"
                    prefHeight="48"
-                   style="-fx-text-fill: white; -fx-font-size: 48;"/>
-            <Label  
+                   style="-fx-text-fill: white;"/>
+            <Label  fx:id="speedLabelKt"
                     text="kt"
                     prefHeight="48"
-                    style="-fx-text-fill: white; -fx-font-size: 24;"/>
+                    style="-fx-text-fill: white; "/>
         </HBox>
     </VBox>
 </AnchorPane>
