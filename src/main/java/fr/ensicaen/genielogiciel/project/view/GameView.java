@@ -117,7 +117,7 @@ public final class GameView implements IGameView {
         } else if (code == KeyCode.ESCAPE) {
             _gamePresenter.handleUserAction(UserAction.PAUSE);
         } else if (code == KeyCode.F) {
-            addEndScreen("00:42:571");
+            _gamePresenter.launchEndGame();
         }
 
     }
@@ -270,87 +270,5 @@ public final class GameView implements IGameView {
 
         _base.getChildren().add(coastLine);
     }
-
-    @Override
-    public void addEndScreen( String time ) {
-        if (_endOverlay != null && _base.getChildren().contains(_endOverlay)) {
-            return;
-        }
-
-
-        _endOverlay = new AnchorPane();
-        _endOverlay.setStyle("-fx-background-color: rgba(0,0,0,0.6);");
-        _endOverlay.setPrefSize(_base.getWidth(), _base.getHeight());
-
-        AnchorPane endScreen = new AnchorPane();
-        endScreen.setStyle(
-                "-fx-background-color: rgba(0, 20, 40, 0.95);" + "-fx-padding: 25px;" + "-fx-border-color: white;" + "-fx-border-width: 3px;" + "-fx-background-radius: 10px;" + "-fx-border-radius: 10px;"
-        );
-        endScreen.setPrefSize(380, 280);
-        AnchorPane.setTopAnchor(endScreen, (_base.getHeight() - 200) / 2);
-        AnchorPane.setLeftAnchor(endScreen, (_base.getWidth() - 300) / 2);
-
-        Label title = new Label("Course TERMINEE !");
-        title.setTextFill(Color.WHITE);
-        title.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
-        title.setLayoutX(80);
-        title.setLayoutY(20);
-
-        Label timeLabel = new Label("Temps :" + time);
-        timeLabel.setTextFill(Color.LIGHTGRAY);
-        timeLabel.setStyle("-fx-font-size: 20px;");
-        timeLabel.setLayoutX(115);
-        timeLabel.setLayoutY(75);
-
-
-        Button newGameBtn = new Button("Nouvelle partie");
-        newGameBtn.setStyle("-fx-font-size: 20px;");
-        newGameBtn.prefWidth(140);
-        newGameBtn.prefHeight(40);
-        newGameBtn.setLayoutX(40);
-        newGameBtn.setLayoutY(190);
-//        newGameBtn.setOnAction(e -> goToLoginView());
-
-
-        Button quitBtn = new Button("Quitter");
-        quitBtn.setStyle("-fx-font-size: 20px;");
-        quitBtn.prefWidth(140);
-        quitBtn.prefHeight(40);
-        quitBtn.setLayoutX(200);
-        quitBtn.setLayoutY(190);
-        quitBtn.setOnAction(e -> {
-            Platform.exit();
-        });
-
-
-        endScreen.getChildren().addAll(title, timeLabel, quitBtn, newGameBtn);
-        _endOverlay.getChildren().add(endScreen);
-        _base.getChildren().add(_endOverlay);
-
-        //coastLine.setStroke(Color.SADDLEBROWN);
-        //coastLine.setStrokeWidth(10);
-
-        //_base.getChildren().add(coastLine);
-
-        //coastLine.toBack();
-    }
-
-//    private void goToLoginView() {
-//        try {
-//            Stage loginStage = new Stage();
-//            LoginView loginView = LoginView.LoginViewFactory.createView(loginStage);
-//            LoginPresenter loginPresenter = new LoginPresenter();
-//
-//            loginPresenter.setLoginView(loginView);
-//            loginView.setLoginPresenter(loginPresenter);
-//            loginView.show();
-//
-//
-//            _stage.close();
-//
-//        } catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
-//    }
 
 }

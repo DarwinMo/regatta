@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Random;
 
 import fr.ensicaen.genielogiciel.project.model.*;
+import fr.ensicaen.genielogiciel.project.view.EndGameView;
 import fr.ensicaen.genielogiciel.project.view.GameView;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -37,7 +38,16 @@ public class ConcreteGamePresenter implements IPresenter {
     }
 
     public void launchEndGame() {
-        // takes you to the end game view
+        try {
+            final EndGameView view = EndGameView.EndGameViewFactory.createEndGameView();
+            final ConcreteReplayPresenter replayPresenter = new ConcreteReplayPresenter();
+            view.setReplayPresenter(replayPresenter);
+            replayPresenter.setView(view);
+            view.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        _gameView.close();
     }
 
     public void setGameView( GameView gameView ) {
@@ -53,7 +63,7 @@ public class ConcreteGamePresenter implements IPresenter {
             }
 
             if (!_map.getBuoys().isEmpty()) {
-                IBuoy firstBuoy = _map.getBuoys().get(_currentBuoyIndex); // Utilise l'index 0
+                IBuoy firstBuoy = _map.getBuoys().get(_currentBuoyIndex);
                 _gameView.addBuoyLines(firstBuoy.getStartLineX(), firstBuoy.getStartLineY(), firstBuoy.getEndLineY(), firstBuoy.getEndLineX());
             }
 
@@ -137,27 +147,31 @@ public class ConcreteGamePresenter implements IPresenter {
         }
     }
 
+    private boolean gameHasEnded() {
+        for (IBuoy buoy : _map.getBuoys()) {
+            if (buoy.isMarked()) continue;
+            buoy.checkPassage(_boat);
+            if (!buoy.isMarked()) {
+                return false;
+            }
+            _gameView.removeCurrentBuoyLine();
+            _currentBuoyIndex++;
+            if (_currentBuoyIndex >= _map.getBuoys().size()) break;
+            IBuoy nextBuoy = _map.getBuoys().get(_currentBuoyIndex);
+            _gameView.addBuoyLines(nextBuoy.getStartLineX(), nextBuoy.getStartLineY(), nextBuoy.getEndLineY(), nextBuoy.getEndLineX());
+        }
+        return true;
+    }
+
+
     private void update() {
         if (_boat == null || _wind == null) return;
         boatHasCollided();
         _boat.accelerate();
         _boat.applyWind();
-
-        if (_map != null && _currentBuoyIndex < _map.getBuoys().size()) {
-            IBuoy currentBuoy = _map.getBuoys().get(_currentBuoyIndex);
-            if (currentBuoy.checkPassage(_boat)) {
-                System.out.println("PASSAGE VALIDÉ POUR BOUEE " + _currentBuoyIndex);
-                _currentBuoyIndex++;
-
-                if (_currentBuoyIndex >= _map.getBuoys().size()) {
-                    System.out.println("PARCOURS TERMINÉ !");
-                    stopGameLoop();
-                    _gameView.removeCurrentBuoyLine();
-                } else {
-                    IBuoy nextBuoy = _map.getBuoys().get(_currentBuoyIndex);
-                    _gameView.addBuoyLines(nextBuoy.getStartLineX(), nextBuoy.getStartLineY(), nextBuoy.getEndLineY(), nextBuoy.getEndLineX());
-                }
-            }
+        if (gameHasEnded()) {
+            stopGameLoop();
+            launchEndGame();
         }
     }
 

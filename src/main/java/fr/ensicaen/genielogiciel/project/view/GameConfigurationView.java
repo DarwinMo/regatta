@@ -91,11 +91,11 @@ public class GameConfigurationView {
         }
 
         public static GameConfigurationView createConfigurationView() throws IOException {
-            FXMLLoader loader = new FXMLLoader(GameConfigurationView.class.getResource(
+            final FXMLLoader loader = new FXMLLoader(GameConfigurationView.class.getResource(
                     "/fr/ensicaen/genielogiciel/project/view/ConfigurationPanel.fxml"));
-            Parent root = loader.load();
-            GameConfigurationView gameConfigurationView = loader.getController();
-            Stage stage = new Stage();
+            final Parent root = loader.load();
+            final GameConfigurationView gameConfigurationView = loader.getController();
+            final Stage stage = new Stage();
             stage.setScene(new Scene(root));
             _stage = stage;
             return gameConfigurationView;
