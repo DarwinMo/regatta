@@ -11,6 +11,7 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -234,7 +235,6 @@ public final class GameView implements IGameView {
             animation.play(); // Inicia as duas animações simultaneamente
 
             _base.getChildren().add(buoy);
-            _buoys.add(buoy);
         } catch (Exception e) {
             System.err.println("Impossible de charger l'image de la bouée.");
         }
