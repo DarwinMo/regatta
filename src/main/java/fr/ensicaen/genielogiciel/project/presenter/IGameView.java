@@ -1,6 +1,4 @@
-package fr.ensicaen.genielogiciel.project.view;
-
-import fr.ensicaen.genielogiciel.project.model.Line;
+package fr.ensicaen.genielogiciel.project.presenter;
 
 public interface IGameView {
     void addBoat( double x, double y );

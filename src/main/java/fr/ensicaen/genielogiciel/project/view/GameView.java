@@ -1,13 +1,11 @@
 package fr.ensicaen.genielogiciel.project.view;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import fr.ensicaen.genielogiciel.project.Main;
 import fr.ensicaen.genielogiciel.project.presenter.ConcreteGamePresenter;
-import fr.ensicaen.genielogiciel.project.presenter.LoginPresenter;
+import fr.ensicaen.genielogiciel.project.presenter.IGameView;
 import fr.ensicaen.genielogiciel.project.presenter.UserAction;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -26,17 +24,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
 public final class GameView implements IGameView {
 
     private static Stage _stage;
     private ConcreteGamePresenter _gamePresenter;
     private Ellipse _boat;
-    private List<ImageView> _buoys = new ArrayList<>();
     private javafx.scene.shape.Line _currentBuoyLine;
 
 
@@ -102,9 +94,6 @@ public final class GameView implements IGameView {
         }
     }
 
-    public void show() {
-        if (_stage != null) _stage.show();
-    }
 
     @Override
     public void addBoat( double x, double y ) {
@@ -129,8 +118,6 @@ public final class GameView implements IGameView {
     }
 
     public static final class GameViewFactory {
-        private GameViewFactory() {
-        }
 
         public static GameView createView() throws IOException {
             FXMLLoader loader = new FXMLLoader(
@@ -144,7 +131,6 @@ public final class GameView implements IGameView {
             Stage stage = new Stage();
             stage.setTitle(Main.getMessageBundle().getString("project.title"));
             stage.setScene(scene);
-            stage.show();
             root.requestFocus();
             stage.setMaximized(true);
             _stage = stage;
@@ -157,6 +143,14 @@ public final class GameView implements IGameView {
 
             return view;
         }
+    }
+
+    public void show() {
+        _stage.show();
+    }
+
+    public void close() {
+        _stage.close();
     }
 
     @FXML
@@ -212,13 +206,9 @@ public final class GameView implements IGameView {
             buoy.setFitWidth(32);
             buoy.setFitHeight(32);
             buoy.setPreserveRatio(true);
-
             buoy.setLayoutX(x - buoy.getFitWidth() / 2);
             buoy.setLayoutY(y - buoy.getFitHeight() / 2);
-
             _base.getChildren().add(buoy);
-
-            _buoys.add(buoy);
         } catch (Exception e) {
             System.err.println("Impossible de charger l'image de la bouée.");
         }
@@ -293,7 +283,7 @@ public final class GameView implements IGameView {
         newGameBtn.prefHeight(40);
         newGameBtn.setLayoutX(40);
         newGameBtn.setLayoutY(190);
-        newGameBtn.setOnAction(e -> goToLoginView());
+//        newGameBtn.setOnAction(e -> goToLoginView());
 
 
         Button quitBtn = new Button("Quitter");
@@ -319,22 +309,22 @@ public final class GameView implements IGameView {
         //coastLine.toBack();
     }
 
-    private void goToLoginView() {
-        try {
-            Stage loginStage = new Stage();
-            LoginView loginView = LoginView.LoginViewFactory.createView(loginStage);
-            LoginPresenter loginPresenter = new LoginPresenter();
-
-            loginPresenter.setLoginView(loginView);
-            loginView.setLoginPresenter(loginPresenter);
-            loginView.show();
-
-
-            _stage.close();
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+//    private void goToLoginView() {
+//        try {
+//            Stage loginStage = new Stage();
+//            LoginView loginView = LoginView.LoginViewFactory.createView(loginStage);
+//            LoginPresenter loginPresenter = new LoginPresenter();
+//
+//            loginPresenter.setLoginView(loginView);
+//            loginView.setLoginPresenter(loginPresenter);
+//            loginView.show();
+//
+//
+//            _stage.close();
+//
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        }
+//    }
 
 }

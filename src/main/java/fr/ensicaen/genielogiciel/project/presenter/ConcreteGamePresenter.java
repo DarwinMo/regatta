@@ -1,14 +1,9 @@
 package fr.ensicaen.genielogiciel.project.presenter;
 
 import java.io.IOException;
+import java.util.Random;
 
-import fr.ensicaen.genielogiciel.project.model.IBoat;
-import fr.ensicaen.genielogiciel.project.model.IBuoy;
-import fr.ensicaen.genielogiciel.project.model.ICoast;
-import fr.ensicaen.genielogiciel.project.model.IMap;
-import fr.ensicaen.genielogiciel.project.model.IWind;
-import fr.ensicaen.genielogiciel.project.model.PlayerModel;
-import fr.ensicaen.genielogiciel.project.model.TimeScore;
+import fr.ensicaen.genielogiciel.project.model.*;
 import fr.ensicaen.genielogiciel.project.view.GameView;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -19,30 +14,30 @@ public class ConcreteGamePresenter implements IPresenter {
 
     private IMap _map;
     private IBoat _boat;
-    private final PlayerModel _player;
     private IWind _wind;
 
-    private BoatDirectionManager _boatDirectionManager;
+    private final BoatDirectionManager _boatDirectionManager;
 
     private GameView _gameView;
     private boolean _started = false;
     private Timeline _timeline;
     private final TimeScore _timeScore = new TimeScore();
     private int _currentBuoyIndex = 0;
+    private final int _rotationAngle = 2;
+    private final Random _rand = new Random();
 
-    public ConcreteGamePresenter( String nickName, String configurationFile ) throws IOException {
-        _player = new PlayerModel();
-        _player.setNickname(nickName);
+    public ConcreteGamePresenter( String configurationFile ) throws IOException {
         initGame(configurationFile);
-        int _rotationAngle = 2;
         _boatDirectionManager = new BoatDirectionManager(_boat, _rotationAngle);
     }
 
-    public void setBoat( IBoat boat ) {
-        this._boat = boat;
-        int _rotationAngle = 2;
-        this._boatDirectionManager = new BoatDirectionManager(_boat, _rotationAngle);
-        System.out.println("Presenter : Bateau mis à jour -> " + boat);
+    public ConcreteGamePresenter( SailType sailType, CrewType crewType, BoatType boatType ) throws IOException {
+        initGame(sailType, crewType, boatType);
+        _boatDirectionManager = new BoatDirectionManager(_boat, _rotationAngle);
+    }
+
+    public void launchEndGame() {
+        // takes you to the end game view
     }
 
     public void setGameView( GameView gameView ) {
@@ -100,6 +95,17 @@ public class ConcreteGamePresenter implements IPresenter {
             _wind = _map.getWaterPlan().getWind();
             _boat = _map.getBoat();
         }
+    }
+
+    // TODO: either add a random map builder or fix the json file so that the boat doesnt have to always be specified so it wont be created twice
+    private void initGame( SailType sailType, CrewType crewType, BoatType boatType ) throws IOException {
+        _map = new GameLoader(new JsonParser()).loadGame(null);
+        _wind = _map.getWaterPlan().getWind();
+        _boat = BoatType.getBoatFactory(boatType, sailType, crewType).createBoat(600, 600);
+    }
+
+    private double getRandomValue( double min, double max ) {
+        return min + _rand.nextDouble() * (max - min);
     }
 
     private void runGameLoop() {
