@@ -106,6 +106,21 @@ class ConcreteCoastTest {
         }
 
         @Override
+        public void setX( double x ) {
+
+        }
+
+        @Override
+        public void setY( double y ) {
+
+        }
+
+        @Override
+        public void setSpeed( double speed ) {
+
+        }
+
+        @Override
         public void trim() {
         }
 

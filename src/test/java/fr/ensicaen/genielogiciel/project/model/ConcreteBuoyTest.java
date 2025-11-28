@@ -77,27 +77,47 @@ class ConcreteBuoyTest {
             }
 
             @Override
-            public void start() {
-
-            }
-
-            @Override
-            public void stop() {
-
-            }
-
-            @Override
-            public boolean isRunning() {
-                return false;
-            }
-
-            @Override
             public boolean hasCrossedFinishLine() {
                 return false;
             }
 
             @Override
             public void setState( IBoatState upState ) {
+
+            }
+
+            @Override
+            public void setTargetSpeed( double polarSpeed ) {
+
+            }
+
+            @Override
+            public void setInCollision( Boolean inCollision ) {
+
+            }
+
+            @Override
+            public void setDX( double dX ) {
+
+            }
+
+            @Override
+            public void setDY( double dY ) {
+
+            }
+
+            @Override
+            public void setX( double x ) {
+
+            }
+
+            @Override
+            public void setY( double y ) {
+
+            }
+
+            @Override
+            public void setSpeed( double speed ) {
 
             }
 
