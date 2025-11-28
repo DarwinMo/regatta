@@ -7,45 +7,66 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:controller="fr.ensicaen.genielogiciel.project.view.GameConfigurationView" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="452.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fr.ensicaen.genielogiciel.project.view.GameConfigurationView">
    <children>
-      <ImageView fitHeight="409.0" fitWidth="608.0" layoutX="-4.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView layoutX="-4.0" layoutY="-6.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/BoatConfiguration.png" />
          </image>
       </ImageView>
-      <Text id="_boatConfigurationPanelText" layoutX="26.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="76.63000106811523" />
-      <Text id="_configurationFilePanelText" layoutX="348.0" layoutY="127.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="76.63000106811523" />
-      <Text layoutX="352.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="66.13000106811523" />
-      <Text layoutX="27.0" layoutY="222.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Figaro" textAlignment="CENTER" wrappingWidth="36.5">
+      <Text id="_configurationText" layoutX="67.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Boat configuration" textAlignment="CENTER" wrappingWidth="170.63000106811523">
          <font>
-            <Font size="7.0" />
+            <Font size="23.0" />
+         </font></Text>
+      <Text id="_gameConfigurationText" layoutX="796.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Game configuration" textAlignment="CENTER" wrappingWidth="153.63000106811523">
+         <font>
+            <Font size="23.0" />
+         </font></Text>
+      <Text id="_playText" layoutX="816.0" layoutY="583.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Play" textAlignment="CENTER" wrappingWidth="112.13000106811523">
+         <font>
+            <Font size="27.0" />
+         </font></Text>
+      <Text layoutX="76.0" layoutY="503.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Figaro" textAlignment="CENTER" wrappingWidth="54.5">
+         <font>
+            <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="64.0" layoutY="221.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Oceanis27" textAlignment="CENTER" wrappingWidth="36.5">
+      <Text layoutX="155.0" layoutY="503.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Oceanis27" textAlignment="CENTER" wrappingWidth="75.5">
          <font>
-            <Font size="6.0" />
+            <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="64.0" layoutY="194.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Large" textAlignment="CENTER" wrappingWidth="36.5">
+      <Text id="_largeText" layoutX="159.0" layoutY="448.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Large" textAlignment="CENTER" wrappingWidth="66.13000106811523">
          <font>
-            <Font size="7.0" />
+            <Font size="14.0" />
          </font>
       </Text>
-      <Text layoutX="26.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Medium" textAlignment="CENTER" wrappingWidth="36.5">
+      <Text id="_mediumText" layoutX="71.0" layoutY="448.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Medium" textAlignment="CENTER" wrappingWidth="66.13000106811523">
          <font>
-            <Font size="7.0" />
+            <Font size="14.0" />
          </font>
       </Text>
-      <Button fx:id="_singleCrew" onAction="#onSingleCrewClicked" layoutX="30.0" layoutY="152.0" mnemonicParsing="false" opacity="0.0" prefHeight="20.0" prefWidth="28.0" text="Button" />
-      <Button fx:id="_doubleCrew" onAction="#onDoubleCrewClicked" layoutX="65.0" layoutY="155.0" mnemonicParsing="false" opacity="0.0" prefHeight="4.0" prefWidth="36.0" text="Button" />
-      <Button fx:id="_lunchGameBtn" onAction="#onLaunchGameClicked" layoutX="355.0" layoutY="240.0" mnemonicParsing="false" opacity="0.0" text="Button" />
-      <Button fx:id="_mediumSail" onAction="#onMediumSailClicked" layoutX="27.0" layoutY="181.0" mnemonicParsing="false" opacity="0.0" prefHeight="4.0" prefWidth="36.0" text="Button" />
-      <Text fx:id="_crewFeedBackText" layoutX="138.0" layoutY="349.0" strokeType="OUTSIDE" strokeWidth="0.0" text="text" textAlignment="CENTER" wrappingWidth="206.26000213623047" />
-      <Button fx:id="_largeSail" onAction="#onLargeSailClicked" layoutX="67.0" layoutY="179.0" mnemonicParsing="false" opacity="0.0" prefHeight="4.0" prefWidth="36.0" text="Button" />
-      <Button fx:id="_figaroBtn" onAction="#onFigaroClicked" layoutX="29.0" layoutY="206.0" mnemonicParsing="false" opacity="0.0" prefHeight="4.0" prefWidth="36.0" text="Button" />
-      <Button fx:id="_oceanisBtn" onAction="#onOceanisClicked"  layoutX="67.0" layoutY="207.0" mnemonicParsing="false" opacity="0.0" prefHeight="4.0" prefWidth="36.0" text="Button" />
-      <Text fx:id="_sailFeedBackText" layoutX="140.0" layoutY="365.0" strokeType="OUTSIDE" strokeWidth="0.0" text="text" textAlignment="CENTER" wrappingWidth="206.26000213623047" />
-      <Text fx:id="_boatFeedBackText" layoutX="140.0" layoutY="382.0" strokeType="OUTSIDE" strokeWidth="0.0" text="text" textAlignment="CENTER" wrappingWidth="206.26000213623047" />
+      <Button id="_singleCrewBtn" fx:id="_singleCrew" layoutX="63.0" layoutY="369.0" mnemonicParsing="false" onAction="#onSingleCrewClicked" opacity="0.0" prefHeight="26.0" prefWidth="88.0" text="Button" />
+      <Button id="_doubleCrewBtn" fx:id="_doubleCrew" layoutX="156.0" layoutY="369.0" mnemonicParsing="false" onAction="#onDoubleCrewClicked" opacity="0.0" prefHeight="26.0" prefWidth="76.0" text="Button" />
+      <Button id="_playBtn" fx:id="_lunchGameBtn" layoutX="777.0" layoutY="554.0" mnemonicParsing="false" onAction="#onLaunchGameClicked" opacity="0.0" prefHeight="37.0" prefWidth="191.0" text="Pay">
+         <font>
+            <Font size="18.0" />
+         </font></Button>
+      <Button id="_lediumSailBtn" fx:id="_mediumSail" layoutX="65.0" layoutY="430.0" mnemonicParsing="false" onAction="#onMediumSailClicked" opacity="0.0" prefHeight="26.0" prefWidth="76.0" text="Button" />
+      <Text fx:id="_sailFeedbackText"  layoutX="386.0" layoutY="810.0" strokeType="OUTSIDE" strokeWidth="0.0" text="sail selection : " wrappingWidth="309.26000213623047">
+         <font>
+            <Font size="19.0" />
+         </font></Text>
+      <Button id="_largeSailBtn" fx:id="_largeSail" layoutX="157.0" layoutY="430.0" mnemonicParsing="false" onAction="#onLargeSailClicked" opacity="0.0" prefHeight="26.0" prefWidth="76.0" text="Button" />
+      <Button id="_figaroBtn" fx:id="_figaroBtn" layoutX="60.0" layoutY="485.0" mnemonicParsing="false" onAction="#onFigaroClicked" opacity="0.0" prefHeight="26.0" prefWidth="88.0" text="Button" />
+      <Button id="_oceanisBtn" fx:id="_oceanisBtn" layoutX="157.0" layoutY="485.0" mnemonicParsing="false" onAction="#onOceanisClicked" opacity="0.0" prefHeight="26.0" prefWidth="76.0" text="Button" />
+      <Text fx:id="_crewFeedbackText" layoutX="386.0" layoutY="837.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Crew tyoe selection : " wrappingWidth="309.26000213623047">
+         <font>
+            <Font size="19.0" />
+         </font></Text>
+      <Text fx:id="_boatFeedbackText" layoutX="386.0" layoutY="865.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Boat type selection : " wrappingWidth="309.26000213623047">
+         <font>
+            <Font size="19.0" />
+         </font></Text>
    </children>
 </AnchorPane>

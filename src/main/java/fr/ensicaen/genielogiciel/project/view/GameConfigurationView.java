@@ -21,46 +21,30 @@ public class GameConfigurationView {
     @FXML
     private Text _configurationFilePanelText;
     @FXML
-    private Text _crewFeedBackText;
+    private Text _crewFeedbackText;
     @FXML
-    private Text _sailFeedBackText;
+    private Text _sailFeedbackText;
     @FXML
-    private Text _boatFeedBackText;
+    private Text _boatFeedbackText;
 
-    // Buttons
-    @FXML
-    private Button _singleCrew;
-    @FXML
-    private Button _doubleCrew;
-    @FXML
-    private Button _lunchGameBtn;
-    @FXML
-    private Button _mediumSail;
-    @FXML
-    private Button _largeSail;
-    @FXML
-    private Button _oceanisBtn;
-    @FXML
-    private Button _figaroBtn;
 
     private static Stage _stage;
     private SailType _sailType = null;
     private CrewType _crewType = null;
     private BoatType _boatType = null;
 
-    private ConcreteGamePresenter _gamePresenter;
     private ConfigurationPresenter _configurationPresenter;
 
     @FXML
     private void onSingleCrewClicked() {
         _crewType = CrewType.SINGLE;
-        _crewFeedBackText.setText("Crew type changed to single");
+        _crewFeedbackText.setText(_crewFeedbackText.getText() + " Single.");
     }
 
     @FXML
     private void onDoubleCrewClicked() {
         _crewType = CrewType.DOUBLE;
-        _crewFeedBackText.setText("Crew type changed to double");
+        _crewFeedbackText.setText(_crewFeedbackText.getText() + " Double.");
     }
 
     @FXML
@@ -75,26 +59,26 @@ public class GameConfigurationView {
     @FXML
     private void onMediumSailClicked() {
         _sailType = SailType.MEDIUM;
-        _sailFeedBackText.setText("Sail type changed to medium");
+        _sailFeedbackText.setText(_sailFeedbackText.getText() + " Medium.");
     }
 
     @FXML
     private void onLargeSailClicked() {
         _sailType = SailType.LARGE;
-        _sailFeedBackText.setText("Sail type changed to large");
+        _sailFeedbackText.setText(_sailFeedbackText.getText() + " Large ");
     }
 
     @FXML
     private void onOceanisClicked() {
         _boatType = BoatType.OCEANIS37;
-        _boatFeedBackText.setText("Boat type changed to Oceanis37");
+        _boatFeedbackText.setText(_boatFeedbackText.getText() + " Oceanis37.");
     }
 
 
     @FXML
     private void onFigaroClicked() {
         _boatType = BoatType.FIGARO;
-        _boatFeedBackText.setText("Boat type changed to Figaro");
+        _boatFeedbackText.setText(_boatFeedbackText.getText() + " Figaro.");
     }
 
     public void displayError( String message ) {
