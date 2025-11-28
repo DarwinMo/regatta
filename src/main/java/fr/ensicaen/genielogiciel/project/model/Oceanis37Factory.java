@@ -13,7 +13,10 @@ public class Oceanis37Factory implements IBoatFactory {
     }
 
     @Override
-    public IBoat createBoat( double x, double y ) throws IOException {
-        return new Oceanis37Boat(x, y, _sail, _crew);
+    public IBoat createBoat( double x, double y, double windSpeed, double windDirection ) throws IOException {
+        Oceanis37Boat boat = new Oceanis37Boat(x, y, _sail, _crew);
+        boat.set_windAngle(windDirection);
+        boat.set_windSpeed(windSpeed);
+        return boat;
     }
 }

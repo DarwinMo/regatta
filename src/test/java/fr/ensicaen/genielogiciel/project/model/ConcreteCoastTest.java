@@ -13,7 +13,7 @@ class ConcreteCoastTest {
         public TestBoat( double x, double y ) {
             _x = x;
             _y = y;
-            _state = new UpState();
+            _state = new NormalState(this);
         }
 
         @Override
@@ -76,21 +76,6 @@ class ConcreteCoastTest {
         }
 
         @Override
-        public void start() {
-            _state.start(this);
-        }
-
-        @Override
-        public void stop() {
-            _state.stop(this);
-        }
-
-        @Override
-        public boolean isRunning() {
-            return _state.isRunning();
-        }
-
-        @Override
         public boolean hasCrossedFinishLine() {
             return false;
         }
@@ -98,6 +83,26 @@ class ConcreteCoastTest {
         @Override
         public void setState( IBoatState newState ) {
             _state = newState;
+        }
+
+        @Override
+        public void setTargetSpeed( double polarSpeed ) {
+
+        }
+
+        @Override
+        public void setInCollision( Boolean inCollision ) {
+
+        }
+
+        @Override
+        public void setDX( double dX ) {
+
+        }
+
+        @Override
+        public void setDY( double dY ) {
+
         }
 
         @Override

@@ -1,9 +1,7 @@
 package fr.ensicaen.genielogiciel.project.model;
 
 public interface IBoatState {
-    void start( IBoat boat );
+    void accelerate( IDecoratorEquipment crew, IDecoratorSail sail, double adjustedAngle, double polarSpeed, boolean inCollision );
 
-    void stop( IBoat boat );
-
-    boolean isRunning();
+    void applyWind( double targetSpeed, double speed, double angle, double factor );
 }

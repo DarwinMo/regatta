@@ -101,11 +101,7 @@ public class ConcreteGamePresenter implements IPresenter {
     private void initGame( SailType sailType, CrewType crewType, BoatType boatType ) throws IOException {
         _map = new GameLoader(new JsonParser()).loadGame(null);
         _wind = _map.getWaterPlan().getWind();
-        _boat = BoatType.getBoatFactory(boatType, sailType, crewType).createBoat(600, 600);
-    }
-
-    private double getRandomValue( double min, double max ) {
-        return min + _rand.nextDouble() * (max - min);
+        _boat = BoatType.getBoatFactory(boatType, sailType, crewType).createBoat(600, 600, _wind.getWindSpeed(), _wind.getWindDirection());
     }
 
     private void runGameLoop() {
@@ -126,11 +122,24 @@ public class ConcreteGamePresenter implements IPresenter {
         System.out.println("FIN DE PARTIE ! Temps : " + _timeScore.getFormattedCurrentTime());
     }
 
+    private void boatHasCollided() {
+        for (ICoast coast : _map.getCoasts()) {
+            if (coast.isCollision(_boat)) {
+                _boat.setInCollision(true);
+                return;
+            }
+        }
+        for (IBuoy buoy : _map.getBuoys()) {
+            if (buoy.checkCollision(_boat)) {
+                _boat.setInCollision(true);
+                return;
+            }
+        }
+    }
+
     private void update() {
         if (_boat == null || _wind == null) return;
-
-        _boat.set_windSpeed(_wind.getWindSpeed());
-        _boat.set_windAngle(_wind.getWindDirection());
+        boatHasCollided();
         _boat.accelerate();
         _boat.applyWind();
 
@@ -147,21 +156,6 @@ public class ConcreteGamePresenter implements IPresenter {
                 } else {
                     IBuoy nextBuoy = _map.getBuoys().get(_currentBuoyIndex);
                     _gameView.addBuoyLines(nextBuoy.getStartLineX(), nextBuoy.getStartLineY(), nextBuoy.getEndLineY(), nextBuoy.getEndLineX());
-                }
-            }
-        }
-
-        if (_map != null) {
-            for (ICoast coast : _map.getCoasts()) {
-                if (coast.isCollision(_boat)) {
-                    _boat.set_speed(0);
-                    break;
-                }
-            }
-            for (IBuoy buoy : _map.getBuoys()) {
-                if (buoy.checkCollision(_boat)) {
-                    _boat.set_speed(0);
-                    break;
                 }
             }
         }

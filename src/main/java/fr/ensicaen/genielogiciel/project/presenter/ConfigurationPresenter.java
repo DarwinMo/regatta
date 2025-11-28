@@ -31,7 +31,6 @@ public class ConfigurationPresenter {
     public void launchGame( SailType sailType, CrewType crewType, BoatType boatType ) {
 
         if (sailType == null || crewType == null || boatType == null) {
-            //_loginView.displayError(Main.getMessageBundle().getString("error.nickname"));
             _configurationView.displayError("error");
         } else {
             try {

@@ -6,11 +6,9 @@ import java.io.InputStream;
 public class Oceanis37Boat extends AbstractBoat {
 
     private static final String POLAR = "/fr/ensicaen/genielogiciel/project/model/polaire-oceanis-37.pol";
-    private IBoatState _state;
 
     public Oceanis37Boat( double x, double y, IDecoratorSail sail, IDecoratorEquipment crew ) {
         super(x, y, sail, crew);
-        _state = new UpState();
         InputStream test = getClass().getResourceAsStream(POLAR);
         System.out.println("Test resource = " + (test == null ? "NOT FOUND" : "OK"));
 
@@ -22,23 +20,5 @@ public class Oceanis37Boat extends AbstractBoat {
         }
     }
 
-    @Override
-    public void start() {
-        _state.start(this);
-    }
 
-    @Override
-    public void stop() {
-        _state.stop(this);
-    }
-
-    @Override
-    public boolean isRunning() {
-        return _state.isRunning();
-    }
-
-    @Override
-    public void setState( IBoatState newState ) {
-        _state = newState;
-    }
 }

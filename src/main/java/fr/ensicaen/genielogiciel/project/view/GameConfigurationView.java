@@ -71,14 +71,14 @@ public class GameConfigurationView {
     @FXML
     private void onOceanisClicked() {
         _boatType = BoatType.OCEANIS37;
-        _boatFeedbackText.setText(_boatFeedbackText.getText() + " Oceanis37.");
+        _boatFeedbackText.setText(_boatFeedbackText.getText() + " Oceanis37");
     }
 
 
     @FXML
     private void onFigaroClicked() {
         _boatType = BoatType.FIGARO;
-        _boatFeedbackText.setText(_boatFeedbackText.getText() + " Figaro.");
+        _boatFeedbackText.setText(_boatFeedbackText.getText() + " Figaro");
     }
 
     public void displayError( String message ) {

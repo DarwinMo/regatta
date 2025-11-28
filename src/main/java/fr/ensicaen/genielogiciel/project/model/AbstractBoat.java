@@ -15,6 +15,7 @@ public abstract class AbstractBoat implements IBoat {
     private IDecoratorSail _sail;
     private IDecoratorEquipment _crew;
     protected PolarTable _polarTable;
+    private Boolean _inCollision;
 
     private static final double ACCELERATION_FACTOR = 0.15;
     private static final double DECELERATION_FACTOR = 0.10;
@@ -24,7 +25,8 @@ public abstract class AbstractBoat implements IBoat {
         _y = y;
         _sail = sail;
         _crew = crew;
-        _state = new UpState();
+        _state = new NormalState(this);
+        _inCollision = false;
     }
 
     @Override
@@ -100,12 +102,9 @@ public abstract class AbstractBoat implements IBoat {
 
     @Override
     public void applyWind() {
+        System.out.println(_state);
         double factor = (_targetSpeed > _speed) ? ACCELERATION_FACTOR : DECELERATION_FACTOR;
-        _speed += factor * (_targetSpeed - _speed);
-        _dx = Math.sin(Math.toRadians(_angle)) * _speed;
-        _dy = -Math.cos(Math.toRadians(_angle)) * _speed;
-        _x += _dx;
-        _y += _dy;
+        _state.applyWind(_targetSpeed, _speed, _angle, factor);
     }
 
     @Override
@@ -124,21 +123,26 @@ public abstract class AbstractBoat implements IBoat {
         return adjustedAngle;
     }
 
+    public void setInCollision( Boolean inCollision ) {
+        _inCollision = inCollision;
+    }
+
     @Override
     public void accelerate() {
+
         if (_polarTable == null) {
             System.err.println("[ERROR] PolarTable non chargée !");
             return;
         }
-        double adjustedAngle = getAdjustedAngle();
-        double polarSpeed = _polarTable.getSpeed(adjustedAngle, _windSpeed);
+        _state.accelerate(_crew, _sail, getAdjustedAngle(), _polarTable.getSpeed(getAdjustedAngle(), _windSpeed), _inCollision);
+    }
 
-        if (_sail != null) polarSpeed = _sail.adjustSpeed(polarSpeed, adjustedAngle);
-        if (_crew != null) polarSpeed = _crew.adjustSpeed(polarSpeed, adjustedAngle);
-
+    @Override
+    public void setTargetSpeed( double polarSpeed ) {
         _targetSpeed = polarSpeed;
     }
 
+    // TODO : to implement and use in the presenter
     @Override
     public boolean hasCrossedFinishLine() {
         return false;
@@ -146,5 +150,30 @@ public abstract class AbstractBoat implements IBoat {
 
     public void setState( IBoatState newState ) {
         _state = newState;
+    }
+
+    @Override
+    public void setDX( double dx ) {
+        _dx = dx;
+    }
+
+    @Override
+    public void setDY( double dy ) {
+        _dy = dy;
+    }
+
+    @Override
+    public void setX( double x ) {
+        _x = x;
+    }
+
+    @Override
+    public void setY( double y ) {
+        _y = y;
+    }
+
+    @Override
+    public void setSpeed( double speed ) {
+        _speed = speed;
     }
 }
