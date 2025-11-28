@@ -7,7 +7,10 @@ import fr.ensicaen.genielogiciel.project.Main;
 import fr.ensicaen.genielogiciel.project.presenter.ConcreteGamePresenter;
 import fr.ensicaen.genielogiciel.project.presenter.IGameView;
 import fr.ensicaen.genielogiciel.project.presenter.UserAction;
-import javafx.application.Platform;
+import javafx.animation.ParallelTransition;
+import javafx.animation.RotateTransition;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,6 +26,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public final class GameView implements IGameView {
 
@@ -203,12 +207,34 @@ public final class GameView implements IGameView {
                             "/fr/ensicaen/genielogiciel/project/images/buoy.png")).toExternalForm())
             );
 
-            buoy.setFitWidth(32);
-            buoy.setFitHeight(32);
+            buoy.setFitWidth(48);
+            buoy.setFitHeight(48);
             buoy.setPreserveRatio(true);
             buoy.setLayoutX(x - buoy.getFitWidth() / 2);
             buoy.setLayoutY(y - buoy.getFitHeight() / 2);
+
+            DropShadow dropShadow = new DropShadow();
+            dropShadow.setRadius(5.0);
+            dropShadow.setOffsetX(3.0);
+            dropShadow.setOffsetY(3.0);
+            dropShadow.setColor(Color.CORNFLOWERBLUE);  //color(20, 68, 102));
+            buoy.setEffect(dropShadow);
+
+            TranslateTransition bobbing = new TranslateTransition(Duration.seconds(1.5), buoy);
+            bobbing.setByY(-3);
+            bobbing.setCycleCount(Timeline.INDEFINITE);
+            bobbing.setAutoReverse(true);
+
+            RotateTransition rotation = new RotateTransition(Duration.seconds(3.0), buoy);
+            rotation.setByAngle(8);
+            rotation.setCycleCount(Timeline.INDEFINITE);
+            rotation.setAutoReverse(true);
+
+            ParallelTransition animation = new ParallelTransition(bobbing, rotation);
+            animation.play(); // Inicia as duas animações simultaneamente
+
             _base.getChildren().add(buoy);
+            _buoys.add(buoy);
         } catch (Exception e) {
             System.err.println("Impossible de charger l'image de la bouée.");
         }
