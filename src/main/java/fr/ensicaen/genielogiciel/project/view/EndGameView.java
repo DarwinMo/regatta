@@ -17,7 +17,6 @@ public class EndGameView {
 
     private Stage _stage;
     private ConcreteReplayPresenter _replayPresenter;
-    private GameView _gameView;
     @FXML
     private AnchorPane _replayView;
 
@@ -34,20 +33,15 @@ public class EndGameView {
         _stage.close();
     }
 
-    public void displayError( String message ) {
-    }
-
-
     @FXML
-    private void onClickStartNewGame() {
-        //_replayPresenter.lunchNewGame();
-
+    private void onClickStartReplay() {
         _replayPresenter.lunchReplay();
     }
 
     @FXML
-    private void onClickPause() {
-        // to implement
+    private void onClickStartNewGame() {
+        _replayPresenter.lunchNewGame();
+        _replayPresenter.lunchReplay();
     }
 
     @FXML
@@ -57,8 +51,7 @@ public class EndGameView {
 
     @FXML
     public void initializeReplayPanel( GameView gameView ) {
-        _gameView = gameView;
-        Parent gameViewRoot = _gameView.getRoot();
+        Parent gameViewRoot = gameView.getRoot();
         AnchorPane.setTopAnchor(gameViewRoot, 0.0);
         AnchorPane.setBottomAnchor(gameViewRoot, 0.0);
         AnchorPane.setLeftAnchor(gameViewRoot, 0.0);
