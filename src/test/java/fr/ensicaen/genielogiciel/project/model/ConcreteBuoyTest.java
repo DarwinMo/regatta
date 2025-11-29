@@ -77,11 +77,6 @@ class ConcreteBuoyTest {
             }
 
             @Override
-            public boolean hasCrossedFinishLine() {
-                return false;
-            }
-
-            @Override
             public void setState( IBoatState upState ) {
 
             }
@@ -119,6 +114,16 @@ class ConcreteBuoyTest {
             @Override
             public void setSpeed( double speed ) {
 
+            }
+
+            @Override
+            public double getStartX() {
+                return x;
+            }
+
+            @Override
+            public double getStartY() {
+                return y;
             }
 
             @Override
