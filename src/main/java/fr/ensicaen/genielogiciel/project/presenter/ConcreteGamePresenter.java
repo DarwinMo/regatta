@@ -17,30 +17,44 @@ public class ConcreteGamePresenter implements IPresenter {
     private IBoat _boat;
     private IWind _wind;
 
-    private final BoatDirectionManager _boatDirectionManager;
+    private BoatDirectionManager _boatDirectionManager;
 
     private GameView _gameView;
     private boolean _started = false;
     private Timeline _timeline;
     private final TimeScore _timeScore = new TimeScore();
     private int _currentBuoyIndex = 0;
-    private final int _rotationAngle = 2;
-    private final Random _rand = new Random();
+    private final double _rotationAngle = 5.0;
+    private boolean _replay = false;
+
 
     public ConcreteGamePresenter( String configurationFile ) throws IOException {
         initGame(configurationFile);
-        _boatDirectionManager = new BoatDirectionManager(_boat, _rotationAngle);
+        routineGameInit();
     }
 
     public ConcreteGamePresenter( SailType sailType, CrewType crewType, BoatType boatType ) throws IOException {
         initGame(sailType, crewType, boatType);
-        _boatDirectionManager = new BoatDirectionManager(_boat, _rotationAngle);
+        routineGameInit();
+    }
+
+    public ConcreteGamePresenter( IMap map ) {
+        _map = map;
+        _boat = _map.getBoat();
+        _wind = _map.getWaterPlan().getWind();
+        routineGameInit();
+        _replay = true;
+    }
+
+    private void routineGameInit() {
+        _boatDirectionManager = new BoatDirectionManager(_rotationAngle);
+        _boatDirectionManager.setBoat(_boat);
     }
 
     public void launchEndGame() {
         try {
-            final EndGameView view = EndGameView.EndGameViewFactory.createEndGameView();
-            final ConcreteReplayPresenter replayPresenter = new ConcreteReplayPresenter();
+            final EndGameView view = EndGameView.EndGameViewFactory.createEndGameView(_gameView);
+            final ConcreteReplayPresenter replayPresenter = new ConcreteReplayPresenter(_rotationAngle, _map, _gameView);
             view.setReplayPresenter(replayPresenter);
             replayPresenter.setView(view);
             view.show();
@@ -81,7 +95,7 @@ public class ConcreteGamePresenter implements IPresenter {
         }
     }
 
-    private void startGame() {
+    public void startGame() {
         if (!_started) {
             _started = true;
             _timeScore.start();
@@ -92,9 +106,9 @@ public class ConcreteGamePresenter implements IPresenter {
     private void changeDirection( UserAction action ) {
         if (_boatDirectionManager != null) {
             if (action == UserAction.LEFT) {
-                _boatDirectionManager.goLeft();
+                _boatDirectionManager.goLeft(_timeScore.getCurrentTime());
             } else if (action == UserAction.RIGHT) {
-                _boatDirectionManager.goRight();
+                _boatDirectionManager.goRight(_timeScore.getCurrentTime());
             }
         }
     }
@@ -129,6 +143,8 @@ public class ConcreteGamePresenter implements IPresenter {
         if (_timeline != null) {
             _timeline.stop();
         }
+        _timeScore.finish();
+        _boatDirectionManager.saveGame();
         System.out.println("FIN DE PARTIE ! Temps : " + _timeScore.getFormattedCurrentTime());
     }
 
@@ -167,11 +183,14 @@ public class ConcreteGamePresenter implements IPresenter {
     private void update() {
         if (_boat == null || _wind == null) return;
         boatHasCollided();
-        _boat.accelerate();
-        _boat.applyWind();
+        _boatDirectionManager.goStraight(_timeScore.getCurrentTime());
+
         if (gameHasEnded()) {
+            _started = false;
             stopGameLoop();
-            launchEndGame();
+            if (!_replay) {
+                launchEndGame();
+            }
         }
     }
 

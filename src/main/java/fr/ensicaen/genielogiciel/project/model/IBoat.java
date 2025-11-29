@@ -37,8 +37,6 @@ public interface IBoat {
 
     void set_sail( IDecoratorSail sail );
 
-    boolean hasCrossedFinishLine();
-
     void setState( IBoatState upState );
 
     void setTargetSpeed( double polarSpeed );
@@ -54,4 +52,8 @@ public interface IBoat {
     void setY( double y );
 
     void setSpeed( double speed );
+
+    double getStartX();
+
+    double getStartY();
 }

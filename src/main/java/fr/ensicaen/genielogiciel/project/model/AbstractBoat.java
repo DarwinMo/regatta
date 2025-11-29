@@ -1,7 +1,8 @@
 package fr.ensicaen.genielogiciel.project.model;
 
 public abstract class AbstractBoat implements IBoat {
-
+    private double _startX;
+    private double _startY;
     private double _x;
     private double _y;
     private double _dx = 0;
@@ -23,6 +24,8 @@ public abstract class AbstractBoat implements IBoat {
     public AbstractBoat( double x, double y, IDecoratorSail sail, IDecoratorEquipment crew ) {
         _x = x;
         _y = y;
+        _startY = y;
+        _startX = x;
         _sail = sail;
         _crew = crew;
         _state = new NormalState(this);
@@ -102,7 +105,6 @@ public abstract class AbstractBoat implements IBoat {
 
     @Override
     public void applyWind() {
-        System.out.println(_state);
         double factor = (_targetSpeed > _speed) ? ACCELERATION_FACTOR : DECELERATION_FACTOR;
         _state.applyWind(_targetSpeed, _speed, _angle, factor);
     }
@@ -142,12 +144,6 @@ public abstract class AbstractBoat implements IBoat {
         _targetSpeed = polarSpeed;
     }
 
-    // TODO : to implement and use in the presenter
-    @Override
-    public boolean hasCrossedFinishLine() {
-        return false;
-    }
-
     public void setState( IBoatState newState ) {
         _state = newState;
     }
@@ -175,5 +171,13 @@ public abstract class AbstractBoat implements IBoat {
     @Override
     public void setSpeed( double speed ) {
         _speed = speed;
+    }
+
+    public double getStartX() {
+        return _startX;
+    }
+
+    public double getStartY() {
+        return _startY;
     }
 }

@@ -14,8 +14,7 @@ public class ConcreteWaterPlan implements IWaterPlan {
         _bounds = new Bounds(0.0, 0.0, width, height);
     }
 
-    @Override
-    public Bounds getBounds() {
+    private Bounds getBounds() {
         return _bounds;
     }
 

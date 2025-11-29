@@ -11,7 +11,6 @@ import javafx.animation.ParallelTransition;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,6 +23,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
@@ -99,10 +99,26 @@ public final class GameView implements IGameView {
         }
     }
 
+    public void updateBoatCenter( double x, double y, double angle ) {
+        _boat.setRotate(angle);
+        _boat.setLayoutX(x);
+        _boat.setLayoutY(y);
+    }
+
 
     @Override
     public void addBoat( double x, double y ) {
-        _boat = drawBoat(x, y, 6, 16);
+        Ellipse boat = new Ellipse(0, 0, 6, 16);
+
+        boat.setLayoutX(x);
+        boat.setLayoutY(y);
+
+        boat.setFill(Color.YELLOW);
+        boat.setStroke(Color.RED);
+
+        _base.getChildren().add(boat);
+
+        this._boat = boat;
     }
 
     public void handleKeyPressed( KeyCode code ) {
@@ -156,6 +172,10 @@ public final class GameView implements IGameView {
 
     public void close() {
         _stage.close();
+    }
+
+    public Pane getRoot() {
+        return _base;
     }
 
     @FXML

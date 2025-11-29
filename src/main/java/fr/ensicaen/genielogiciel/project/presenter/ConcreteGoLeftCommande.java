@@ -1,16 +1,17 @@
 package fr.ensicaen.genielogiciel.project.presenter;
 
 import fr.ensicaen.genielogiciel.project.model.IBoat;
+import javafx.animation.Timeline;
 
 public class ConcreteGoLeftCommande extends AbstractChangeOrientationCommande {
 
 
-    public ConcreteGoLeftCommande( IBoat boat, int rotationAngle ) {
-        super(boat, rotationAngle);
+    public ConcreteGoLeftCommande( double rotationAngle, long timeline ) {
+        super(rotationAngle, timeline);
     }
 
     @Override
-    public void execute() {
-        _boat.rotate(_rotationAngle * -1);
+    public void execute( IBoat boat ) {
+        boat.rotate((int) super.getRotationAngle() * -1);
     }
 }

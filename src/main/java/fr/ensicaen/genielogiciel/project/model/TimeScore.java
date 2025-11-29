@@ -84,6 +84,11 @@ public class TimeScore {
         long milliseconds = t % 1000;
 
         return String.format("%02d:%02d:%03d", minutes, seconds, milliseconds);
-
     }
+
+    public boolean isCloseTo( long otherTimestamp, int eps ) {
+        long diff = Math.abs(this.getCurrentTime() - otherTimestamp);
+        return diff <= eps;
+    }
+
 }

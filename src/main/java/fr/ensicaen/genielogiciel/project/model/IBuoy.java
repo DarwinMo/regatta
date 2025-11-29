@@ -18,4 +18,6 @@ public interface IBuoy {
     double getEndLineY();
 
     boolean isMarked();
+
+    void setMarked( boolean marked );
 }

@@ -87,4 +87,9 @@ public class ConcreteBuoy implements IBuoy {
     public boolean isMarked() {
         return _validated;
     }
+
+    @Override
+    public void setMarked( boolean marked ) {
+        _validated = marked;
+    }
 }
