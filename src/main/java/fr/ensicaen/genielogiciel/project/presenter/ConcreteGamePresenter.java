@@ -38,14 +38,6 @@ public class ConcreteGamePresenter implements IPresenter {
         routineGameInit();
     }
 
-    public ConcreteGamePresenter( IMap map ) {
-        _map = map;
-        _boat = _map.getBoat();
-        _wind = _map.getWaterPlan().getWind();
-        routineGameInit();
-        _replay = true;
-    }
-
     private void routineGameInit() {
         _boatDirectionManager = new BoatDirectionManager(_rotationAngle);
         _boatDirectionManager.setBoat(_boat);
@@ -72,6 +64,7 @@ public class ConcreteGamePresenter implements IPresenter {
         }
 
         if (_map != null) {
+
             for (IBuoy buoy : _map.getBuoys()) {
                 _gameView.addBuoys(buoy.get_x(), buoy.get_y());
             }
@@ -121,7 +114,6 @@ public class ConcreteGamePresenter implements IPresenter {
         }
     }
 
-    // TODO: either add a random map builder or fix the json file so that the boat doesnt have to always be specified so it wont be created twice
     private void initGame( SailType sailType, CrewType crewType, BoatType boatType ) throws IOException {
         _map = new GameLoader(new JsonParser()).loadGame(null);
         _wind = _map.getWaterPlan().getWind();

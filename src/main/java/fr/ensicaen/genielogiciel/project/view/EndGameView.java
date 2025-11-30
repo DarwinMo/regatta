@@ -6,8 +6,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -41,7 +39,6 @@ public class EndGameView {
     @FXML
     private void onClickStartNewGame() {
         _replayPresenter.lunchNewGame();
-        _replayPresenter.lunchReplay();
     }
 
     @FXML
@@ -52,10 +49,6 @@ public class EndGameView {
     @FXML
     public void initializeReplayPanel( GameView gameView ) {
         Parent gameViewRoot = gameView.getRoot();
-        AnchorPane.setTopAnchor(gameViewRoot, 0.0);
-        AnchorPane.setBottomAnchor(gameViewRoot, 0.0);
-        AnchorPane.setLeftAnchor(gameViewRoot, 0.0);
-        AnchorPane.setRightAnchor(gameViewRoot, 0.0);
         _replayView.getChildren().setAll(gameViewRoot);
     }
 
@@ -70,6 +63,9 @@ public class EndGameView {
             final Stage stage = new Stage();
             stage.setScene(new Scene(root));
             view._stage = stage;
+            stage.setWidth(gameView.getStage().getWidth());
+            stage.setHeight(gameView.getStage().getHeight());
+            stage.setResizable(false);
             view.initializeReplayPanel(gameView);
             return view;
         }

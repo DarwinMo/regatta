@@ -15,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -27,6 +26,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.util.Duration;
 
 public final class GameView implements IGameView {
@@ -37,8 +37,6 @@ public final class GameView implements IGameView {
     private javafx.scene.shape.Line _currentBuoyLine;
 
 
-    @FXML
-    private Button pauseButton;
     @FXML
     private AnchorPane _base;
 
@@ -60,13 +58,9 @@ public final class GameView implements IGameView {
     @FXML
     private ImageView headingArrow;
 
-    @FXML
-    private AnchorPane _endOverlay;
-
 
     public void setGamePresenter( ConcreteGamePresenter gamePresenter ) {
         _gamePresenter = gamePresenter;
-        System.out.println("GameView : Présentateur connecté.");
     }
 
     public void rotate( Ellipse boat, double val ) {
@@ -148,7 +142,7 @@ public final class GameView implements IGameView {
             Parent root = loader.load();
             GameView view = loader.getController();
 
-            Scene scene = new Scene(root, 800, 600);
+            Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setTitle(Main.getMessageBundle().getString("project.title"));
             stage.setScene(scene);
@@ -289,6 +283,10 @@ public final class GameView implements IGameView {
         coastLine.setOpacity(0.8);
 
         _base.getChildren().add(coastLine);
+    }
+
+    public Stage getStage() {
+        return _stage;
     }
 
 }

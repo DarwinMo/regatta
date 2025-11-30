@@ -7,9 +7,7 @@
   ],
 "boat": {"x":600,"y":600,"sailType":"medium","boatType": "figaro","crewType": "single"},
   "buoys":[
-    {"x": 300,"y": 250,"angle": 100},
-    {"x":650,"y":300,"angle": 270},
-    {"x": 100,"y": 300,"angle": 100}
+    {"x":650,"y":300,"angle": 270}
   ],
   "waterPlan": {"width":1000,"height":800}
 }

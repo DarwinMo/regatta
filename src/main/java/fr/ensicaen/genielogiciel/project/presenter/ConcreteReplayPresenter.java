@@ -87,12 +87,13 @@ public class ConcreteReplayPresenter {
 
 
     public void lunchNewGame() {
-        final GameConfigurationView view;
         try {
-            view = GameConfigurationView.GameConfigurationViewFactory.createConfigurationView();
+            final GameConfigurationView view = GameConfigurationView.GameConfigurationViewFactory.createConfigurationView();
             final ConfigurationPresenter presenter = new ConfigurationPresenter();
             presenter.setConfigurationView(view);
             view.setConfigurationPresenter(presenter);
+
+
             view.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
