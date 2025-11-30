@@ -13,7 +13,8 @@ public class Oceanis37Test {
 
     @BeforeEach
     void setUp() throws IOException {
-        boat = new Oceanis37Factory(new MediumSail(), new SingleCrew()).createBoat(450, 450);
+        IWind wind = new ConcreteWind(new WeatherAPI());
+        boat = new Oceanis37Factory(new MediumSail(), new SingleCrew()).createBoat(450, 450, wind.getWindSpeed(), wind.getWindDirection());
         boat.set_windAngle(90);
         boat.set_windSpeed(10);
         boat.set_angle(0);

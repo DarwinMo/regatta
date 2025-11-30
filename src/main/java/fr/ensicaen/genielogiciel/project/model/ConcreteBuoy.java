@@ -20,11 +20,6 @@ public class ConcreteBuoy implements IBuoy {
         return _y;
     }
 
-    @Override
-    public boolean isMarked() {
-        return _validated;
-    }
-
     public ConcreteBuoy( double x, double y, double angle ) {
         this._x = x;
         this._y = y;
@@ -74,12 +69,10 @@ public class ConcreteBuoy implements IBuoy {
 
 
     @Override
-    public boolean checkPassage( IBoat boat ) {
+    public void checkPassage( IBoat boat ) {
         if (!_validated && isCrossedBy(boat)) {
             _validated = true;
-            return true;
         }
-        return false;
     }
 
     @Override
@@ -88,5 +81,15 @@ public class ConcreteBuoy implements IBuoy {
         double dy = boat.get_y() - _y;
         double distance = Math.sqrt(dx * dx + dy * dy);
         return distance <= 15;
+    }
+
+    @Override
+    public boolean isMarked() {
+        return _validated;
+    }
+
+    @Override
+    public void setMarked( boolean marked ) {
+        _validated = marked;
     }
 }

@@ -1,7 +1,8 @@
 package fr.ensicaen.genielogiciel.project.model;
 
 public abstract class AbstractBoat implements IBoat {
-
+    private final double _startX;
+    private final double _startY;
     private double _x;
     private double _y;
     private double _dx = 0;
@@ -15,6 +16,7 @@ public abstract class AbstractBoat implements IBoat {
     private IDecoratorSail _sail;
     private IDecoratorEquipment _crew;
     protected PolarTable _polarTable;
+    private Boolean _inCollision;
 
     private static final double ACCELERATION_FACTOR = 0.15;
     private static final double DECELERATION_FACTOR = 0.10;
@@ -22,9 +24,12 @@ public abstract class AbstractBoat implements IBoat {
     public AbstractBoat( double x, double y, IDecoratorSail sail, IDecoratorEquipment crew ) {
         _x = x;
         _y = y;
+        _startY = y;
+        _startX = x;
         _sail = sail;
         _crew = crew;
-        _state = new UpState();
+        _state = new NormalState(this);
+        _inCollision = false;
     }
 
     @Override
@@ -101,11 +106,7 @@ public abstract class AbstractBoat implements IBoat {
     @Override
     public void applyWind() {
         double factor = (_targetSpeed > _speed) ? ACCELERATION_FACTOR : DECELERATION_FACTOR;
-        _speed += factor * (_targetSpeed - _speed);
-        _dx = Math.sin(Math.toRadians(_angle)) * _speed;
-        _dy = -Math.cos(Math.toRadians(_angle)) * _speed;
-        _x += _dx;
-        _y += _dy;
+        _state.applyWind(_targetSpeed, _speed, _angle, factor);
     }
 
     @Override
@@ -124,27 +125,59 @@ public abstract class AbstractBoat implements IBoat {
         return adjustedAngle;
     }
 
+    public void setInCollision( Boolean inCollision ) {
+        _inCollision = inCollision;
+    }
+
     @Override
     public void accelerate() {
+
         if (_polarTable == null) {
             System.err.println("[ERROR] PolarTable non chargée !");
             return;
         }
-        double adjustedAngle = getAdjustedAngle();
-        double polarSpeed = _polarTable.getSpeed(adjustedAngle, _windSpeed);
-
-        if (_sail != null) polarSpeed = _sail.adjustSpeed(polarSpeed, adjustedAngle);
-        if (_crew != null) polarSpeed = _crew.adjustSpeed(polarSpeed, adjustedAngle);
-
-        _targetSpeed = polarSpeed;
+        _state.accelerate(_crew, _sail, getAdjustedAngle(), _polarTable.getSpeed(getAdjustedAngle(), _windSpeed), _inCollision);
     }
 
     @Override
-    public boolean hasCrossedFinishLine() {
-        return false;
+    public void setTargetSpeed( double polarSpeed ) {
+        _targetSpeed = polarSpeed;
     }
 
     public void setState( IBoatState newState ) {
         _state = newState;
+    }
+
+    @Override
+    public void setDX( double dx ) {
+        _dx = dx;
+    }
+
+    @Override
+    public void setDY( double dy ) {
+        _dy = dy;
+    }
+
+    @Override
+    public void setX( double x ) {
+        _x = x;
+    }
+
+    @Override
+    public void setY( double y ) {
+        _y = y;
+    }
+
+    @Override
+    public void setSpeed( double speed ) {
+        _speed = speed;
+    }
+
+    public double getStartX() {
+        return _startX;
+    }
+
+    public double getStartY() {
+        return _startY;
     }
 }

@@ -44,10 +44,10 @@
                        fitWidth="30" fitHeight="30"
                        preserveRatio="true"/>
             <ImageView fx:id="windIcon"
-                       fitWidth="30" fitHeight="30"
+                       fitWidth="40" fitHeight="40"
                        preserveRatio="true"/>
             <ImageView fx:id="windArrow"
-                       fitWidth="30" fitHeight="30"
+                       fitWidth="40" fitHeight="40"
                        preserveRatio="true"/>
         </HBox>
 

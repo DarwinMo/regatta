@@ -28,13 +28,9 @@ public class JsonParser implements IParser {
             CrewType finalCrewType = CrewType.getCrewType(boat);
             BoatType finalBoatType = BoatType.getBoatType(boat);
 
-            mapBuilder.addBoat(BoatType.getBoatFactory(finalBoatType, finalsailType, finalCrewType).createBoat(boatX, boatY));
+            IWind weather = new ConcreteWind(new WeatherAPI());
 
-            JsonNode waterPlan = root.get("waterPlan");
-            int waterPlanWidth = waterPlan.get("width").asInt();
-            int waterPlanHeight = waterPlan.get("height").asInt();
-            mapBuilder.addWaterPlan(new ConcreteWaterPlan(waterPlanWidth, waterPlanHeight, new ConcreteWind(new WeatherAPI())));
-
+            mapBuilder.addBoat(BoatType.getBoatFactory(finalBoatType, finalsailType, finalCrewType).createBoat(boatX, boatY, weather.getWindSpeed(), weather.getWindDirection()));
 
             JsonNode coastsArray = root.get("coasts");
             if (coastsArray.isArray()) {
@@ -57,10 +53,13 @@ public class JsonParser implements IParser {
                 }
             }
 
+            mapBuilder.addWind(new ConcreteWind(new WeatherAPI()));
+
             return mapBuilder.build();
 
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error: " + e.getMessage());
+            e.printStackTrace(System.err);
             return null;
         }
     }

@@ -37,13 +37,23 @@ public interface IBoat {
 
     void set_sail( IDecoratorSail sail );
 
-    void start();
-
-    void stop();
-
-    boolean isRunning();
-
-    boolean hasCrossedFinishLine();
-
     void setState( IBoatState upState );
+
+    void setTargetSpeed( double polarSpeed );
+
+    void setInCollision( Boolean inCollision );
+
+    void setDX( double dX );
+
+    void setDY( double dY );
+
+    void setX( double x );
+
+    void setY( double y );
+
+    void setSpeed( double speed );
+
+    double getStartX();
+
+    double getStartY();
 }

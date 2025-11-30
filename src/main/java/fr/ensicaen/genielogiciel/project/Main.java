@@ -4,8 +4,8 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import fr.ensicaen.genielogiciel.project.presenter.LoginPresenter;
-import fr.ensicaen.genielogiciel.project.view.LoginView;
+import fr.ensicaen.genielogiciel.project.presenter.ConfigurationPresenter;
+import fr.ensicaen.genielogiciel.project.view.GameConfigurationView;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -42,10 +42,10 @@ public final class Main extends Application {
     @Override
     public void start( final Stage primaryStage ) throws Exception {
         primaryStage.setTitle(getMessageBundle().getString("project.title"));
-        final LoginView view = LoginView.LoginViewFactory.createView(primaryStage);
-        final LoginPresenter presenter = new LoginPresenter();
-        presenter.setLoginView(view);
-        view.setLoginPresenter(presenter);
+        final GameConfigurationView view = GameConfigurationView.GameConfigurationViewFactory.createConfigurationView();
+        final ConfigurationPresenter presenter = new ConfigurationPresenter();
+        presenter.setConfigurationView(view);
+        view.setConfigurationPresenter(presenter);
         view.show();
     }
 

@@ -2,13 +2,8 @@ package fr.ensicaen.genielogiciel.project.presenter;
 
 import java.io.IOException;
 
-import fr.ensicaen.genielogiciel.project.model.IBoat;
-import fr.ensicaen.genielogiciel.project.model.IBuoy;
-import fr.ensicaen.genielogiciel.project.model.ICoast;
-import fr.ensicaen.genielogiciel.project.model.IMap;
-import fr.ensicaen.genielogiciel.project.model.IWind;
-import fr.ensicaen.genielogiciel.project.model.PlayerModel;
-import fr.ensicaen.genielogiciel.project.model.TimeScore;
+import fr.ensicaen.genielogiciel.project.model.*;
+import fr.ensicaen.genielogiciel.project.view.EndGameView;
 import fr.ensicaen.genielogiciel.project.view.GameView;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -19,7 +14,6 @@ public class ConcreteGamePresenter implements IPresenter {
 
     private IMap _map;
     private IBoat _boat;
-    private final PlayerModel _player;
     private IWind _wind;
 
     private BoatDirectionManager _boatDirectionManager;
@@ -29,20 +23,36 @@ public class ConcreteGamePresenter implements IPresenter {
     private Timeline _timeline;
     private final TimeScore _timeScore = new TimeScore();
     private int _currentBuoyIndex = 0;
+    private final double _rotationAngle = 5.0;
 
-    public ConcreteGamePresenter( String nickName, String configurationFile ) throws IOException {
-        _player = new PlayerModel();
-        _player.setNickname(nickName);
+
+    public ConcreteGamePresenter( String configurationFile ) throws IOException {
         initGame(configurationFile);
-        int _rotationAngle = 2;
-        _boatDirectionManager = new BoatDirectionManager(_boat, _rotationAngle);
+        routineGameInit();
     }
 
-    public void setBoat( IBoat boat ) {
-        this._boat = boat;
-        int _rotationAngle = 2;
-        this._boatDirectionManager = new BoatDirectionManager(_boat, _rotationAngle);
-        System.out.println("Presenter : Bateau mis à jour -> " + boat);
+    public ConcreteGamePresenter( SailType sailType, CrewType crewType, BoatType boatType ) throws IOException {
+        initGame(sailType, crewType, boatType);
+        routineGameInit();
+    }
+
+    private void routineGameInit() {
+        _boatDirectionManager = new BoatDirectionManager(_rotationAngle);
+        _boatDirectionManager.setBoat(_boat);
+    }
+
+    public void launchEndGame() {
+        try {
+            final EndGameView view = EndGameView.EndGameViewFactory.createEndGameView(_gameView);
+            final ConcreteReplayPresenter replayPresenter = new ConcreteReplayPresenter(_rotationAngle, _map, _gameView);
+            view.setReplayPresenter(replayPresenter);
+            replayPresenter.setView(view);
+            view.show();
+        } catch (IOException e) {
+            System.err.println("Error: " + e.getMessage());
+            e.printStackTrace(System.err);
+        }
+        _gameView.close();
     }
 
     public void setGameView( GameView gameView ) {
@@ -53,12 +63,13 @@ public class ConcreteGamePresenter implements IPresenter {
         }
 
         if (_map != null) {
+
             for (IBuoy buoy : _map.getBuoys()) {
                 _gameView.addBuoys(buoy.get_x(), buoy.get_y());
             }
 
             if (!_map.getBuoys().isEmpty()) {
-                IBuoy firstBuoy = _map.getBuoys().get(_currentBuoyIndex); // Utilise l'index 0
+                IBuoy firstBuoy = _map.getBuoys().get(_currentBuoyIndex);
                 _gameView.addBuoyLines(firstBuoy.getStartLineX(), firstBuoy.getStartLineY(), firstBuoy.getEndLineY(), firstBuoy.getEndLineX());
             }
 
@@ -76,7 +87,7 @@ public class ConcreteGamePresenter implements IPresenter {
         }
     }
 
-    private void startGame() {
+    public void startGame() {
         if (!_started) {
             _started = true;
             _timeScore.start();
@@ -97,9 +108,15 @@ public class ConcreteGamePresenter implements IPresenter {
     private void initGame( String configurationFile ) {
         _map = new GameLoader(new JsonParser()).loadGame(configurationFile);
         if (_map != null) {
-            _wind = _map.getWaterPlan().getWind();
+            _wind = _map.getWind();
             _boat = _map.getBoat();
         }
+    }
+
+    private void initGame( SailType sailType, CrewType crewType, BoatType boatType ) throws IOException {
+        _map = new GameLoader(new JsonParser()).loadGame(null);
+        _wind = _map.getWind();
+        _boat = BoatType.getBoatFactory(boatType, sailType, crewType).createBoat(600, 600, _wind.getWindSpeed(), _wind.getWindDirection());
     }
 
     private void runGameLoop() {
@@ -113,51 +130,55 @@ public class ConcreteGamePresenter implements IPresenter {
         _timeline.play();
     }
 
-    private void stopGameLoop() {
+    public void stopGameLoop() {
         if (_timeline != null) {
             _timeline.stop();
         }
-        System.out.println("FIN DE PARTIE ! Temps : " + _timeScore.getFormattedCurrentTime());
+        _timeScore.finish();
+        _boatDirectionManager.saveGame();
     }
+
+    private void boatHasCollided() {
+        for (ICoast coast : _map.getCoasts()) {
+            if (coast.isCollision(_boat)) {
+                _boat.setInCollision(true);
+                return;
+            }
+        }
+        for (IBuoy buoy : _map.getBuoys()) {
+            if (buoy.checkCollision(_boat)) {
+                _boat.setInCollision(true);
+                return;
+            }
+        }
+    }
+
+    private boolean gameHasEnded() {
+        for (IBuoy buoy : _map.getBuoys()) {
+            if (buoy.isMarked()) continue;
+            buoy.checkPassage(_boat);
+            if (!buoy.isMarked()) {
+                return false;
+            }
+            _gameView.removeCurrentBuoyLine();
+            _currentBuoyIndex++;
+            if (_currentBuoyIndex >= _map.getBuoys().size()) break;
+            IBuoy nextBuoy = _map.getBuoys().get(_currentBuoyIndex);
+            _gameView.addBuoyLines(nextBuoy.getStartLineX(), nextBuoy.getStartLineY(), nextBuoy.getEndLineY(), nextBuoy.getEndLineX());
+        }
+        return true;
+    }
+
 
     private void update() {
         if (_boat == null || _wind == null) return;
+        boatHasCollided();
+        _boatDirectionManager.goStraight(_timeScore.getCurrentTime());
 
-        _boat.set_windSpeed(_wind.getWindSpeed());
-        _boat.set_windAngle(_wind.getWindDirection());
-        _boat.accelerate();
-        _boat.applyWind();
-
-        if (_map != null && _currentBuoyIndex < _map.getBuoys().size()) {
-            IBuoy currentBuoy = _map.getBuoys().get(_currentBuoyIndex);
-            if (currentBuoy.checkPassage(_boat)) {
-                System.out.println("PASSAGE VALIDÉ POUR BOUEE " + _currentBuoyIndex);
-                _currentBuoyIndex++;
-
-                if (_currentBuoyIndex >= _map.getBuoys().size()) {
-                    System.out.println("PARCOURS TERMINÉ !");
-                    stopGameLoop();
-                    _gameView.removeCurrentBuoyLine();
-                } else {
-                    IBuoy nextBuoy = _map.getBuoys().get(_currentBuoyIndex);
-                    _gameView.addBuoyLines(nextBuoy.getStartLineX(), nextBuoy.getStartLineY(), nextBuoy.getEndLineY(), nextBuoy.getEndLineX());
-                }
-            }
-        }
-
-        if (_map != null) {
-            for (ICoast coast : _map.getCoasts()) {
-                if (coast.isCollision(_boat)) {
-                    _boat.set_speed(0);
-                    break;
-                }
-            }
-            for (IBuoy buoy : _map.getBuoys()) {
-                if (buoy.checkCollision(_boat)) {
-                    _boat.set_speed(0);
-                    break;
-                }
-            }
+        if (gameHasEnded()) {
+            _started = false;
+            stopGameLoop();
+            launchEndGame();
         }
     }
 

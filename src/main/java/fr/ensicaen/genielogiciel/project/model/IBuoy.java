@@ -5,18 +5,19 @@ public interface IBuoy {
 
     double get_y();
 
-    boolean isMarked();
-
-
-    boolean checkPassage( IBoat boat );
+    void checkPassage( IBoat boat );
 
     boolean checkCollision( IBoat boat );
 
-    public double getStartLineX();
+    double getStartLineX();
 
-    public double getStartLineY();
+    double getStartLineY();
 
-    public double getEndLineX();
+    double getEndLineX();
 
-    public double getEndLineY();
+    double getEndLineY();
+
+    boolean isMarked();
+
+    void setMarked( boolean marked );
 }

@@ -1,21 +1,12 @@
 package fr.ensicaen.genielogiciel.project.model;
 
-import java.io.IOException;
-
-public class FigaroFactory implements IBoatFactory {
-
-    private final IDecoratorSail _sail;
-    private final IDecoratorEquipment _crew;
-    private final IBoatState _state;
-
-    public FigaroFactory( IDecoratorSail sail, IDecoratorEquipment crew ) {
-        _sail = sail;
-        _crew = crew;
-        _state = new UpState();
-    }
+public record FigaroFactory(IDecoratorSail _sail, IDecoratorEquipment _crew) implements IBoatFactory {
 
     @Override
-    public IBoat createBoat( double x, double y ) throws IOException {
-        return new FigaroBoat(x, y, _sail, _crew);
+    public IBoat createBoat( double x, double y, double windSpeed, double windDirection ) {
+        FigaroBoat boat = new FigaroBoat(x, y, _sail, _crew);
+        boat.set_windAngle(windDirection);
+        boat.set_windSpeed(windSpeed);
+        return boat;
     }
 }

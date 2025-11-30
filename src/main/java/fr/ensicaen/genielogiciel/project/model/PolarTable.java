@@ -13,9 +13,10 @@ public class PolarTable {
     public PolarTable( String resourcePath ) throws IOException {
         _values = new double[_angles.length][_windSpeeds.length];
 
-        InputStream input = getClass().getResourceAsStream(resourcePath);
-        if (input == null) {
-            throw new IOException("Fichier polaire introuvable dans le classpath : " + resourcePath);
+        try (InputStream input = getClass().getResourceAsStream(resourcePath)) {
+            if (input == null) {
+                throw new IOException("Fichier polaire introuvable dans le classpath : " + resourcePath);
+            }
         }
         InputStream is = getClass().getResourceAsStream(resourcePath);
         if (is == null) {

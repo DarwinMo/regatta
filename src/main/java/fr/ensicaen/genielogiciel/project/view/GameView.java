@@ -1,13 +1,11 @@
 package fr.ensicaen.genielogiciel.project.view;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 import fr.ensicaen.genielogiciel.project.Main;
 import fr.ensicaen.genielogiciel.project.presenter.ConcreteGamePresenter;
-import fr.ensicaen.genielogiciel.project.presenter.IPresenter;
+import fr.ensicaen.genielogiciel.project.presenter.IGameView;
 import fr.ensicaen.genielogiciel.project.presenter.UserAction;
 import javafx.animation.ParallelTransition;
 import javafx.animation.RotateTransition;
@@ -17,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -25,6 +22,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
@@ -35,11 +33,9 @@ public final class GameView implements IGameView {
     private static Stage _stage;
     private ConcreteGamePresenter _gamePresenter;
     private Ellipse _boat;
-    private List<ImageView> _buoys = new ArrayList<>();
     private javafx.scene.shape.Line _currentBuoyLine;
 
-    @FXML
-    private Button pauseButton;
+
     @FXML
     private AnchorPane _base;
 
@@ -61,33 +57,13 @@ public final class GameView implements IGameView {
     @FXML
     private ImageView headingArrow;
 
+
     public void setGamePresenter( ConcreteGamePresenter gamePresenter ) {
         _gamePresenter = gamePresenter;
-        System.out.println("GameView : Présentateur connecté.");
-    }
-
-    public void setPresenter( IPresenter presenter ) {
-        if (presenter instanceof ConcreteGamePresenter) {
-            this._gamePresenter = (ConcreteGamePresenter) presenter;
-        }
     }
 
     public void rotate( Ellipse boat, double val ) {
         boat.setRotate(val);
-    }
-
-    public Ellipse drawBoat( double x, double y, double rx, double ry ) {
-        Ellipse boat = new Ellipse(x, y, rx, ry);
-        boat.setFill(Color.YELLOW);
-        boat.setStroke(Color.RED);
-        DropShadow shadow = new DropShadow();
-        shadow.setOffsetX(3);
-        shadow.setOffsetY(3);
-        shadow.setSpread(0.6);
-        shadow.setColor(Color.rgb(50, 50, 50, 0.6));
-        boat.setEffect(shadow);
-        _base.getChildren().add(boat);
-        return boat;
     }
 
     public void move( Ellipse boat, double dx, double dy ) {
@@ -102,13 +78,26 @@ public final class GameView implements IGameView {
         }
     }
 
-    public void show() {
-        if (_stage != null) _stage.show();
+    public void updateBoatCenter( double x, double y, double angle ) {
+        _boat.setRotate(angle);
+        _boat.setLayoutX(x);
+        _boat.setLayoutY(y);
     }
+
 
     @Override
     public void addBoat( double x, double y ) {
-        _boat = drawBoat(x, y, 6, 16);
+        Ellipse boat = new Ellipse(0, 0, 6, 16);
+
+        boat.setLayoutX(x);
+        boat.setLayoutY(y);
+
+        boat.setFill(Color.YELLOW);
+        boat.setStroke(Color.RED);
+
+        _base.getChildren().add(boat);
+
+        this._boat = boat;
     }
 
     public void handleKeyPressed( KeyCode code ) {
@@ -122,12 +111,13 @@ public final class GameView implements IGameView {
             _gamePresenter.handleUserAction(UserAction.RIGHT);
         } else if (code == KeyCode.ESCAPE) {
             _gamePresenter.handleUserAction(UserAction.PAUSE);
+        } else if (code == KeyCode.F) {
+            _gamePresenter.launchEndGame();
         }
+
     }
 
     public static final class GameViewFactory {
-        private GameViewFactory() {
-        }
 
         public static GameView createView() throws IOException {
             FXMLLoader loader = new FXMLLoader(
@@ -137,23 +127,32 @@ public final class GameView implements IGameView {
             Parent root = loader.load();
             GameView view = loader.getController();
 
-            Scene scene = new Scene(root, 800, 600);
+            Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setTitle(Main.getMessageBundle().getString("project.title"));
             stage.setScene(scene);
-            stage.show();
             root.requestFocus();
             stage.setMaximized(true);
             _stage = stage;
 
             scene.addEventHandler(
-                    KeyEvent.KEY_PRESSED, event -> {
-                        view.handleKeyPressed(event.getCode());
-                    }
+                    KeyEvent.KEY_PRESSED, event -> view.handleKeyPressed(event.getCode())
             );
 
             return view;
         }
+    }
+
+    public void show() {
+        _stage.show();
+    }
+
+    public void close() {
+        _stage.close();
+    }
+
+    public Pane getRoot() {
+        return _base;
     }
 
     @FXML
@@ -174,6 +173,20 @@ public final class GameView implements IGameView {
         } catch (NullPointerException e) {
             System.err.println("Erreur chargement images : " + e.getMessage());
         }
+        windIcon.setImage(new Image(
+                Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/wind.png")).toExternalForm(), 18, 18, true, true
+        ));
+        headingIcon.setImage(new Image(
+                Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/heading.png")).toExternalForm(), 18, 18, true, true
+        ));
+        windArrow.setImage(new Image(
+                Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowDown.png")).toExternalForm()
+        ));
+
+        headingArrow.setImage(new Image(
+                Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowUp.png")).toExternalForm()
+        ));
+
     }
 
     public void updateDashboard( double windDir, double boatDir, double speed, String time ) {
@@ -182,6 +195,7 @@ public final class GameView implements IGameView {
         if (speedLabel != null) speedLabel.setText(String.format("%.1f", speed));
         if (timeLabel != null) timeLabel.setText(time);
     }
+
 
     @Override
     public void addBuoys( double x, double y ) {
@@ -194,7 +208,6 @@ public final class GameView implements IGameView {
             buoy.setFitWidth(48);
             buoy.setFitHeight(48);
             buoy.setPreserveRatio(true);
-
             buoy.setLayoutX(x - buoy.getFitWidth() / 2);
             buoy.setLayoutY(y - buoy.getFitHeight() / 2);
 
@@ -216,10 +229,9 @@ public final class GameView implements IGameView {
             rotation.setAutoReverse(true);
 
             ParallelTransition animation = new ParallelTransition(bobbing, rotation);
-            animation.play(); // Inicia as duas animações simultaneamente
+            animation.play();
 
             _base.getChildren().add(buoy);
-            _buoys.add(buoy);
         } catch (Exception e) {
             System.err.println("Impossible de charger l'image de la bouée.");
         }
@@ -247,14 +259,17 @@ public final class GameView implements IGameView {
 
     @Override
     public void addCoast( double start_x, double start_y, double end_x, double end_y ) {
-        javafx.scene.shape.Line coastLine = new javafx.scene.shape.Line(
-                start_x, start_y, end_x, end_y
-        );
+        javafx.scene.shape.Line coastLine = new javafx.scene.shape.Line(start_x, start_y, end_x, end_y);
 
-        coastLine.setStroke(Color.SADDLEBROWN);
-        coastLine.setStrokeWidth(10);
+        coastLine.setStroke(Color.DARKGREEN);
+        coastLine.setStrokeWidth(6);
+        coastLine.setOpacity(0.8);
 
         _base.getChildren().add(coastLine);
-        coastLine.toBack();
     }
+
+    public Stage getStage() {
+        return _stage;
+    }
+
 }
