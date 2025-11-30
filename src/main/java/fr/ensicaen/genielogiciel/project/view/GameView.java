@@ -244,9 +244,16 @@ public final class GameView implements IGameView {
         javafx.scene.shape.Line fxLine = new javafx.scene.shape.Line(
                 s_x, s_y, e_y, e_x
         );
+
         fxLine.setStroke(Color.RED);
         fxLine.setStrokeWidth(2);
         _base.getChildren().add(fxLine);
+
+        TranslateTransition bobbing = new TranslateTransition(Duration.seconds(1.5), fxLine);
+        bobbing.setByY(-3);
+        bobbing.setCycleCount(Timeline.INDEFINITE);
+        bobbing.setAutoReverse(true);
+        bobbing.play();
         _currentBuoyLine = fxLine;
     }
 
