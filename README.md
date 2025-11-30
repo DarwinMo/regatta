@@ -4,8 +4,8 @@
 
 
 ![MENU](./ressource/menu.png)
-
 ![MVP2](./ressource/mvp2.png)
+![REPLAY](./ressource/replay.png)
 
 
 
@@ -33,6 +33,8 @@ Major Visual Update :
 - Improved layout consistency and visual hierarchy
 
 - New Menu System
+- 
+- Replay
 
 
 ## Run
