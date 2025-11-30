@@ -1,13 +1,7 @@
 package fr.ensicaen.genielogiciel.project.model;
 
 
-public class DownState implements IBoatState {
-
-    private IBoat _boat;
-
-    public DownState( IBoat boat ) {
-        _boat = boat;
-    }
+public record DownState(IBoat _boat) implements IBoatState {
 
     @Override
     public void accelerate( IDecoratorEquipment crew, IDecoratorSail sail, double adjustedAngle, double polarSpeed, boolean inCollision ) {
@@ -21,7 +15,8 @@ public class DownState implements IBoatState {
                     _boat.setInCollision(false);
                     _boat.setState(new NormalState(_boat));
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    System.err.println("Error: " + e.getMessage());
+                    e.printStackTrace(System.err);
                 }
             }).start();
         }

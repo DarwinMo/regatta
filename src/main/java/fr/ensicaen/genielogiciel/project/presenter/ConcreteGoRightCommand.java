@@ -1,12 +1,11 @@
 package fr.ensicaen.genielogiciel.project.presenter;
 
 import fr.ensicaen.genielogiciel.project.model.IBoat;
-import javafx.animation.Timeline;
 
-public class ConcreteGoRightCommande extends AbstractChangeOrientationCommande {
+public class ConcreteGoRightCommand extends abstractChangeOrientationCommand {
 
-    public ConcreteGoRightCommande( double rotationAngle, long timeline ) {
-        super(rotationAngle, timeline);
+    public ConcreteGoRightCommand( double rotationAngle ) {
+        super(rotationAngle);
     }
 
     @Override

@@ -10,8 +10,11 @@ public class FigaroBoat extends AbstractBoat {
     public FigaroBoat( double x, double y, IDecoratorSail sail, IDecoratorEquipment crew ) {
         super(x, y, sail, crew);
 
-        InputStream test = getClass().getResourceAsStream(POLAR);
-        System.out.println("Test resource = " + (test == null ? "NOT FOUND" : "OK"));
+        try (InputStream test = getClass().getResourceAsStream(POLAR)) {
+            System.out.println("Test resource = " + (test == null ? "NOT FOUND" : "OK"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         try {
             _polarTable = new PolarTable(POLAR);

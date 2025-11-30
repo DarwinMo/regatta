@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -53,20 +54,23 @@
             <Font size="18.0" />
          </font></Button>
       <Button id="_lediumSailBtn" fx:id="_mediumSail" layoutX="65.0" layoutY="430.0" mnemonicParsing="false" onAction="#onMediumSailClicked" opacity="0.0" prefHeight="26.0" prefWidth="76.0" text="Button" />
-      <Text fx:id="_sailFeedbackText"  layoutX="386.0" layoutY="810.0" strokeType="OUTSIDE" strokeWidth="0.0" text="sail selection : " wrappingWidth="309.26000213623047">
-         <font>
-            <Font size="19.0" />
-         </font></Text>
       <Button id="_largeSailBtn" fx:id="_largeSail" layoutX="157.0" layoutY="430.0" mnemonicParsing="false" onAction="#onLargeSailClicked" opacity="0.0" prefHeight="26.0" prefWidth="76.0" text="Button" />
       <Button id="_figaroBtn" fx:id="_figaroBtn" layoutX="60.0" layoutY="485.0" mnemonicParsing="false" onAction="#onFigaroClicked" opacity="0.0" prefHeight="26.0" prefWidth="88.0" text="Button" />
       <Button id="_oceanisBtn" fx:id="_oceanisBtn" layoutX="157.0" layoutY="485.0" mnemonicParsing="false" onAction="#onOceanisClicked" opacity="0.0" prefHeight="26.0" prefWidth="76.0" text="Button" />
-      <Text fx:id="_crewFeedbackText" layoutX="386.0" layoutY="837.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Crew tyoe selection : " wrappingWidth="309.26000213623047">
+      <Text fx:id="_crewFeedbackText" layoutX="386.0" layoutY="811.0" strokeType="OUTSIDE" strokeWidth="0.0"  wrappingWidth="309.26000213623047">
          <font>
             <Font size="19.0" />
          </font></Text>
-      <Text fx:id="_boatFeedbackText" layoutX="386.0" layoutY="865.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Boat type selection : " wrappingWidth="309.26000213623047">
+      <Text fx:id="_sailFeedbackText" layoutX="386.0" layoutY="838.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="309.26000213623047">
          <font>
             <Font size="19.0" />
          </font></Text>
+      <Text fx:id="_boatFeedbackText" layoutX="386.0" layoutY="865.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="309.26000213623047">
+         <font>
+            <Font size="19.0" />
+         </font></Text>
+      <Text fx:id="_error" layoutX="748.0" layoutY="628.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="248.26000213623047" />
+      <TextField fx:id="_fileInput" layoutX="792.0" layoutY="382.0" />
+      <Text id="_gameConfigurationText" layoutX="795.0" layoutY="347.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Specify a configuration file path" textAlignment="CENTER" wrappingWidth="153.63000106811523" />
    </children>
 </AnchorPane>

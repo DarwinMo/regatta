@@ -1,31 +1,34 @@
 package fr.ensicaen.genielogiciel.project.view;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import fr.ensicaen.genielogiciel.project.presenter.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class GameConfigurationView {
 
 
-    // Text nodes
-    @FXML
-    private Text _boatConfigurationPanelText;
-    @FXML
-    private Text _configurationFilePanelText;
     @FXML
     private Text _crewFeedbackText;
     @FXML
     private Text _sailFeedbackText;
     @FXML
     private Text _boatFeedbackText;
+
+    @FXML
+    private Text _error;
+
+    @FXML
+    private TextField _fileInput;
 
 
     private static Stage _stage;
@@ -35,21 +38,47 @@ public class GameConfigurationView {
 
     private ConfigurationPresenter _configurationPresenter;
 
+    private final String sailFeedbackText = "Sail : ";
+    private final String crewFeedbackText = "crew : ";
+    private final String boatFeedbackText = "Boat : ";
+
     @FXML
     private void onSingleCrewClicked() {
         _crewType = CrewType.SINGLE;
-        _crewFeedbackText.setText(_crewFeedbackText.getText() + " Single.");
+        _crewFeedbackText.setText(crewFeedbackText + " Single");
     }
 
     @FXML
     private void onDoubleCrewClicked() {
         _crewType = CrewType.DOUBLE;
-        _crewFeedbackText.setText(_crewFeedbackText.getText() + " Double.");
+        _crewFeedbackText.setText(crewFeedbackText + " Double");
     }
 
     @FXML
     private void onLaunchGameClicked() {
-        _configurationPresenter.launchGame(_sailType, _crewType, _boatType);
+        if (!_fileInput.getText().isEmpty()) {
+            if (!checkFileInput(_fileInput.getText())) {
+                _error.setText("Please enter an existent/valid file path");
+            } else {
+                _configurationPresenter.launchGameFromFile(_fileInput.getText());
+            }
+        } else {
+            _configurationPresenter.launchGame(_sailType, _crewType, _boatType);
+        }
+    }
+
+    public boolean checkFileInput( String pathString ) {
+        Path path = Paths.get(pathString);
+        boolean exists = Files.exists(path);
+
+        boolean isJsonExt = pathString.toLowerCase().endsWith(".json");
+
+        if (exists && isJsonExt) {
+            System.out.println("File exists and has .json extension.");
+        } else {
+            System.out.println("File invalid or missing.");
+        }
+        return exists;
     }
 
     public void setConfigurationPresenter( ConfigurationPresenter configurationPresenter ) {
@@ -59,31 +88,30 @@ public class GameConfigurationView {
     @FXML
     private void onMediumSailClicked() {
         _sailType = SailType.MEDIUM;
-        _sailFeedbackText.setText(_sailFeedbackText.getText() + " Medium.");
+        _sailFeedbackText.setText(sailFeedbackText + " Medium");
     }
 
     @FXML
     private void onLargeSailClicked() {
         _sailType = SailType.LARGE;
-        _sailFeedbackText.setText(_sailFeedbackText.getText() + " Large ");
+        _sailFeedbackText.setText(sailFeedbackText + " Large");
     }
 
     @FXML
     private void onOceanisClicked() {
         _boatType = BoatType.OCEANIS37;
-        _boatFeedbackText.setText(_boatFeedbackText.getText() + " Oceanis37");
+        _boatFeedbackText.setText(boatFeedbackText + " Oceanis37");
     }
 
 
     @FXML
     private void onFigaroClicked() {
         _boatType = BoatType.FIGARO;
-        _boatFeedbackText.setText(_boatFeedbackText.getText() + " Figaro");
+        _boatFeedbackText.setText(boatFeedbackText + " Figaro");
     }
 
     public void displayError( String message ) {
-        // TODO: implement
-        System.out.println("some user sleection is missing");
+        _error.setText(message);
     }
 
     public static class GameConfigurationViewFactory {
@@ -98,6 +126,7 @@ public class GameConfigurationView {
             final Stage stage = new Stage();
             stage.setScene(new Scene(root));
             _stage = stage;
+            _stage.setResizable(false);
             return gameConfigurationView;
         }
     }

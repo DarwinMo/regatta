@@ -15,7 +15,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
@@ -38,8 +37,6 @@ public final class GameView implements IGameView {
 
 
     @FXML
-    private Button pauseButton;
-    @FXML
     private AnchorPane _base;
 
     @FXML
@@ -60,31 +57,13 @@ public final class GameView implements IGameView {
     @FXML
     private ImageView headingArrow;
 
-    @FXML
-    private AnchorPane _endOverlay;
-
 
     public void setGamePresenter( ConcreteGamePresenter gamePresenter ) {
         _gamePresenter = gamePresenter;
-        System.out.println("GameView : Présentateur connecté.");
     }
 
     public void rotate( Ellipse boat, double val ) {
         boat.setRotate(val);
-    }
-
-    public Ellipse drawBoat( double x, double y, double rx, double ry ) {
-        Ellipse boat = new Ellipse(x, y, rx, ry);
-        boat.setFill(Color.YELLOW);
-        boat.setStroke(Color.RED);
-        DropShadow shadow = new DropShadow();
-        shadow.setOffsetX(3);
-        shadow.setOffsetY(3);
-        shadow.setSpread(0.6);
-        shadow.setColor(Color.rgb(50, 50, 50, 0.6));
-        boat.setEffect(shadow);
-        _base.getChildren().add(boat);
-        return boat;
     }
 
     public void move( Ellipse boat, double dx, double dy ) {
@@ -148,7 +127,7 @@ public final class GameView implements IGameView {
             Parent root = loader.load();
             GameView view = loader.getController();
 
-            Scene scene = new Scene(root, 800, 600);
+            Scene scene = new Scene(root);
             Stage stage = new Stage();
             stage.setTitle(Main.getMessageBundle().getString("project.title"));
             stage.setScene(scene);
@@ -157,9 +136,7 @@ public final class GameView implements IGameView {
             _stage = stage;
 
             scene.addEventHandler(
-                    KeyEvent.KEY_PRESSED, event -> {
-                        view.handleKeyPressed(event.getCode());
-                    }
+                    KeyEvent.KEY_PRESSED, event -> view.handleKeyPressed(event.getCode())
             );
 
             return view;
@@ -252,7 +229,7 @@ public final class GameView implements IGameView {
             rotation.setAutoReverse(true);
 
             ParallelTransition animation = new ParallelTransition(bobbing, rotation);
-            animation.play(); // Inicia as duas animações simultaneamente
+            animation.play();
 
             _base.getChildren().add(buoy);
         } catch (Exception e) {
@@ -289,6 +266,10 @@ public final class GameView implements IGameView {
         coastLine.setOpacity(0.8);
 
         _base.getChildren().add(coastLine);
+    }
+
+    public Stage getStage() {
+        return _stage;
     }
 
 }

@@ -1,7 +1,6 @@
 package fr.ensicaen.genielogiciel.project.presenter;
 
 import java.io.IOException;
-import java.util.Random;
 
 import fr.ensicaen.genielogiciel.project.model.*;
 import fr.ensicaen.genielogiciel.project.view.EndGameView;
@@ -25,7 +24,6 @@ public class ConcreteGamePresenter implements IPresenter {
     private final TimeScore _timeScore = new TimeScore();
     private int _currentBuoyIndex = 0;
     private final double _rotationAngle = 5.0;
-    private boolean _replay = false;
 
 
     public ConcreteGamePresenter( String configurationFile ) throws IOException {
@@ -36,14 +34,6 @@ public class ConcreteGamePresenter implements IPresenter {
     public ConcreteGamePresenter( SailType sailType, CrewType crewType, BoatType boatType ) throws IOException {
         initGame(sailType, crewType, boatType);
         routineGameInit();
-    }
-
-    public ConcreteGamePresenter( IMap map ) {
-        _map = map;
-        _boat = _map.getBoat();
-        _wind = _map.getWaterPlan().getWind();
-        routineGameInit();
-        _replay = true;
     }
 
     private void routineGameInit() {
@@ -59,7 +49,8 @@ public class ConcreteGamePresenter implements IPresenter {
             replayPresenter.setView(view);
             view.show();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Error: " + e.getMessage());
+            e.printStackTrace(System.err);
         }
         _gameView.close();
     }
@@ -72,6 +63,7 @@ public class ConcreteGamePresenter implements IPresenter {
         }
 
         if (_map != null) {
+
             for (IBuoy buoy : _map.getBuoys()) {
                 _gameView.addBuoys(buoy.get_x(), buoy.get_y());
             }
@@ -106,9 +98,9 @@ public class ConcreteGamePresenter implements IPresenter {
     private void changeDirection( UserAction action ) {
         if (_boatDirectionManager != null) {
             if (action == UserAction.LEFT) {
-                _boatDirectionManager.goLeft(_timeScore.getCurrentTime());
+                _boatDirectionManager.goLeft();
             } else if (action == UserAction.RIGHT) {
-                _boatDirectionManager.goRight(_timeScore.getCurrentTime());
+                _boatDirectionManager.goRight();
             }
         }
     }
@@ -116,15 +108,14 @@ public class ConcreteGamePresenter implements IPresenter {
     private void initGame( String configurationFile ) {
         _map = new GameLoader(new JsonParser()).loadGame(configurationFile);
         if (_map != null) {
-            _wind = _map.getWaterPlan().getWind();
+            _wind = _map.getWind();
             _boat = _map.getBoat();
         }
     }
 
-    // TODO: either add a random map builder or fix the json file so that the boat doesnt have to always be specified so it wont be created twice
     private void initGame( SailType sailType, CrewType crewType, BoatType boatType ) throws IOException {
         _map = new GameLoader(new JsonParser()).loadGame(null);
-        _wind = _map.getWaterPlan().getWind();
+        _wind = _map.getWind();
         _boat = BoatType.getBoatFactory(boatType, sailType, crewType).createBoat(600, 600, _wind.getWindSpeed(), _wind.getWindDirection());
     }
 
@@ -145,7 +136,6 @@ public class ConcreteGamePresenter implements IPresenter {
         }
         _timeScore.finish();
         _boatDirectionManager.saveGame();
-        System.out.println("FIN DE PARTIE ! Temps : " + _timeScore.getFormattedCurrentTime());
     }
 
     private void boatHasCollided() {
@@ -188,9 +178,7 @@ public class ConcreteGamePresenter implements IPresenter {
         if (gameHasEnded()) {
             _started = false;
             stopGameLoop();
-            if (!_replay) {
-                launchEndGame();
-            }
+            launchEndGame();
         }
     }
 

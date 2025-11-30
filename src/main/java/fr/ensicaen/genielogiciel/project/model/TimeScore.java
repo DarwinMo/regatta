@@ -5,9 +5,7 @@ public class TimeScore {
     private long startTime;
     private long finishTime;
     private long totalTime;
-    private long pauseTime;
     private boolean isRunning;
-    private boolean isPaused;
 
     public void start() {
         if (isRunning) {
@@ -16,25 +14,8 @@ public class TimeScore {
         this.startTime = System.currentTimeMillis();
         this.isRunning = true;
         this.totalTime = 0;
-        this.isPaused = false;
     }
 
-    public void pause() {
-        if (!isRunning || isPaused) {
-            throw new IllegalStateException("Impossible de mettre en pause : le chronomètre n'est pas en cours.");
-        }
-        this.pauseTime = System.currentTimeMillis();
-        this.totalTime += pauseTime - startTime;
-        this.isPaused = true;
-    }
-
-    public void resume() {
-        if (!isPaused) {
-            throw new IllegalStateException("Impossible de reprendre : le chronomètre n'est pas en pause.");
-        }
-        this.startTime = System.currentTimeMillis();
-        this.isPaused = false;
-    }
 
     public void finish() {
         if (!isRunning) {
@@ -84,11 +65,6 @@ public class TimeScore {
         long milliseconds = t % 1000;
 
         return String.format("%02d:%02d:%03d", minutes, seconds, milliseconds);
-    }
-
-    public boolean isCloseTo( long otherTimestamp, int eps ) {
-        long diff = Math.abs(this.getCurrentTime() - otherTimestamp);
-        return diff <= eps;
     }
 
 }

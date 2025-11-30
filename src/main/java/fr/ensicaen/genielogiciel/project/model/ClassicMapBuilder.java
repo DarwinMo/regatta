@@ -5,11 +5,16 @@ import java.util.List;
 
 public class ClassicMapBuilder implements IMapBuilder {
 
-    private IWaterPlan waterPlan;
     private final List<IBuoy> buoys = new ArrayList<>();
     private final List<ICoast> coasts = new ArrayList<>();
     private IBoat boat;
+    private IWind _wind;
 
+
+    public IMapBuilder addWind( IWind wind ) {
+        _wind = wind;
+        return this;
+    }
 
     @Override
     public IMapBuilder addBuoy( IBuoy buoy ) {
@@ -25,29 +30,19 @@ public class ClassicMapBuilder implements IMapBuilder {
     }
 
     @Override
-    public IMapBuilder addBoat( IBoat boat ) {
+    public void addBoat( IBoat boat ) {
         this.boat = boat;
-        return this;
     }
 
-    @Override
-    public IMapBuilder addWaterPlan( IWaterPlan waterPlan ) {
-        this.waterPlan = waterPlan;
-        return this;
-    }
 
     @Override
     public IMap build() {
         return new IMap() {
-            private IWaterPlan wp = waterPlan;
             private final List<ICoast> c = new ArrayList<>(coasts);
             private final List<IBuoy> b = new ArrayList<>(buoys);
             private IBoat bt = boat;
+            private final IWind w = _wind;
 
-            @Override
-            public IWaterPlan getWaterPlan() {
-                return wp;
-            }
 
             @Override
             public List<ICoast> getCoasts() {
@@ -65,23 +60,13 @@ public class ClassicMapBuilder implements IMapBuilder {
             }
 
             @Override
-            public void setWaterPlan( IWaterPlan plan ) {
-                wp = plan;
-            }
-
-            @Override
-            public void addCoast( ICoast coast ) {
-                c.add(coast);
-            }
-
-            @Override
-            public void addBuoy( IBuoy buoy ) {
-                b.add(buoy);
-            }
-
-            @Override
             public void setBoat( IBoat boat ) {
                 bt = boat;
+            }
+
+            @Override
+            public IWind getWind() {
+                return w;
             }
         };
     }

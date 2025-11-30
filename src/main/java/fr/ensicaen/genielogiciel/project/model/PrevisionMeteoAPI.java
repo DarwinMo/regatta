@@ -14,7 +14,6 @@ public class PrevisionMeteoAPI {
     private final Random _random = new Random();
     private double _windSpeed;
     private double _windDirection;
-    private boolean _dataValid = false;
 
     public PrevisionMeteoAPI() {
         try {
@@ -63,7 +62,6 @@ public class PrevisionMeteoAPI {
                 String dirCardinal = dirMatcher.group(1);
                 _windDirection = cardinalToDegrees(dirCardinal);
 
-                _dataValid = true;
             } else {
                 throw new IllegalArgumentException("Champs vent non trouvés dans current_condition");
             }
@@ -91,7 +89,6 @@ public class PrevisionMeteoAPI {
     private void setRandomValues() {
         _windSpeed = 1 + _random.nextDouble() * 20;
         _windDirection = _random.nextDouble() * 360;
-        _dataValid = false;
     }
 
     public double getWindSpeed() {

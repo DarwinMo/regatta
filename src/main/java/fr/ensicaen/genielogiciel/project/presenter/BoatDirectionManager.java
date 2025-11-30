@@ -3,19 +3,16 @@ package fr.ensicaen.genielogiciel.project.presenter;
 import fr.ensicaen.genielogiciel.project.model.IBoat;
 import javafx.geometry.Point3D;
 
-import java.awt.geom.Point2D;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BoatDirectionManager {
-    private final List<AbstractChangeOrientationCommande> _history;
     private final List<Point3D> _boatPositionsHistory;
     private final double _rotationAngle;
     private IBoat _boat = null;
 
     public BoatDirectionManager( double rotationAngle ) {
-        _history = new ArrayList<>();
         _boatPositionsHistory = new ArrayList<>();
         _rotationAngle = rotationAngle;
     }
@@ -24,28 +21,27 @@ public class BoatDirectionManager {
         _boat = boat;
     }
 
-    public void goRight( long timeline ) {
-        AbstractChangeOrientationCommande commande = new ConcreteGoRightCommande(_rotationAngle, timeline);
-        execute(commande);
+    public void goRight() {
+        abstractChangeOrientationCommand command = new ConcreteGoRightCommand(_rotationAngle);
+        execute(command);
     }
 
-    public void goLeft( long timeline ) {
-        AbstractChangeOrientationCommande commande = new ConcreteGoLeftCommande(_rotationAngle, timeline);
-        execute(commande);
+    public void goLeft() {
+        abstractChangeOrientationCommand command = new ConcreteGoLeftCommand(_rotationAngle);
+        execute(command);
     }
 
     public void goStraight( long timeline ) {
-        AbstractChangeOrientationCommande commande = new ConcreteGoStraightCommande(timeline);
-        execute(commande);
+        abstractChangeOrientationCommand command = new ConcreteGoStraightCommand(timeline);
+        execute(command);
     }
 
-    private void execute( AbstractChangeOrientationCommande commande ) {
+    private void execute( abstractChangeOrientationCommand command ) {
         if (_boat != null) {
-            commande.execute(_boat);
+            command.execute(_boat);
         } else {
             return;
         }
-        _history.add(commande);
         _boatPositionsHistory.add(new Point3D(_boat.get_x(), _boat.get_y(), _boat.get_angle()));
     }
 
@@ -63,8 +59,8 @@ public class BoatDirectionManager {
             }
             System.out.println("Positions successfully saved to: " + filename);
         } catch (IOException e) {
-            System.err.println("Error while saving the game positions: " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("Error: " + e.getMessage());
+            e.printStackTrace(System.err);
         }
     }
 
@@ -76,9 +72,7 @@ public class BoatDirectionManager {
         try (BufferedReader reader = new BufferedReader(new FileReader(filename))) {
 
             String line;
-            if ((line = reader.readLine()) != null) {
-                // Header skipped
-            }
+            reader.readLine();// Header skipped
             while ((line = reader.readLine()) != null) {
                 String[] parts = line.split(",");
                 if (parts.length == 3) {
@@ -99,14 +93,10 @@ public class BoatDirectionManager {
 
         } catch (IOException e) {
             System.err.println("Error while loading the game: " + e.getMessage());
-            e.printStackTrace();
+            e.printStackTrace(System.err);
         }
     }
 
-
-    public List<AbstractChangeOrientationCommande> getHistory() {
-        return _history;
-    }
 
     public List<Point3D> getBoatPositionsHistory() {
         return _boatPositionsHistory;

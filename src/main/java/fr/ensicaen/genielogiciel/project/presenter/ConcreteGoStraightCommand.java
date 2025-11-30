@@ -2,10 +2,10 @@ package fr.ensicaen.genielogiciel.project.presenter;
 
 import fr.ensicaen.genielogiciel.project.model.IBoat;
 
-public class ConcreteGoStraightCommande extends AbstractChangeOrientationCommande {
+public class ConcreteGoStraightCommand extends abstractChangeOrientationCommand {
 
-    public ConcreteGoStraightCommande( long timeline ) {
-        super(0, timeline);
+    public ConcreteGoStraightCommand( long timeline ) {
+        super(0);
     }
 
     @Override

@@ -14,7 +14,7 @@ public class ConfigurationPresenter {
 
     public void launchGameFromFile( String fileName ) {
         if (fileName == null) {
-            _configurationView.displayError("error");
+            _configurationView.displayError("You need to specify a file name");
         } else {
             try {
                 final GameView view = GameView.GameViewFactory.createView();
@@ -22,8 +22,10 @@ public class ConfigurationPresenter {
                 view.setGamePresenter(gamePresenter);
                 gamePresenter.setGameView(view);
                 view.show();
+                _configurationView.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("Error: " + e.getMessage());
+                e.printStackTrace(System.err);
             }
         }
     }
@@ -31,7 +33,7 @@ public class ConfigurationPresenter {
     public void launchGame( SailType sailType, CrewType crewType, BoatType boatType ) {
 
         if (sailType == null || crewType == null || boatType == null) {
-            _configurationView.displayError("error");
+            _configurationView.displayError("You need to specify your boat configuration");
         } else {
             try {
                 final GameView view = GameView.GameViewFactory.createView();
@@ -39,10 +41,11 @@ public class ConfigurationPresenter {
                 view.setGamePresenter(gamePresenter);
                 gamePresenter.setGameView(view);
                 view.show();
+                _configurationView.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("Error: " + e.getMessage());
+                e.printStackTrace(System.err);
             }
         }
-        _configurationView.close();
     }
 }
