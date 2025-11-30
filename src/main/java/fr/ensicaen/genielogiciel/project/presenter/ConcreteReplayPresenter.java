@@ -14,13 +14,13 @@ import java.io.IOException;
 public class ConcreteReplayPresenter {
 
     private EndGameView _endGameView;
-    private GameView _gameView;
-    private IMap _map;
+    private final GameView _gameView;
+    private final IMap _map;
     private IBoat _boat;
     private IWind _wind;
-    private BoatDirectionManager _boatDirectionManager;
+    private final BoatDirectionManager _boatDirectionManager;
     private Timeline _timeline;
-    private TimeScore _timeScore;
+    private final TimeScore _timeScore;
     private int _currentMoveIdx;
 
 
@@ -42,7 +42,7 @@ public class ConcreteReplayPresenter {
         _boat = _map.getBoat();
         _boat.setX(_boat.getStartX());
         _boat.setY(_boat.getStartY());
-        _wind = _map.getWaterPlan().getWind();
+        _wind = _map.getWind();
         for (IBuoy buoy : _map.getBuoys()) {
             buoy.setMarked(false);
         }

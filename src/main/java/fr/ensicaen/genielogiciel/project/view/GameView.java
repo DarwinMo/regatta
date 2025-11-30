@@ -26,7 +26,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import javafx.util.Duration;
 
 public final class GameView implements IGameView {
@@ -65,20 +64,6 @@ public final class GameView implements IGameView {
 
     public void rotate( Ellipse boat, double val ) {
         boat.setRotate(val);
-    }
-
-    public Ellipse drawBoat( double x, double y, double rx, double ry ) {
-        Ellipse boat = new Ellipse(x, y, rx, ry);
-        boat.setFill(Color.YELLOW);
-        boat.setStroke(Color.RED);
-        DropShadow shadow = new DropShadow();
-        shadow.setOffsetX(3);
-        shadow.setOffsetY(3);
-        shadow.setSpread(0.6);
-        shadow.setColor(Color.rgb(50, 50, 50, 0.6));
-        boat.setEffect(shadow);
-        _base.getChildren().add(boat);
-        return boat;
     }
 
     public void move( Ellipse boat, double dx, double dy ) {
@@ -151,9 +136,7 @@ public final class GameView implements IGameView {
             _stage = stage;
 
             scene.addEventHandler(
-                    KeyEvent.KEY_PRESSED, event -> {
-                        view.handleKeyPressed(event.getCode());
-                    }
+                    KeyEvent.KEY_PRESSED, event -> view.handleKeyPressed(event.getCode())
             );
 
             return view;
@@ -246,7 +229,7 @@ public final class GameView implements IGameView {
             rotation.setAutoReverse(true);
 
             ParallelTransition animation = new ParallelTransition(bobbing, rotation);
-            animation.play(); // Inicia as duas animações simultaneamente
+            animation.play();
 
             _base.getChildren().add(buoy);
         } catch (Exception e) {

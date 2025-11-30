@@ -5,9 +5,10 @@
     {"s_x": 1000, "s_y": 800, "e_x": 0, "e_y": 800},
     {"s_x": 0, "s_y": 800, "e_x": 0, "e_y": 0}
   ],
-"boat": {"x":600,"y":600,"sailType":"medium","boatType": "figaro","crewType": "single"},
+  "boat": {"x":600,"y":600,"sailType":"medium","boatType": "figaro","crewType": "single"},
   "buoys":[
-    {"x":650,"y":300,"angle": 270}
-  ],
-  "waterPlan": {"width":1000,"height":800}
+    {"x":700,"y":400,"angle": 270},
+    {"x":400,"y":200,"angle": 180},
+    {"x":250  ,"y":550,"angle": 45}
+  ]
 }

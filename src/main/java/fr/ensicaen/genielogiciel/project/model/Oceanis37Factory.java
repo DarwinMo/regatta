@@ -1,19 +1,10 @@
 package fr.ensicaen.genielogiciel.project.model;
 
-import java.io.IOException;
 
-public class Oceanis37Factory implements IBoatFactory {
-
-    private final IDecoratorSail _sail;
-    private final IDecoratorEquipment _crew;
-
-    public Oceanis37Factory( IDecoratorSail sail, IDecoratorEquipment crew ) {
-        _sail = sail;
-        _crew = crew;
-    }
+public record Oceanis37Factory(IDecoratorSail _sail, IDecoratorEquipment _crew) implements IBoatFactory {
 
     @Override
-    public IBoat createBoat( double x, double y, double windSpeed, double windDirection ) throws IOException {
+    public IBoat createBoat( double x, double y, double windSpeed, double windDirection ) {
         Oceanis37Boat boat = new Oceanis37Boat(x, y, _sail, _crew);
         boat.set_windAngle(windDirection);
         boat.set_windSpeed(windSpeed);

@@ -1,6 +1,5 @@
 package fr.ensicaen.genielogiciel.project.view;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -11,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -19,11 +17,6 @@ import javafx.stage.Stage;
 public class GameConfigurationView {
 
 
-    // Text nodes
-    @FXML
-    private Text _boatConfigurationPanelText;
-    @FXML
-    private Text _configurationFilePanelText;
     @FXML
     private Text _crewFeedbackText;
     @FXML
@@ -132,8 +125,8 @@ public class GameConfigurationView {
             final GameConfigurationView gameConfigurationView = loader.getController();
             final Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            _stage.setResizable(false);
             _stage = stage;
+            _stage.setResizable(false);
             return gameConfigurationView;
         }
     }

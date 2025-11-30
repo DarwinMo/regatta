@@ -1,8 +1,8 @@
 package fr.ensicaen.genielogiciel.project.model;
 
 public abstract class AbstractBoat implements IBoat {
-    private double _startX;
-    private double _startY;
+    private final double _startX;
+    private final double _startY;
     private double _x;
     private double _y;
     private double _dx = 0;

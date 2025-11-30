@@ -24,7 +24,8 @@ public class ConfigurationPresenter {
                 view.show();
                 _configurationView.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("Error: " + e.getMessage());
+                e.printStackTrace(System.err);
             }
         }
     }
@@ -42,7 +43,8 @@ public class ConfigurationPresenter {
                 view.show();
                 _configurationView.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.err.println("Error: " + e.getMessage());
+                e.printStackTrace(System.err);
             }
         }
     }
