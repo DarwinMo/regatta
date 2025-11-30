@@ -2,17 +2,45 @@
 
 # Regatta Project – Version 1.0.0
 
-![MVP2](./ressource/RegatteMVP2.png)
+
+![MENU](./ressource/menu.png)
+
+![MVP2](./ressource/mvp2.png)
 
 
 
 
 ## Project Description
 
-This project showcases a graphical application developed in Java using the JavaFX graphics framework.
-It follows the Model-View-Presenter (MVP) architectural pattern to ensure clear separation of concerns, maintainability, and scalability.
+This project is a graphical application developed in Java using the JavaFX framework.
+It follows the Model–View–Presenter (MVP) architectural pattern to ensure:
 
-The entire project is built and managed with the Gradle build system, providing efficient dependency management and automated compilation workflows.
+- Clear separation of concerns
+
+-  Easy maintenance
+
+- Long-term scalability
+
+The project is built and managed with Gradle, offering efficient dependency management and automated build workflows.
+
+## Key Features :
+Major Visual Update :
+
+- Complete redesign of the user interface
+
+- Modernized graphical components
+
+- Improved layout consistency and visual hierarchy
+
+- New Menu System
+
+
+## Run
+```bash
+./gradlew run
+```
+
+
 
 ## Project Organization
 
@@ -24,8 +52,8 @@ The entire project is built and managed with the Gradle build system, providing 
 
 ### Git Maintainers
 
+- Abdessalame Mohamed
 - Abraão Albuquerque
-- Mohamed Abdessalame
 
 ### Architects
 
