@@ -1,0 +1,23 @@
+#_newGameBtn,
+#_quite,
+#_replayGameBtn {
+  -fx-font-size: 18px;
+  -fx-background-color: #11748ae7;
+  -fx-text-fill: #ffffff;
+  -fx-font-family: "BoldPixels", "Helvetica Neue", "Segoe UI", sans-serif;
+  -fx-border-color: #79bbeb;
+  -fx-border-width: 1px;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 0, 4, 4, 4);
+}
+
+#_newGameBtn:hover,
+#_quite:hover,
+#_replayGameBtn:hover {
+  -fx-background-color: #1899b6e7;
+}
+
+#_newGameBtn:pressed,
+#_quite:pressed,
+#_replayGameBtn:pressed {
+  -fx-background-color: #0b4a58e7;
+}
