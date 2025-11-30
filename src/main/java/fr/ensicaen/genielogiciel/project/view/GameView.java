@@ -87,17 +87,40 @@ public final class GameView implements IGameView {
 
     @Override
     public void addBoat( double x, double y ) {
-        Ellipse boat = new Ellipse(0, 0, 6, 16);
+        Ellipse boatHitbox = new Ellipse(0, 0, 12, 24);
+        boatHitbox.setLayoutX(x);
+        boatHitbox.setLayoutY(y);
 
-        boat.setLayoutX(x);
-        boat.setLayoutY(y);
+        boatHitbox.setFill(Color.TRANSPARENT);
+        boatHitbox.setStroke(Color.TRANSPARENT);
 
-        boat.setFill(Color.YELLOW);
-        boat.setStroke(Color.RED);
+        this._boat = boatHitbox;
 
-        _base.getChildren().add(boat);
+        ImageView boatSprite = new ImageView();
+        try {
+            boatSprite.setImage(new Image(
+                    Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/boat.png")).toExternalForm()
+            ));
+        } catch (Exception e) {
+            System.err.println("Error loading boat image: " + e.getMessage());
+            boatHitbox.setFill(Color.YELLOW);
+            boatHitbox.setStroke(Color.RED);
+        }
 
-        this._boat = boat;
+        double spriteWidth = 40;
+        double spriteHeight = 56;
+        boatSprite.setFitWidth(spriteWidth);
+        boatSprite.setFitHeight(spriteHeight);
+        boatSprite.setPreserveRatio(true);
+
+        boatSprite.setManaged(false);
+
+        boatSprite.layoutXProperty().bind(boatHitbox.layoutXProperty().subtract(spriteWidth / 2));
+        boatSprite.layoutYProperty().bind(boatHitbox.layoutYProperty().subtract(spriteHeight / 2));
+
+        boatSprite.rotateProperty().bind(boatHitbox.rotateProperty());
+
+        _base.getChildren().addAll(boatSprite, boatHitbox);
     }
 
     public void handleKeyPressed( KeyCode code ) {
@@ -180,7 +203,7 @@ public final class GameView implements IGameView {
                 Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/heading.png")).toExternalForm(), 18, 18, true, true
         ));
         windArrow.setImage(new Image(
-                Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowDown.png")).toExternalForm()
+                Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowRight.png")).toExternalForm()
         ));
 
         headingArrow.setImage(new Image(
