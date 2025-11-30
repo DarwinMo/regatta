@@ -1,9 +1,6 @@
 package fr.ensicaen.genielogiciel.project.model;
 
-/**
- * Represents a generic sailboat in the regatta simulation.
- * Defines the essential actions and state accessors that all boats must implement.
- */
+
 public interface IBoat {
 
     void trim();
@@ -13,8 +10,6 @@ public interface IBoat {
     void applyWind();
 
     void rotate( int deltaAngle );
-
-    void move();
 
     double get_x();
 
@@ -32,17 +27,33 @@ public interface IBoat {
 
     void set_speed( double speed );
 
-
     void set_windAngle( double windAngle );
-
-    double get_windAngle();
 
     void set_windSpeed( double windSpeed );
 
     double get_windSpeed();
 
-
     void set_crew( IDecoratorEquipment crew );
 
     void set_sail( IDecoratorSail sail );
+
+    void setState( IBoatState upState );
+
+    void setTargetSpeed( double polarSpeed );
+
+    void setInCollision( Boolean inCollision );
+
+    void setDX( double dX );
+
+    void setDY( double dY );
+
+    void setX( double x );
+
+    void setY( double y );
+
+    void setSpeed( double speed );
+
+    double getStartX();
+
+    double getStartY();
 }

@@ -32,6 +32,9 @@ dependencies {
     implementation 'org.openjfx:javafx-controls:21:mac-aarch64'
     implementation 'org.openjfx:javafx-fxml:21:mac-aarch64'
 
+    // Json
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
+
     // ✅ tests
     testImplementation("org.junit.jupiter:junit-jupiter:5.+")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")

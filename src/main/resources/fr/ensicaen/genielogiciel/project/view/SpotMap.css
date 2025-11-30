@@ -1,4 +1,72 @@
+@font-face {
+  font-family: "BoldPixels";
+  src: url("../fonts/BoldPixels.otf");
+}
+
 .water {
-    -fx-background-image:url('../images/water.jpg');
-    -fx-background-size: cover;
+  -fx-background-image: url("../images/water.jpg");
+  -fx-background-size: cover;
+}
+
+#dashboard {
+  -fx-background-size: cover;
+  -fx-padding: 25px;
+}
+
+#dashboard .label {
+  -fx-text-fill: #9ad3ff;
+  -fx-font-size: 16px;
+  -fx-font-family: "BoldPixels", "Helvetica Neue", "Segoe UI", sans-serif;
+  -fx-font-weight: bold;
+  -fx-effect: dropshadow(three-pass-box, rgba(26, 51, 70, 0.714), 6, 0.3, 0, 2);
+  -fx-letter-spacing: 1px;
+  -fx-padding: 0 0 6 0;
+}
+
+#timeLabel,
+#speedLabel,
+#speedLabelKt {
+  -fx-font-weight: bold;
+  -fx-font-family: "BoldPixels", "Segoe UI", "Arial", sans-serif;
+}
+
+#timeLabel {
+  -fx-font-size: 32px;
+  -fx-background-color: #11748ae7;
+  -fx-border-color: #79bbeb;
+  -fx-border-width: 1px;
+  -fx-padding: 4px 8px;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 0, 4, 4, 4);
+}
+#speedLabel {
+  -fx-font-size: 64px;
+}
+#speedLabelKt {
+  -fx-font-size: 32px;
+}
+
+#Direction_Speed {
+  -fx-background-color: #11748ae7;
+  -fx-border-color: #79bbeb;
+  -fx-border-width: 1px;
+  -fx-padding: 8px 16px;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 0, 4, 4, 4);
+}
+
+#pauseButton {
+  -fx-font-size: 24px;
+  -fx-background-color: #11748ae7;
+  -fx-text-fill: #ffffff;
+  -fx-font-family: "BoldPixels", "Helvetica Neue", "Segoe UI", sans-serif;
+  -fx-border-color: #79bbeb;
+  -fx-border-width: 1px;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 0, 4, 4, 4);
+}
+
+#pauseButton:hover {
+  -fx-background-color: #1899b6e7;
+}
+
+#pauseButton:pressed {
+  -fx-background-color: #0b4a58e7;
 }

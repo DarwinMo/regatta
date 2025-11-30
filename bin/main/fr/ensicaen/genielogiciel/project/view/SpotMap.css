@@ -1,0 +1,4 @@
+.water {
+    -fx-background-image:url('../images/water.jpg');
+    -fx-background-size: cover;
+}
