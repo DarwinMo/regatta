@@ -48,9 +48,9 @@ public class PrevisionMeteoAPI {
         }
     }
 
-    private void parseWeatherData(String json) {
+    private void parseWeatherData( String json ) {
         try {
-           Pattern speedPattern = Pattern.compile("wnd_spd.*?([0-9.]+)");
+            Pattern speedPattern = Pattern.compile("wnd_spd.*?([0-9.]+)");
 
             Pattern dirPattern = Pattern.compile("wnd_dir.*?\"?([A-Z]+)\"?");
 

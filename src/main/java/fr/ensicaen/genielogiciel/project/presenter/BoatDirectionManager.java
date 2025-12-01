@@ -14,7 +14,7 @@ public class BoatDirectionManager {
         public double angle;
         public long time;
 
-        public BoatRecord(double x, double y, double angle, long time) {
+        public BoatRecord( double x, double y, double angle, long time ) {
             this.x = x;
             this.y = y;
             this.angle = angle;
@@ -26,31 +26,31 @@ public class BoatDirectionManager {
     private final double _rotationAngle;
     private IBoat _boat = null;
 
-    public BoatDirectionManager(double rotationAngle) {
+    public BoatDirectionManager( double rotationAngle ) {
         _boatPositionsHistory = new ArrayList<>();
         _rotationAngle = rotationAngle;
     }
 
-    public void setBoat(IBoat boat) {
+    public void setBoat( IBoat boat ) {
         _boat = boat;
     }
 
-    public void goRight(long time) {
+    public void goRight( long time ) {
         abstractChangeOrientationCommand command = new ConcreteGoRightCommand(_rotationAngle);
         execute(command, time);
     }
 
-    public void goLeft(long time) {
+    public void goLeft( long time ) {
         abstractChangeOrientationCommand command = new ConcreteGoLeftCommand(_rotationAngle);
         execute(command, time);
     }
 
-    public void goStraight(long timeline) {
+    public void goStraight( long timeline ) {
         abstractChangeOrientationCommand command = new ConcreteGoStraightCommand(timeline);
         execute(command, timeline);
     }
 
-    private void execute(abstractChangeOrientationCommand command, long time) {
+    private void execute( abstractChangeOrientationCommand command, long time ) {
         if (_boat != null) {
             command.execute(_boat);
         } else {

@@ -72,7 +72,8 @@ public class ConcreteReplayPresenter {
             _gameView.updateDashboard(_wind.getWindDirection(), _boat.get_angle(), _boat.get_speed(), timeString);
         }
     }
-    private String formatTime(long totalMillis) {
+
+    private String formatTime( long totalMillis ) {
         long minutes = (totalMillis / 1000) / 60;
         long seconds = (totalMillis / 1000) % 60;
         long millis = totalMillis % 1000;
@@ -84,9 +85,9 @@ public class ConcreteReplayPresenter {
 
         _timeline = new Timeline(new KeyFrame(
                 Duration.millis(34), onFinished -> {
-            update();
-            render();
-        }
+                    update();
+                    render();
+                }
         ));
 
         _timeline.setCycleCount(Animation.INDEFINITE);
