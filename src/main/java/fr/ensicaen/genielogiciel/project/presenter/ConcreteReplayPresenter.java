@@ -61,7 +61,6 @@ public class ConcreteReplayPresenter {
         _boat.setX(x);
         _boat.setY(y);
         _boat.set_angle((int) angle);
-        System.out.println("Move " + x + " " + y);
         _currentMoveIdx++;
     }
 
