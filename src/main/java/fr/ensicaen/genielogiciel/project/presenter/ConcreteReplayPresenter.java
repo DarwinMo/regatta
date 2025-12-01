@@ -75,9 +75,9 @@ public class ConcreteReplayPresenter {
         _timeline = new Timeline();
         _timeline = new Timeline(new KeyFrame(
                 Duration.millis(50), onFinished -> {
-            update();
-            render();
-        }
+                    update();
+                    render();
+                }
         ));
         _timeline.setCycleCount(Animation.INDEFINITE);
         _timeline.play();
