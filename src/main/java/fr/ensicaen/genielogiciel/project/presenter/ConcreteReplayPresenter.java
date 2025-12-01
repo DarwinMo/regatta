@@ -52,36 +52,45 @@ public class ConcreteReplayPresenter {
     private void update() {
         if (_currentMoveIdx >= _boatDirectionManager.getBoatPositionsHistory().size()) {
             _timeline.stop();
-            _timeScore.finish();
             return;
         }
-        double x = _boatDirectionManager.getBoatPositionsHistory().get(_currentMoveIdx).getX();
-        double y = _boatDirectionManager.getBoatPositionsHistory().get(_currentMoveIdx).getY();
-        double angle = _boatDirectionManager.getBoatPositionsHistory().get(_currentMoveIdx).getZ();
-        _boat.setX(x);
-        _boat.setY(y);
-        _boat.set_angle((int) angle);
+        var record = _boatDirectionManager.getBoatPositionsHistory().get(_currentMoveIdx);
+
+        _boat.setX(record.x);
+        _boat.setY(record.y);
+        _boat.set_angle((int) record.angle);
         _currentMoveIdx++;
     }
 
     private void render() {
         if (_gameView != null && _boat != null) {
             _gameView.updateBoatCenter(_boat.get_x(), _boat.get_y(), _boat.get_angle());
-            _gameView.updateDashboard(_wind.getWindDirection(), _boat.get_angle(), _boat.get_speed(), _timeScore.getFormattedCurrentTime());
+
+            long recordedTime = _boatDirectionManager.getBoatPositionsHistory().get(_currentMoveIdx - 1).time;
+            String timeString = formatTime(recordedTime);
+
+            _gameView.updateDashboard(_wind.getWindDirection(), _boat.get_angle(), _boat.get_speed(), timeString);
         }
+    }
+    private String formatTime(long totalMillis) {
+        long minutes = (totalMillis / 1000) / 60;
+        long seconds = (totalMillis / 1000) % 60;
+        long millis = totalMillis % 1000;
+        return String.format("%02d:%02d:%03d", minutes, seconds, millis);
     }
 
     public void lunchReplay() {
         _timeline = new Timeline();
+
         _timeline = new Timeline(new KeyFrame(
-                Duration.millis(50), onFinished -> {
-                    update();
-                    render();
-                }
+                Duration.millis(34), onFinished -> {
+            update();
+            render();
+        }
         ));
+
         _timeline.setCycleCount(Animation.INDEFINITE);
         _timeline.play();
-        _timeScore.start();
     }
 
 

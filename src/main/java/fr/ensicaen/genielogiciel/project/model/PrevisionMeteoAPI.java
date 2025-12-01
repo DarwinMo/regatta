@@ -9,8 +9,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class PrevisionMeteoAPI {
-    private static final String API_URL = "https://www.prevision-meteo.ch/services/json/lat=49.283lng=-0.25";
-
+    private static final String API_URL = "https://www.prevision-meteo.ch/services/json/caen";
     private final Random _random = new Random();
     private double _windSpeed;
     private double _windDirection;
@@ -30,6 +29,7 @@ public class PrevisionMeteoAPI {
         URL url = new URL(API_URL);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
+        conn.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64)");
         conn.setConnectTimeout(3000);
         conn.setReadTimeout(3000);
 
@@ -48,10 +48,11 @@ public class PrevisionMeteoAPI {
         }
     }
 
-    private void parseWeatherData( String json ) {
+    private void parseWeatherData(String json) {
         try {
-            Pattern speedPattern = Pattern.compile("\"wnd_spd\"\\s*:\\s*([0-9.]+)");
-            Pattern dirPattern = Pattern.compile("\"wnd_dir\"\\s*:\\s*\"([A-Z]+)\"");
+           Pattern speedPattern = Pattern.compile("wnd_spd.*?([0-9.]+)");
+
+            Pattern dirPattern = Pattern.compile("wnd_dir.*?\"?([A-Z]+)\"?");
 
             Matcher speedMatcher = speedPattern.matcher(json);
             Matcher dirMatcher = dirPattern.matcher(json);
@@ -61,13 +62,15 @@ public class PrevisionMeteoAPI {
 
                 String dirCardinal = dirMatcher.group(1);
                 _windDirection = cardinalToDegrees(dirCardinal);
+                System.out.println("-> Données lues : Vent " + _windSpeed + " km/h, Direction " + dirCardinal);
 
             } else {
-                throw new IllegalArgumentException("Champs vent non trouvés dans current_condition");
+                System.err.println("Échec du parsing. Reçu : " + json);
+                throw new IllegalArgumentException("Patterns non trouvés");
             }
 
         } catch (Exception e) {
-            System.err.println("Données invalides ou incomplètes : " + e.getMessage());
+            System.err.println("Erreur lecture données : " + e.getMessage());
             setRandomValues();
         }
     }
