@@ -61,7 +61,6 @@ public class ConcreteReplayPresenter {
         _boat.setX(x);
         _boat.setY(y);
         _boat.set_angle((int) angle);
-        System.out.println("Move " + x + " " + y);
         _currentMoveIdx++;
     }
 
@@ -76,9 +75,9 @@ public class ConcreteReplayPresenter {
         _timeline = new Timeline();
         _timeline = new Timeline(new KeyFrame(
                 Duration.millis(50), onFinished -> {
-                    update();
-                    render();
-                }
+            update();
+            render();
+        }
         ));
         _timeline.setCycleCount(Animation.INDEFINITE);
         _timeline.play();

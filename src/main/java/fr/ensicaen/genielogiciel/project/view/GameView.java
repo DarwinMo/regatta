@@ -188,7 +188,7 @@ public final class GameView implements IGameView {
                     Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/heading.png")).toExternalForm(), 18, 18, true, true
             ));
             windArrow.setImage(new Image(
-                    Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowUp.png")).toExternalForm()
+                    Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowDown.png")).toExternalForm()
             ));
             headingArrow.setImage(new Image(
                     Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowUp.png")).toExternalForm()
@@ -203,7 +203,7 @@ public final class GameView implements IGameView {
                 Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/heading.png")).toExternalForm(), 18, 18, true, true
         ));
         windArrow.setImage(new Image(
-                Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowRight.png")).toExternalForm()
+                Objects.requireNonNull(getClass().getResource("/fr/ensicaen/genielogiciel/project/images/arrowDown.png")).toExternalForm()
         ));
 
         headingArrow.setImage(new Image(
