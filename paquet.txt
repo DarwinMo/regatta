@@ -1,0 +1,284 @@
+.
+├── bin
+│   └── main
+│       └── fr
+│           └── ensicaen
+│               └── genielogiciel
+│                   └── project
+│                       ├── images
+│                       │   ├── Boat Configuration.png
+│                       │   └── water.jpg
+│                       ├── MessageBundle_en_US.properties
+│                       ├── MessageBundle.properties
+│                       ├── model
+│                       │   ├── polaire-figaro.pol
+│                       │   └── polaire-oceanis-37.pol
+│                       └── view
+│                           ├── ConfigGameDialog.fxml
+│                           ├── LoginDialog.css
+│                           ├── LoginDialog.fxml
+│                           ├── MainView.fxml
+│                           ├── SpotMap.css
+│                           └── SpotMap.fxml
+├── build
+│   ├── classes
+│   │   └── java
+│   │       └── main
+│   │           └── fr
+│   │               └── ensicaen
+│   │                   └── genielogiciel
+│   │                       └── project
+│   │                           ├── Main.class
+│   │                           ├── model
+│   │                           │   ├── AbstractBoat.class
+│   │                           │   ├── ClassicMapBuilder$1.class
+│   │                           │   ├── ClassicMapBuilder.class
+│   │                           │   ├── ConcreteBuoy.class
+│   │                           │   ├── ConcreteCoast.class
+│   │                           │   ├── ConcreteWind.class
+│   │                           │   ├── CoolDownState.class
+│   │                           │   ├── Direction.class
+│   │                           │   ├── DoubleCrew.class
+│   │                           │   ├── DownState.class
+│   │                           │   ├── FigaroBoat.class
+│   │                           │   ├── FigaroFactory.class
+│   │                           │   ├── IBoat.class
+│   │                           │   ├── IBoatFactory.class
+│   │                           │   ├── IBoatState.class
+│   │                           │   ├── IBuoy.class
+│   │                           │   ├── ICoast.class
+│   │                           │   ├── IDecoratorEquipment.class
+│   │                           │   ├── IDecoratorSail.class
+│   │                           │   ├── IMapBuilder.class
+│   │                           │   ├── IMap.class
+│   │                           │   ├── IWeather.class
+│   │                           │   ├── IWind.class
+│   │                           │   ├── LargeSail.class
+│   │                           │   ├── Line.class
+│   │                           │   ├── MediumSail.class
+│   │                           │   ├── NormalState.class
+│   │                           │   ├── Oceanis37Boat.class
+│   │                           │   ├── Oceanis37Factory.class
+│   │                           │   ├── PolarTable.class
+│   │                           │   ├── PrevisionMeteoAPI.class
+│   │                           │   ├── RecoveryState.class
+│   │                           │   ├── SingleCrew.class
+│   │                           │   ├── TimeScore.class
+│   │                           │   └── WeatherAPI.class
+│   │                           ├── presenter
+│   │                           │   ├── abstractChangeOrientationCommand.class
+│   │                           │   ├── BoatDirectionManager.class
+│   │                           │   ├── BoatType.class
+│   │                           │   ├── ConcreteGamePresenter.class
+│   │                           │   ├── ConcreteGoLeftCommand.class
+│   │                           │   ├── ConcreteGoRightCommand.class
+│   │                           │   ├── ConcreteGoStraightCommand.class
+│   │                           │   ├── ConcreteReplayPresenter.class
+│   │                           │   ├── ConfigurationPresenter.class
+│   │                           │   ├── CrewType.class
+│   │                           │   ├── GameLoader.class
+│   │                           │   ├── IGameView.class
+│   │                           │   ├── IParser.class
+│   │                           │   ├── IPresenter.class
+│   │                           │   ├── JsonParser.class
+│   │                           │   ├── SailType.class
+│   │                           │   └── UserAction.class
+│   │                           └── view
+│   │                               ├── EndGameView$EndGameViewFactory.class
+│   │                               ├── EndGameView.class
+│   │                               ├── GameConfigurationView$GameConfigurationViewFactory.class
+│   │                               ├── GameConfigurationView.class
+│   │                               ├── GameView$GameViewFactory.class
+│   │                               └── GameView.class
+│   ├── generated
+│   │   └── sources
+│   │       ├── annotationProcessor
+│   │       │   └── java
+│   │       │       └── main
+│   │       └── headers
+│   │           └── java
+│   │               └── main
+│   ├── resources
+│   │   └── main
+│   │       └── fr
+│   │           └── ensicaen
+│   │               └── genielogiciel
+│   │                   └── project
+│   │                       ├── fonts
+│   │                       │   └── BoldPixels.otf
+│   │                       ├── images
+│   │                       │   ├── arrowDown.png
+│   │                       │   ├── arrowRight.png
+│   │                       │   ├── arrowUp.png
+│   │                       │   ├── BoatConfiguration.png
+│   │                       │   ├── BoatConfiguration.png:Zone.Identifier
+│   │                       │   ├── boat.png
+│   │                       │   ├── buoy.png
+│   │                       │   ├── heading.png
+│   │                       │   ├── water.jpg
+│   │                       │   └── wind.png
+│   │                       ├── MessageBundle_en_US.properties
+│   │                       ├── MessageBundle.properties
+│   │                       ├── model
+│   │                       │   ├── default_configuration.json
+│   │                       │   ├── game_cords.csv
+│   │                       │   ├── polaire-figaro.pol
+│   │                       │   └── polaire-oceanis-37.pol
+│   │                       └── view
+│   │                           ├── ConfigurationPanel.fxml
+│   │                           ├── ReplayView.css
+│   │                           ├── ReplayView.fxml
+│   │                           ├── SpotMap.css
+│   │                           └── SpotMap.fxml
+│   └── tmp
+│       └── compileJava
+│           └── previous-compilation-data.bin
+├── build.gradle
+├── coding-style.xml
+├── doc
+│   ├── delivrable1
+│   │   ├── cas_utilisation.jpg
+│   │   ├── config_game.png
+│   │   ├── delivrable1.md
+│   │   ├── diagramme_classe_metier.png
+│   │   ├── finish_game.png
+│   │   └── playing_game.png
+│   └── delivrable2
+│       └── delivrable2.md
+├── gradle
+│   └── wrapper
+│       ├── gradle-wrapper.jar
+│       └── gradle-wrapper.properties
+├── gradle.properties.ci
+├── gradlew
+├── gradlew.bat
+├── LICENSE
+├── paquet.txt
+├── README.md
+├── ressource
+│   ├── menu.png
+│   ├── RegatteMVP1.png
+│   ├── RegatteMVP2.png
+│   └── replayGame.png
+├── scripts
+│   └── pre-commit
+├── settings.gradle
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── fr
+    │   │       └── ensicaen
+    │   │           └── genielogiciel
+    │   │               └── project
+    │   │                   ├── Main.java
+    │   │                   ├── model
+    │   │                   │   ├── AbstractBoat.java
+    │   │                   │   ├── ClassicMapBuilder.java
+    │   │                   │   ├── ConcreteBuoy.java
+    │   │                   │   ├── ConcreteCoast.java
+    │   │                   │   ├── ConcreteWind.java
+    │   │                   │   ├── CoolDownState.java
+    │   │                   │   ├── Direction.java
+    │   │                   │   ├── DoubleCrew.java
+    │   │                   │   ├── DownState.java
+    │   │                   │   ├── FigaroBoat.java
+    │   │                   │   ├── FigaroFactory.java
+    │   │                   │   ├── IBoatFactory.java
+    │   │                   │   ├── IBoat.java
+    │   │                   │   ├── IBoatState.java
+    │   │                   │   ├── IBuoy.java
+    │   │                   │   ├── ICoast.java
+    │   │                   │   ├── IDecoratorEquipment.java
+    │   │                   │   ├── IDecoratorSail.java
+    │   │                   │   ├── IMapBuilder.java
+    │   │                   │   ├── IMap.java
+    │   │                   │   ├── IWeather.java
+    │   │                   │   ├── IWind.java
+    │   │                   │   ├── LargeSail.java
+    │   │                   │   ├── Line.java
+    │   │                   │   ├── MediumSail.java
+    │   │                   │   ├── NormalState.java
+    │   │                   │   ├── Oceanis37Boat.java
+    │   │                   │   ├── Oceanis37Factory.java
+    │   │                   │   ├── PolarTable.java
+    │   │                   │   ├── PrevisionMeteoAPI.java
+    │   │                   │   ├── RecoveryState.java
+    │   │                   │   ├── SingleCrew.java
+    │   │                   │   ├── TimeScore.java
+    │   │                   │   └── WeatherAPI.java
+    │   │                   ├── presenter
+    │   │                   │   ├── abstractChangeOrientationCommand.java
+    │   │                   │   ├── BoatDirectionManager.java
+    │   │                   │   ├── BoatType.java
+    │   │                   │   ├── ConcreteGamePresenter.java
+    │   │                   │   ├── ConcreteGoLeftCommand.java
+    │   │                   │   ├── ConcreteGoRightCommand.java
+    │   │                   │   ├── ConcreteGoStraightCommand.java
+    │   │                   │   ├── ConcreteReplayPresenter.java
+    │   │                   │   ├── ConfigurationPresenter.java
+    │   │                   │   ├── CrewType.java
+    │   │                   │   ├── GameLoader.java
+    │   │                   │   ├── IGameView.java
+    │   │                   │   ├── IParser.java
+    │   │                   │   ├── IPresenter.java
+    │   │                   │   ├── JsonParser.java
+    │   │                   │   ├── SailType.java
+    │   │                   │   └── UserAction.java
+    │   │                   └── view
+    │   │                       ├── EndGameView.java
+    │   │                       ├── GameConfigurationView.java
+    │   │                       └── GameView.java
+    │   └── resources
+    │       └── fr
+    │           └── ensicaen
+    │               └── genielogiciel
+    │                   └── project
+    │                       ├── fonts
+    │                       │   └── BoldPixels.otf
+    │                       ├── images
+    │                       │   ├── arrowDown.png
+    │                       │   ├── arrowRight.png
+    │                       │   ├── arrowUp.png
+    │                       │   ├── BoatConfiguration.png
+    │                       │   ├── BoatConfiguration.png:Zone.Identifier
+    │                       │   ├── boat.png
+    │                       │   ├── buoy.png
+    │                       │   ├── heading.png
+    │                       │   ├── water.jpg
+    │                       │   └── wind.png
+    │                       ├── MessageBundle_en_US.properties
+    │                       ├── MessageBundle.properties
+    │                       ├── model
+    │                       │   ├── default_configuration.json
+    │                       │   ├── game_cords.csv
+    │                       │   ├── polaire-figaro.pol
+    │                       │   └── polaire-oceanis-37.pol
+    │                       └── view
+    │                           ├── ConfigurationPanel.fxml
+    │                           ├── ReplayView.css
+    │                           ├── ReplayView.fxml
+    │                           ├── SpotMap.css
+    │                           └── SpotMap.fxml
+    └── test
+        └── java
+            └── fr
+                └── ensicaen
+                    └── genielogiciel
+                        └── project
+                            └── model
+                                ├── ClassicMapBuilderTest.java
+                                ├── ConcreteBuoyTest.java
+                                ├── ConcreteCoastTest.java
+                                ├── CrewModifierContractTest.java
+                                ├── DirectionTest.java
+                                ├── DoubleCrewTest.java
+                                ├── FigaroTest.java
+                                ├── LargeSailTest.java
+                                ├── MediumSailTest.java
+                                ├── Oceanis37Test.java
+                                ├── PolarTableTest.java
+                                ├── SingleCrewTest.java
+                                ├── TimeScoreTest.java
+                                └── WeatherAPITest.java
+
+74 directories, 208 files
