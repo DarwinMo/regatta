@@ -2,17 +2,43 @@
 
 ## 1. Identification du projet
 
-- Nom du projet&nbsp;:
+- Nom du projet&nbsp;: Jeu de régate
 
-- Équipe&nbsp;: 
+### Composition de l'Équipe et Rôles
 
-## 2. Position du problème
+| Membre de l'Équipe | Rôle Principal | Responsabilités Spécifiques |
+| :--- | :--- | :--- |
+| **Benoît Cheramy** | **Chef de Projet** | Planification, Suivi de l'avancement, Coordination des tâches (Kanban), Gestion des risques, Etablissement du diagramme de classes|
+| **Abderrahmane Kabar** | **Architecte** | Réalisation du diagramme UML MVP, Définition des patrons de conception à utiliser, Organisation de la conception en paquets, Prise de décisions techniques,. |
+| **Mohamed Abdessalame** | **Architecte / Responsable Git Principal** | Définition de la structure MVP, Revue d'architecture, Définition des méthodes à utiliser pour chaque classe du UML, Gestion des conventions de code et du dépôt Git. |
+| **Abraão Albuquerque** | **Responsable Git** | Support Git, Gestion des fusions (*Merge Requests*), Maintenabilité du dépôt. |
+| **Aymen Bouhlel** | **Développeur** | Implémentation des tâches du Kanban, Travail sur le Model-View et la présentation, Libre choix de tâches, Établissement des diagrammes de cas d'utilisation, Conception des interfaces.. |
+| **Lucie Dai** | **Développeur** | Implémentation des tâches du Kanban, Travail sur le Model-View et la présentation, Libre choix de tâches, Établissement des diagrammes de cas d'utilisation, Conception des interfaces.. |
+| **Mohamed El Boukhiari** | **Développeur** | Implémentation des tâches du Kanban, Travail sur le Model-View et la présentation, Libre choix de tâches, Établissement des diagrammes de cas d'utilisation, Conception des interfaces.. |
+| **Joris Moczygeba** | **Développeur** | Implémentation des tâches du Kanban, Travail sur le Model-View et la présentation, Libre choix de tâches, Établissement des diagrammes de cas d'utilisation, Conception des interfaces.. |
 
-Comment avez-vous envisagé le problème ?
+## 2. Problématique et objectif du projet
+
+### 2.1 Contexte et définition du problème
+
+Le projet consiste à concevoir et implémenter un jeu vidéo de régates pour un fabricant de voiliers. L'enjeu ne réside pas dans l'interface graphique ni dans le code en lui-même mais dans la modélisation et l'architecture logicielle. Le principal défi est de transformer des exigences complexes tel que des poliares de vitesse, une météo en temps réelle, un système de visionage de partie... tout en faisaint un système qui respecte les principes fondamentaux du Génie Logiciel : robustesse, extensibilité et réutilisabilité.
+
+### 2.2 Contraintes
+
+Concerant les contraintes, il y en a de plusieurs types. Tout d'abord, nous avons les contraintes de logiciel, imposé par l'environnement du projet tel que le langage : Java, l'interface graphique : JavaFX, gestion de version avec GitLab.
+
+### 2.3 Mesure de l'attente
+
+**Robustesse** : taux de couverture minimun des tests unitaires sur les classes du model. Tous les tests doivent se dérouler correctement. Gestion des problèmes tel que la connections Internet pris en compte.
+
+**Extensibilité** : Facilité d'intégration de nouveau model de bateau, de voile, de paramètre. Possibilité d'ajouter une autre carte que celle par défault. Utilisation des patrons de conception.
+
+**Réutilisabilité** : Séparation claire des paquets, utilisation du modèle Model View Presenter (MVP). Faible couplage entre les composants.
 
 ## 3. Modèle de solution
 
 ### Motivation
+
 L'objectif primordial de ce projet ne se limite pas à la simple réalisation d'un jeu fonctionnel. La demande explicite du client porte sur la conception d'un logiciel **robuste, maintenable et extensible**. Une attention particulière a donc été accordée à la qualité du code, en appliquant scrupuleusement les **principes SOLID** et en respectant les règles de l'art du développement logiciel.
 
 ### Technologies et Contraintes
@@ -155,12 +181,101 @@ Le diagramme ci-dessous illustre les interactions découplées entre ces trois c
 
 ## 4. Analyse de la solution proposée
 
-Quelle pérénité de la solution ?
+### Pérennité de la solution
 
-Quelles qualités de la solution ?
+La solution proposée présente une bonne pérennité grâce à plusieurs points :
+
+* **Architecture MVP claire :** La séparation entre le métier, la présentation et la vue permet de maintenir et de faire évoluer le projet facilement sans casser d’autres parties du code.
+
+* **Classes et méthodes bien définies :** Chaque classe a ses méthodes précisées dans le diagramme UML, ce qui garantit que l’on peut ajouter un nouveau type de bateau ou un nouveau parcours sans perturber la structure existante.
+
+* **Utilisation de design patterns :** Les patterns comme Builder, Decorator ou State permettent que les comportements du code soient modulaires, réutilisables et facilement modifiables.
+
+* **Tests unitaires :** Chaque classe du modèle est couverte par des tests unitaires. Cela permet de repérer rapidement les erreurs ou régressions quand on ajoute des fonctionnalités, et assure que le projet reste stable sur le long terme.
+
 
 ## 5. Gestion de projet
 
 ### Organization
 
+#### Rôles et responsabilités
+
+Chaque membre avait un rôle précis défini dans le tableau des rôles : chef de projet, architectes, développeurs et responsables Git.
+
+
+#### Attribution des tâches
+
+Les tâches ont d’abord été attribuées pour le développement du modèle MVP. Par la suite, chacun a pu créer ses propres tâches pour le rendu final, selon ses compétences et les besoins du projet.
+
+
+#### Gestion des branches Git
+
+Chaque développeur disposait de branches Git individuelles correspondant aux tâches assignées dans le Kanban. Cela a permis un développement parallèle sans conflits et une intégration progressive via des merge requests.
+
+#### Collaboration sur les tâches complexes
+
+Pour certaines tâches critiques, comme la mise en place de la View ou de certaines parties de l’architecture difficiles à comprendre, l’équipe s’est concertée pour partager la compréhension et définir une stratégie commune avant implémentation.
+
+#### Workflow Git et merge requests
+
+Le workflow Git consistait à créer des branches pour chaque tâche, développer les fonctionnalités, puis ouvrir des *merge requests* pour intégrer les modifications. Ce processus permettait de *contrôler la qualité du code* et d’*éviter les conflits*.
+
+Le *Kanban* suivait l’avancement avec trois colonnes : *To Do, **In Progress* et *Done*, pour organiser efficacement le travail de l’équipe.
+
 ### Analyse rétrospective sur la gestion de projet
+
+### 3.1 Méthodologie et Outils
+
+Nous avons adopté une approche inspirée de **Scrum (Méthodes Agiles)**, structurant le travail en *Sprints* hebdomadaires pour permettre une livraison incrémentale et s'adapter aux retours du "client" (encadrant).
+
+* **Outils de Collaboration :** GitLab pour le dépôt Git central, la gestion des *Issues* (User Stories) et le tableau Kanban.
+
+* **Intégration Continue :** Le fichier `.gitlab-ci.yml` a été configuré pour automatiser la compilation et l'exécution des tests unitaires à chaque *push* sur la branche principale. Ceci a été un filet de sécurité essentiel pour maintenir la robustesse.
+
+### 3.2 Analyse Rétrospective et Dysfonctionnements
+
+La planification initiale s'est révélée optimiste, notamment sur l'implémentation du moteur physique et la gestion des événements de course (collision, validation des bouées).
+
+**Dysfonctionnements Majeurs :**
+
+1. **Dépassement des Délais**
+
+   * **Problème :** Nous avons sous-estimé la complexité inhérente au projet, qui, étant un jeu/simulateur, offre un potentiel de perfectionnement continu.
+
+   * **Impact :** Pour respecter la *deadline* imposée, l'équipe a dû travailler en dehors des horaires imposées en cours pour finaliser certains ajout et correctif de bugs.
+
+   * **Action Corrective :** Nous avons priorisé les fonctionnalités essentielles au bon déroulement de la régate (vent, parcours, navigation). Les fonctionnalités secondaires prévues (système de pause, tableau des scores, choix de cartes multiples) ont été mises à l'écart pour garantir l'atteinte de l'objectif principal (*Minimum Viable Product* - MVP).
+
+2. **Lacune dans la Couverture de Tests Unitaires**
+
+   * **Problème :** En début de projet, une bonne pratique de test a été mise en place, atteignant une couverture d'environ 60%. Cependant, lors des derniers *sprints*, le problème de temps a conduit à délaisser l'écriture des tests, notamment pour les couches de présentation (`View`, `Presenter`) et certaines classes du paquet `model`.
+
+   * **Impact :** La couverture de tests a chuté à **32%**. Ce manque de validation sur les nouvelles implémentations a introduit un risque de régression.
+
+   * **Analyse :** Cette lacune est directement due au respect des délais qui a forcé l'équipe à privilégier le développement pur plutôt que les tests.
+
+3. **Confusion et Conflits dans la Répartition des Tâches**
+
+   * **Problème :** L'organisation initiale via le tableau **Kanban** était claire : le chef de projet et les architectes créaient les tickets, et les développeurs s'assignaient les missions. À partir du *MVP2*, l'organisation a été modifiée, permettant aux développeurs de créer et s'assigner leurs propres tickets.
+
+   * **Impact :** Ce manque de centralisation a entraîné des chevauchements de missions et des **conflits de fusion (*merge conflicts*)**, causant une perte de temps significative (deux développements identiques pour la même fonctionnalité).
+
+   * **Analyse :** Ce problème est symptomatique d'un manque de communication et de validation structurelle au moment de la transition organisationnelle, causée par la contrainte de temps.
+
+6. Conclusion et Évaluation
+
+6.1 Bilan Technique et Qualité Logicielle
+
+En définitive, ce projet de simulateur de régate a atteint son objectif principal : livrer non pas un simple jeu fonctionnel, mais une solution logicielle dont l'architecture est intrinsèquement robuste et extensible. L'adhésion stricte aux principes de conception, notamment via l'application stratégique des patrons Monteur, Décorateur, État, Commande et Proxy, g. Conclusion et Évaluation
+
+## 6. Conclusion et Évaluation
+
+### 6.1 Bilan Technique et Qualité Logicielle
+
+En définitive, ce projet de simulateur de régate a atteint son objectif principal : livrer non pas un simple jeu fonctionnel, mais une solution logicielle dont l'architecture est intrinsèquement **robuste** et **extensible**. L'adhésion stricte aux principes de conception, notamment via l'application stratégique des patrons **Monteur**, **Décorateur**, **État**, **Commande** et **Proxy**, garantit une fondation pérenne. Le choix de l'architecture **MVP** a permis un découplage maximal, faisant du Modèle un composant réutilisable et indépendant de l'interface graphique JavaFX.
+
+### 6.2 Analyse Rétrospective et Perspectives
+
+Les mesures objectives confirment l'atteinte de nos objectifs d'extensibilité et de réutilisabilité. Cependant, l'analyse rétrospective a révélé des lacunes en gestion de projet, notamment une **sous-estimation initiale de la complexité** (menant à des problèmes d'organisations et à des efforts hors délais) et un relâchement dans la discipline de tests unitaires. Le taux de couverture final de 32% constitue un point d'amélioration critique pour garantir la stabilité future.
+
+Malgré ces défis organisationnels, l'équipe a su prioriser le cœur métier et la qualité architecturale. Le produit final est une preuve concrète de la maîtrise des outils du **Génie Logiciel**, offrant au client un simulateur précis, modulaire et prêt à évoluer.
