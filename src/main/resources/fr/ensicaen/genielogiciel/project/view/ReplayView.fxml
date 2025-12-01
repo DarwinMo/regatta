@@ -10,7 +10,6 @@
             stylesheets="@ReplayView.css"
             >
 
-    <!-- This AnchorPane fills the entire window -->
     <AnchorPane fx:id="_replayView"
                 AnchorPane.topAnchor="0.0"
                 AnchorPane.bottomAnchor="0.0"

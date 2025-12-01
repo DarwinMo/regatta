@@ -97,10 +97,12 @@ public class ConcreteGamePresenter implements IPresenter {
 
     private void changeDirection( UserAction action ) {
         if (_boatDirectionManager != null) {
+            long currentTime = _timeScore.getCurrentTime();
+
             if (action == UserAction.LEFT) {
-                _boatDirectionManager.goLeft();
+                _boatDirectionManager.goLeft(currentTime);
             } else if (action == UserAction.RIGHT) {
-                _boatDirectionManager.goRight();
+                _boatDirectionManager.goRight(currentTime);
             }
         }
     }
