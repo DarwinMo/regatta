@@ -3,7 +3,11 @@ package fr.ensicaen.genielogiciel.project.presenter;
 import fr.ensicaen.genielogiciel.project.model.IBoat;
 import javafx.geometry.Point3D;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
