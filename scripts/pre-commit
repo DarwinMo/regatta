@@ -1,9 +1,14 @@
 staged_files=$(git diff --staged --name-only)
 
-echo "🧹 Formatting code in staged files…"
-./gradlew spotlessApply
+echo "🧹 Checking code style in staged files…"
+./gradlew spotlessCheck
 
-echo "🧪 Running tests after formatting"
+if [ $? -ne 0 ]; then
+  echo "❌ Spotless check failed! The process will be interrupted. Correct the formatting or run './gradlew spotlessApply'."
+  exit 1 
+fi
+
+echo "🧪 Running tests after check code style"
 ./gradlew check
 for file in $staged_files; do
   if test -f "$file"; then
